@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ITLab29.Models.Domain
 {
@@ -16,6 +17,11 @@ namespace ITLab29.Models.Domain
 
         public User(string userId, string firstName, string lastName, UserEnum.UserType userType, UserEnum.UserStatus userStatus, string email)
         {
+            if(userId == null || FirstName == null || lastName == null || email == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             UserId = userId;
             FirstName = firstName;
             LastName = lastName;
@@ -24,8 +30,11 @@ namespace ITLab29.Models.Domain
             Email = email;
         }
 
-        public Event AddEvent(string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
-
+        public Event AddEvent(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
+            if (Events.Any(e => e.EventID == id))
+            {
+                throw new ArgumentException($"User {FirstName} {LastName} has already an event with title: {title}");
+            }
             Event newEvent = new Event(title, description, responsible, start, end, capacity, location);
             Events.Add(newEvent);
             return newEvent;
