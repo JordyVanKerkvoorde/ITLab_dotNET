@@ -28,6 +28,7 @@ namespace ITLab29.Models.Domain
             UserType = userType;
             UserStatus = userStatus;
             Email = email;
+            Events = new List<Event>();
         }
 
         public Event AddEvent(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
