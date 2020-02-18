@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ITLab29.Models.Domain
 {
@@ -23,8 +24,11 @@ namespace ITLab29.Models.Domain
             Email = email;
         }
 
-        public void AddE(Event e) {
+        public Event AddEvent(string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
 
+            Event newEvent = new Event(title, description, responsible, start, end, capacity, location);
+            Events.Add(newEvent);
+            return newEvent;
         }
 
 
