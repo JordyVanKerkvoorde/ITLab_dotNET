@@ -9,6 +9,7 @@ namespace ITLab29.Models.Domain
     {
         private int _score;
 
+        public int FeedbackId { get; set; }
         public int Score
         {
             get { return _score; }
@@ -22,8 +23,9 @@ namespace ITLab29.Models.Domain
         public User User { get; set; }
         public string Description { get; set; }
 
-        public Feedback(int score, User user, string description)
+        public Feedback(int feedbackId, int score, User user, string description)
         {
+            FeedbackId = feedbackId;
             Score = score;
             User = user;
             Description = description;

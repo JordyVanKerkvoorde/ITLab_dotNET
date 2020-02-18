@@ -15,8 +15,9 @@ namespace ITLab29.Models.Domain
         public ICollection<Event> Events { get; set; }
 
 
-        public Guest(string name, string email, string phoneNumber)
+        public Guest(int guestId, string name, string email, string phoneNumber)
         {
+            GuestId = guestId;
             Name = name;
             Email = email;
             PhoneNumber = phoneNumber;

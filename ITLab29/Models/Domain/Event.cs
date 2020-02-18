@@ -15,10 +15,12 @@ namespace ITLab29.Models.Domain
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int Capacity { get; set; }
-        public Guest Guest { get; set; }
         public Location Location { get; set; }
         public ICollection<User> Attendees { get; set; }
-        public IEnumerable<Media> Media { get; set; }
+        public ICollection<Media> Media { get; set; }
+        public ICollection<Guest> Guests { get; set; }
+        public ICollection<Feedback> Feedback { get; set; }
+
 
         public Event(string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
@@ -33,21 +35,51 @@ namespace ITLab29.Models.Domain
             End = end;
             Capacity = capacity;
             Location = location;
+
+            Attendees = new List<User>();
+            Media = new List<Media>();
+            Guests = new List<Guest>();
+            Feedback = new List<Feedback>();
         }
 
-        public User AddAttendee(User user) {
-            if (Attendees.Any(a => a.UserId == user.UserId)) {
+        public User AddAttendee(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email) {
+            if (userId != null && Attendees.Any(a => a.UserId == userId)) {
                 throw new ArgumentException("User cannot be added more than once.");
             }
-            if (user.UserStatus == UserStatus.BLOCKED) {
-                throw new ArgumentException("User cannot be added more than once.");
+            if (userStatus == UserStatus.BLOCKED) {
+                throw new ArgumentException("Blocked user cannot be added.");
             }
+            User user = new User(userId, firstName, lastName, userType, userStatus, email);
             Attendees.Add(user);
             return user;
         }
 
+        public Media AddMedia(int mediaId, MediaEnum type, string path) {
+            if (Media.Any(m => m.MediaId == mediaId)) {
+                throw new ArgumentException("Media exists.");
+            }
+            Media media = new Media(mediaId, type, path);
+            Media.Add(media);
+            return media;
+        }
 
-        
+        public Guest AddGuest(int guestId, string name, string email, string phoneNumber) {
+            if (Guests.Any(g => g.GuestId == guestId)) {
+                throw new ArgumentException("Guest cannot be added twice.");
+            }
+            Guest guest = new Guest(guestId, name, email, phoneNumber);
+            Guests.Add(guest);
+            return guest;
+        }
+
+        public Feedback AddFeedback(int feedbackId, int score, User user, string description) {
+            if (Feedback.Any(f => f.FeedbackId == feedbackId)) {
+                throw new ArgumentException("Feedback cannot be added twice.");
+            }
+            Feedback feedback = new Feedback(feedbackId, score, user, description);
+            Feedback.Add(feedback);
+            return feedback;
+        }
 
     }
 }
