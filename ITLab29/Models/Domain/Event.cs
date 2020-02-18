@@ -23,6 +23,9 @@ namespace ITLab29.Models.Domain
         public Event(string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
             Location location) {
+            if (title == null || description == null || responsible == null || start == null || end == null || location == null) { 
+                throw new ArgumentException("Values cannot be NULL");
+            }
             Title = title;
             Description = description;
             Responsible = responsible;
@@ -33,9 +36,18 @@ namespace ITLab29.Models.Domain
         }
 
         public User AddAttendee(User user) {
+            if (Attendees.Any(a => a.UserId == user.UserId)) {
+                throw new ArgumentException("User cannot be added more than once.");
+            }
+            if (true) {
+                throw new ArgumentException("User cannot be added more than once.");
+            }
             Attendees.Add(user);
             return user;
         }
+
+
+        
 
     }
 }

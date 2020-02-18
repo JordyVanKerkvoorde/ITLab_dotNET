@@ -10,12 +10,12 @@ namespace ITLab29.Models.Domain
         public string UserId { get; }
         public string FirstName { get; }
         public string LastName { get; }
-        public UserEnum.UserType UserType { get; set; }
-        public UserEnum.UserStatus UserStatus { get; set; }
+        public UserType UserType { get; set; }
+        public UserStatus UserStatus { get; set; }
         public ICollection<Event> Events { get; }
         public string Email { get; set; }
 
-        public User(string userId, string firstName, string lastName, UserEnum.UserType userType, UserEnum.UserStatus userStatus, string email)
+        public User(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email)
         {
             if(userId == null || FirstName == null || lastName == null || email == null)
             {
