@@ -9,10 +9,10 @@ namespace ITLab29.Models.Domain
     {
 
         public string LocationId { get; }
-        public LocationEnum.Campus Campus { get; }
+        public CampusEnum Campus { get; }
         public int Capacity { get; set; }
 
-        public Location(string locationId, LocationEnum.Campus campus, int capacity)
+        public Location(string locationId, CampusEnum campus, int capacity)
         {
             LocationId = locationId;
             Campus = campus;

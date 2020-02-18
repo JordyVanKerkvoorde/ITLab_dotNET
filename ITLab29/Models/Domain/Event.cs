@@ -39,7 +39,7 @@ namespace ITLab29.Models.Domain
             if (Attendees.Any(a => a.UserId == user.UserId)) {
                 throw new ArgumentException("User cannot be added more than once.");
             }
-            if (true) {
+            if (user.UserStatus == UserStatus.BLOCKED) {
                 throw new ArgumentException("User cannot be added more than once.");
             }
             Attendees.Add(user);

@@ -5,13 +5,10 @@ using System.Threading.Tasks;
 
 namespace ITLab29.Models.Domain
 {
-    public class LocationEnum
+    public enum CampusEnum
     {
-        public enum Campus
-        {
-            SCHOONMEERSEN,
-            MERCATOR,
-            AALST
-        }
+        SCHOONMEERSEN,
+        MERCATOR,
+        AALST
     }
 }
