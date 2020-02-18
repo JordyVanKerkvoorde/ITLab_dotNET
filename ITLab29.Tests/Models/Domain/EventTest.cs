@@ -6,5 +6,6 @@ using ITLab29.Models;
 
 namespace ITLab29.Tests.Models.Domain {
     class EventTest {
+
     }
 }
