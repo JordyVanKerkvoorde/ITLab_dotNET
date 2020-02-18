@@ -7,5 +7,10 @@ namespace ITLab29.Models.Domain
 {
     public class User
     {
+
+        public string UserId { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
+        public int MyProperty { get; set; }
     }
 }
