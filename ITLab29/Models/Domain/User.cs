@@ -17,7 +17,7 @@ namespace ITLab29.Models.Domain
 
         public User(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email)
         {
-            if(userId == null || FirstName == null || lastName == null || email == null)
+            if(userId == null || firstName == null || lastName == null || email == null)
             {
                 throw new ArgumentNullException();
             }
