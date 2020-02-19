@@ -8,9 +8,9 @@ namespace ITLab29.Models.Domain
     public class Event
     {
 
-        public int EventID { get;}
-        public String Title { get; set; }
-        public String Description { get; set; }
+        public int EventId { get;}
+        public string Title { get; set; }
+        public string Description { get; set; }
         public User Responsible { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
@@ -22,11 +22,23 @@ namespace ITLab29.Models.Domain
         public ICollection<Feedback> Feedback { get; set; }
 
 
-        public Event(string title, string description,
+        public Event(int EventId, string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
             Location location) {
             if (title == null || description == null || responsible == null || start == null || end == null || location == null) { 
                 throw new ArgumentException("Values cannot be NULL");
+            }
+            if (capacity > location.Capacity)
+            {
+                throw new ArgumentException("Location has not enough place to host event.");
+            }
+            if (!responsible.IsActive())
+            {
+                throw new ArgumentException("The responsible person is not an active user");
+            }
+            if (start > end)
+            {
+                throw new ArgumentException("Endtime can't be before starttime.");
             }
             Title = title;
             Description = description;

@@ -32,13 +32,19 @@ namespace ITLab29.Models.Domain
         }
 
         public Event AddEvent(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
-            if (Events.Any(e => e.EventID == id))
+            if (Events.Any(e => e.EventId == id))
             {
                 throw new ArgumentException($"User {FirstName} {LastName} has already an event with title: {title}");
             }
-            Event newEvent = new Event(title, description, responsible, start, end, capacity, location);
+            Event newEvent = new Event(id, title, description, responsible, start, end, capacity, location);
             Events.Add(newEvent);
             return newEvent;
+        }
+
+        public Boolean IsActive()
+        {
+            return UserStatus == UserStatus.ACTIVE;
+
         }
 
 
