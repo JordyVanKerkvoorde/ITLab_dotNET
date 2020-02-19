@@ -90,7 +90,27 @@ namespace ITLab29.Tests.Models.Domain {
         [Fact]
         public void AddGuest()
         {
-            
+            Guest guest = _event.AddGuest(1234, "Super Mario", "super@mario.be", "123456789");
+            Assert.Equal(1, _event.Guests.Count);
+            Assert.True(_event.Guests.Contains(guest));
+            Assert.Throws<ArgumentException>(
+                () => _event.AddGuest(1234, "Super Mario", "super@mario.be", "123456789"));
+            Assert.Equal(1, _event.Guests.Count);
+        }
+
+        [Fact]
+        public void AddFeedback()
+        {
+            Feedback feedback = _event.AddFeedback(12, 5, 
+                new User("123456cd", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE, "jordy@hogent.be"), 
+                "Almost done testing this class");
+            Assert.Equal(1, _event.Feedback.Count);
+            Assert.True(_event.Feedback.Contains(feedback));
+            Assert.Throws<ArgumentException>(
+                () => _event.AddFeedback(12, 5,
+                new User("123456cd", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE, "jordy@hogent.be"),
+                "Almost done testing this class"));
+            Assert.Equal(1, _event.Feedback.Count);
         }
     }
 }
