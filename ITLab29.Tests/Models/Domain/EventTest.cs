@@ -34,9 +34,63 @@ namespace ITLab29.Tests.Models.Domain {
         }
 
         [Fact]
-        public void SetProperties()
+        public void NewEvent_SetProperties()
         {
-            Assert.Equal(_event.EventId, _eventId);
+            Assert.Equal(_eventId, _event.EventId);
+            Assert.Equal(_title, _event.Title);
+            Assert.Equal(_description, _event.Description);
+            Assert.Equal(_responsible, _event.Responsible);
+            Assert.Equal(_start, _event.Start);
+            Assert.Equal(_end, _event.End);
+            Assert.Equal(_capacity, _event.Capacity);
+            Assert.Equal(_location, _event.Location);
+            Assert.Equal(0, _event.Attendees.Count);
+            Assert.Equal(0, _event.Guests.Count);
+            Assert.Equal(0, _event.Media.Count);
+            Assert.Equal(0, _event.Feedback.Count);
+        }
+
+        [Fact]
+        public void NewEvent_Null()
+        {
+            Assert.Throws<ArgumentException>(
+                () => new Event(_eventId, null, _description, _responsible, _start, _end, _capacity, _location));
+            Assert.Throws<ArgumentException>(
+                () => new Event(_eventId, _title, null, _responsible, _start, _end, _capacity, _location));
+            Assert.Throws<ArgumentException>(
+                () => new Event(_eventId, _title, _description, null, _start, _end, _capacity, _location));
+            Assert.Throws<ArgumentException>(
+                () => new Event(_eventId, _title, _description, _responsible, _start, _end, _capacity, null));
+            Assert.Throws<ArgumentException>(
+                () => new Event(_eventId, _title, _description, _responsible, _start, _end, 0, _location));
+        }
+
+        [Fact]
+        public void AddAttendee()
+        {
+            User attendee = _event.AddAttendee("123456cd", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE, "jordy@hogent.be");
+            Assert.Equal(1, _event.Attendees.Count);
+            Assert.True(_event.Attendees.Contains(attendee));
+            Assert.Throws<ArgumentException>(
+                () => _event.AddAttendee("123456cd", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE, "jordy@hogent.be"));
+            Assert.Equal(1, _event.Attendees.Count);
+        }
+
+        [Fact]
+        public void AddMedia()
+        {
+            Media media = _event.AddMedia(123, MediaType.IMAGE, "/here/is/a/photo");
+            Assert.Equal(1, _event.Media.Count);
+            Assert.True(_event.Media.Contains(media));
+            Assert.Throws<ArgumentException>(
+                () => _event.AddMedia(123, MediaType.IMAGE, "/here/is/a/photo"));
+            Assert.Equal(1, _event.Media.Count);
+        }
+
+        [Fact]
+        public void AddGuest()
+        {
+            
         }
     }
 }

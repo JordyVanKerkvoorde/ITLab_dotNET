@@ -9,10 +9,10 @@ namespace ITLab29.Models.Domain
     {
 
         public int MediaId { get; }
-        public MediaEnum Type { get; }
+        public MediaType Type { get; }
         public string Path { get; set; }
 
-        public Media(int mediaId, MediaEnum type, string path)
+        public Media(int mediaId, MediaType type, string path)
         {
             MediaId = mediaId;
             Type = type;

@@ -25,12 +25,16 @@ namespace ITLab29.Models.Domain
         public Event(int eventId, string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
             Location location) {
-            if (title == null || description == null || responsible == null || start == null || end == null || location == null) { 
+            if (title == null || description == null || responsible == null ||  location == null) { 
                 throw new ArgumentException("Values cannot be NULL");
             }
             if (capacity > location.Capacity)
             {
-                throw new ArgumentException("Location has not enough place to host event.");
+                throw new ArgumentException("Location has not enough places to host event.");
+            }
+            if (capacity <= 0)
+            {
+                throw new ArgumentException("Capacity can't be negative or zero");
             }
             if (!responsible.IsActive())
             {
@@ -67,7 +71,7 @@ namespace ITLab29.Models.Domain
             return user;
         }
 
-        public Media AddMedia(int mediaId, MediaEnum type, string path) {
+        public Media AddMedia(int mediaId, MediaType type, string path) {
             if (Media.Any(m => m.MediaId == mediaId)) {
                 throw new ArgumentException("Media exists.");
             }
