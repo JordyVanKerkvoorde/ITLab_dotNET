@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ITLab29.Models.Domain;
+using System;
 using Xunit;
-using ITLab29.Models;
-using ITLab29.Models.Domain;
 
 namespace ITLab29.Tests.Models.Domain {
     public class UserTest {
