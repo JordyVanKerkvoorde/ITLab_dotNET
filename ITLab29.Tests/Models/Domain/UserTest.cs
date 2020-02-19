@@ -25,6 +25,7 @@ namespace ITLab29.Tests.Models.Domain {
             Assert.Equal(1, _user.Events.Count);
             Event evtTest = _user2.AddEvent(10, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30));
             Assert.True(_user2.Events.Contains(evtTest));
+            Assert.Throws<ArgumentException>(() => _user.AddEvent(1, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30)));
         }
 
         [Fact]
