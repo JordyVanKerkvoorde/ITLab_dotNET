@@ -22,7 +22,7 @@ namespace ITLab29.Models.Domain
         public ICollection<Feedback> Feedback { get; set; }
 
 
-        public Event(int EventId, string title, string description,
+        public Event(int eventId, string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
             Location location) {
             if (title == null || description == null || responsible == null || start == null || end == null || location == null) { 
@@ -40,6 +40,7 @@ namespace ITLab29.Models.Domain
             {
                 throw new ArgumentException("Endtime can't be before starttime.");
             }
+            EventId = eventId;
             Title = title;
             Description = description;
             Responsible = responsible;
