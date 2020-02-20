@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace ITLab29.Data.Mapping
 {
-    public class GuestConfiguration : IEntityTypeConfiguration<Guest>
+    public class LocationConfiguration : IEntityTypeConfiguration<Location>
     {
-        public void Configure(EntityTypeBuilder<Guest> builder)
+        public void Configure(EntityTypeBuilder<Location> builder)
         {
-            builder.ToTable("Guest");
-            builder.HasKey(t => t.GuestId);
-            builder.Property(t => t.GuestId).ValueGeneratedOnAdd();
+            builder.HasKey(t => t.LocationId);
         }
     }
 }

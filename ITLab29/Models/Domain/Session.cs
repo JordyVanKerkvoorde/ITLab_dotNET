@@ -75,7 +75,7 @@ namespace ITLab29.Models.Domain
             if (Media.Any(m => m.MediaId == mediaId)) {
                 throw new ArgumentException("Media exists.");
             }
-            Media media = new Media(mediaId, type, path);
+            Media media = new Media(type, path);
             Media.Add(media);
             return media;
         }
@@ -93,7 +93,7 @@ namespace ITLab29.Models.Domain
             if (Feedback.Any(f => f.FeedbackId == feedbackId)) {
                 throw new ArgumentException("Feedback cannot be added twice.");
             }
-            Feedback feedback = new Feedback(feedbackId, score, user, description);
+            Feedback feedback = new Feedback(score, user, description);
             Feedback.Add(feedback);
             return feedback;
         }

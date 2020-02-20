@@ -21,18 +21,20 @@ namespace ITLab29.Data
 
             if (_dbContext.Database.EnsureCreated())
             {
-                //User dummyUser = new User("864460yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE, "yvdwoest@gmail.com");
-                //User dummyUser2 = new User("12345wfd", "Eric", "De Man", UserType.RESPONSIBLE, UserStatus.ACTIVE, "ericdeman@man.com");
-                //User dummyUser3 = new User("596074kkk", "Jan", "Willem", UserType.RESPONSIBLE, UserStatus.ACTIVE, "janwillem@mail.com");
+                User dummyUser = new User("864460yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE, "yvdwoest@gmail.com");
+                User dummyUser2 = new User("12345wfd", "Eric", "De Man", UserType.RESPONSIBLE, UserStatus.ACTIVE, "ericdeman@man.com");
+                User dummyUser3 = new User("596074kkk", "Jan", "Willem", UserType.RESPONSIBLE, UserStatus.ACTIVE, "janwillem@mail.com");
 
-                //IList<User> users = new List<User> { dummyUser, dummyUser2, dummyUser3 };
+                IList<User> users = new List<User> { dummyUser, dummyUser2, dummyUser3 };
+                _dbContext.User.AddRange(users);
 
-                //Location schoonmeersen = new Location("GSCHB1.420", CampusEnum.SCHOONMEERSEN, 500);
-                //Location aalst = new Location("GSCHA6.099", CampusEnum.AALST, 420);
-                //Location mercator = new Location("GSCHM4.012", CampusEnum.MERCATOR, 200);
-                //Location schoonmeersen2 = new Location("GSCHB3.220", CampusEnum.SCHOONMEERSEN, 100);
+                Location schoonmeersen = new Location("GSCHB1.420", CampusEnum.SCHOONMEERSEN, 500);
+                Location aalst = new Location("GSCHA6.099", CampusEnum.AALST, 420);
+                Location mercator = new Location("GSCHM4.012", CampusEnum.MERCATOR, 200);
+                Location schoonmeersen2 = new Location("GSCHB3.220", CampusEnum.SCHOONMEERSEN, 100);
 
-                //IList<Location> locations = new List<Location> { schoonmeersen, schoonmeersen2, mercator, aalst };
+                IList<Location> locations = new List<Location> { schoonmeersen, schoonmeersen2, mercator, aalst };
+                _dbContext.Locations.AddRange(locations);
 
                 //IList<Session> sessions = new List<Session>
                 //{
