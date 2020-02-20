@@ -36,19 +36,21 @@ namespace ITLab29.Data
                 IList<Location> locations = new List<Location> { schoonmeersen, schoonmeersen2, mercator, aalst };
                 _dbContext.Locations.AddRange(locations);
 
-                //IList<Session> sessions = new List<Session>
-                //{
-                //    new Session(0, "My first event ever", "Dit is een dummy description",
-                //        dummyUser, DateTime.Now.AddDays(2), DateTime.Now.AddDays(2).AddHours(2), 20, schoonmeersen),
-                //    new Session(1, "My second event", "Dit is nog een dummy description",
-                //        dummyUser, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(3), 69, aalst),
-                //    new Session(2, "My third event", "Dit is nog een dummy description",
-                //        dummyUser2, DateTime.Now.AddDays(7), DateTime.Now.AddDays(7).AddHours(2), 30, mercator),
-                //    new Session(3, "My fourth event", "Dit is nog een dummy description",
-                //        dummyUser2, DateTime.Now.AddDays(14), DateTime.Now.AddDays(14).AddHours(1), 123, schoonmeersen2),
-                //    new Session(4, "My fifth event", "Dit is misschien een dummy description",
-                //        dummyUser3, DateTime.Now.AddDays(8), DateTime.Now.AddDays(8).AddHours(1), 30, schoonmeersen)
-                //};
+                IList<Session> sessions = new List<Session>
+                {
+                    new Session("My first event ever", "Dit is een dummy description",
+                        dummyUser, DateTime.Now.AddDays(2), DateTime.Now.AddDays(2).AddHours(2), 20, schoonmeersen),
+                    new Session("My second event", "Dit is nog een dummy description",
+                        dummyUser, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(3), 69, aalst),
+                    new Session("My third event", "Dit is nog een dummy description",
+                        dummyUser2, DateTime.Now.AddDays(7), DateTime.Now.AddDays(7).AddHours(2), 30, mercator),
+                    new Session("My fourth event", "Dit is nog een dummy description",
+                        dummyUser2, DateTime.Now.AddDays(14), DateTime.Now.AddDays(14).AddHours(1), 123, schoonmeersen2),
+                    new Session("My fifth event", "Dit is misschien een dummy description",
+                        dummyUser3, DateTime.Now.AddDays(8), DateTime.Now.AddDays(8).AddHours(1), 30, schoonmeersen)
+                };
+
+                _dbContext.Sessions.AddRange(sessions);
 
                 Guest guest1 = new Guest("De heer Meneer", "deheermeneer@mail.com", "0412 12 12 12");
                 Guest guest2 = new Guest("De heer Mevrouw", "deheermevrouw@mail.com", "0413 13 13 13");

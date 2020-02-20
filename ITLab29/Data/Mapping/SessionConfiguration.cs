@@ -13,10 +13,13 @@ namespace ITLab29.Data.Mapping
         public void Configure(EntityTypeBuilder<Session> builder)
         {
             builder.ToTable("Session");
-            builder.HasOne(t => t.Responsible).WithOne();
-            builder.HasOne(t => t.Location).WithOne();
+            builder.HasKey(t => t.SessionId);
+            builder.Property(t => t.SessionId).ValueGeneratedOnAdd();
+            builder.HasOne(t => t.Responsible).WithMany().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(t => t.Location).WithMany().IsRequired();
             builder.HasMany(t => t.Media).WithOne();
             builder.HasMany(t => t.Guests).WithOne();
+            builder.HasMany(t => t.UserSessions).WithOne();
         }
     }
 }

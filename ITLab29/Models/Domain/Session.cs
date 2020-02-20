@@ -21,30 +21,29 @@ namespace ITLab29.Models.Domain
         public ICollection<Guest> Guests { get; set; }
         public ICollection<Feedback> Feedback { get; set; }
 
-
-        public Session(int eventId, string title, string description,
+        public Session() { }
+        public Session(string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
             Location location) {
-            if (title == null || description == null || responsible == null ||  location == null) { 
-                throw new ArgumentException("Values cannot be NULL");
-            }
-            if (capacity > location.Capacity)
-            {
-                throw new ArgumentException("Location has not enough places to host event.");
-            }
-            if (capacity <= 0)
-            {
-                throw new ArgumentException("Capacity can't be negative or zero");
-            }
-            if (!responsible.IsActive())
-            {
-                throw new ArgumentException("The responsible person is not an active user");
-            }
-            if (start > end)
-            {
-                throw new ArgumentException("Endtime can't be before starttime.");
-            }
-            SessionId = eventId;
+            //if (title == null || description == null || responsible == null ||  location == null) { 
+            //    throw new ArgumentException("Values cannot be NULL");
+            //}
+            //if (capacity > location.Capacity)
+            //{
+            //    throw new ArgumentException("Location has not enough places to host event.");
+            //}
+            //if (capacity <= 0)
+            //{
+            //    throw new ArgumentException("Capacity can't be negative or zero");
+            //}
+            //if (!responsible.IsActive())
+            //{
+            //    throw new ArgumentException("The responsible person is not an active user");
+            //}
+            //if (start > end)
+            //{
+            //    throw new ArgumentException("Endtime can't be before starttime.");
+            //}
             Title = title;
             Description = description;
             Responsible = responsible;
@@ -93,7 +92,7 @@ namespace ITLab29.Models.Domain
             if (Feedback.Any(f => f.FeedbackId == feedbackId)) {
                 throw new ArgumentException("Feedback cannot be added twice.");
             }
-            Feedback feedback = new Feedback(score, user, description);
+            Feedback feedback = new Feedback(score,  description);
             Feedback.Add(feedback);
             return feedback;
         }

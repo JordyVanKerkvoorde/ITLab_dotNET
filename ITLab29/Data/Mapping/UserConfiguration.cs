@@ -19,7 +19,7 @@ namespace ITLab29.Data.Mapping
             builder.Property(t => t.FirstName).IsRequired();
             builder.Property(t => t.UserType).IsRequired();
             builder.Property(t => t.UserStatus).IsRequired();
-            builder.HasOne(t => t.Avatar).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(t => t.UserSessions).WithOne();
         }
     }
 }
