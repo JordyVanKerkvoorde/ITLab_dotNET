@@ -80,11 +80,11 @@ namespace ITLab29.Models.Domain
             return media;
         }
 
-        public Guest AddGuest(int guestId, string name, string email, string phoneNumber) {
-            if (Guests.Any(g => g.GuestId == guestId)) {
+        public Guest AddGuest(string name, string email, string phoneNumber) {
+            if (Guests.Any(g => g.Name == name)) {
                 throw new ArgumentException("Guest cannot be added twice.");
             }
-            Guest guest = new Guest(guestId, name, email, phoneNumber);
+            Guest guest = new Guest(name, email, phoneNumber);
             Guests.Add(guest);
             return guest;
         }
