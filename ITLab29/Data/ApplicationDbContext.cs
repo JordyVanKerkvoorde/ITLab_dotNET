@@ -9,6 +9,7 @@ namespace ITLab29.Data {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {
         }
+        public ApplicationDbContext() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionstring = @"Server=.;Database=ITLab;Integrated Security=True;";
