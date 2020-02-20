@@ -23,7 +23,10 @@ namespace ITLab29.Data {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new SessionConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new FeedbackConfiguration());
+            builder.ApplyConfiguration(new LocationConfiguration());
+            builder.ApplyConfiguration(new MediaMapper());
+            builder.ApplyConfiguration(new GuestConfiguration());
+            //builder.ApplyConfiguration(new FeedbackConfiguration());
             builder.Entity<UserSession>().HasKey(t => new { t.SessionId, t.UserId });
             builder.Entity<UserSession>()
                 .HasOne(pt => pt.User).WithMany(p => p.UserSessions)

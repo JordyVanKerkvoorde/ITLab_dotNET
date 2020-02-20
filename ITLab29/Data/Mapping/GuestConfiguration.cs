@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace ITLab29.Data.Mapping
 {
-    public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
+    public class GuestConfiguration : IEntityTypeConfiguration<Guest>
     {
-        public void Configure(EntityTypeBuilder<Feedback> builder)
+        public void Configure(EntityTypeBuilder<Guest> builder)
         {
-            //builder.HasOne(t => t.User).WithMany();
-            builder.HasKey(t => t.FeedbackId);
+            builder.ToTable("Guest");
+            builder.HasKey(t => t.GuestId);
+            builder.Property(t => t.GuestId).ValueGeneratedOnAdd();
         }
     }
 }
