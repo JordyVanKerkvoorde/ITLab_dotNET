@@ -7,13 +7,17 @@ namespace ITLab29.Models.Domain
     public class User
     {
 
-        public string UserId { get; }
-        public string FirstName { get; }
-        public string LastName { get; }
+        #region Properties
+
+        public string UserId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public UserType UserType { get; set; }
         public UserStatus UserStatus { get; set; }
-        public ICollection<Session> Sessions { get; }
+        public ICollection<Session> Sessions { get; set; }
         public string Email { get; set; }
+
+        #endregion 
 
         public User(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email)
         {

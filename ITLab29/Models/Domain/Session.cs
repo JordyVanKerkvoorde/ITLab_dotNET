@@ -8,7 +8,7 @@ namespace ITLab29.Models.Domain
     public class Session
     {
 
-        public int SessionId { get;}
+        public int SessionId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public User Responsible { get; set; }
