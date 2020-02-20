@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ITLab29.Models.Domain
 {
@@ -10,11 +7,10 @@ namespace ITLab29.Models.Domain
         private int _score;
 
         public int FeedbackId { get; set; }
-        public int Score
-        {
+        public int Score {
             get { return _score; }
-            set { 
-                if(value > 5 || value < 0)
+            set {
+                if (value > 5 || value < 0)
                     throw new ArgumentException("Score has to be between 0 and 5");
                 _score = value;
             }

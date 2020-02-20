@@ -8,8 +8,8 @@ namespace ITLab29.Models.Domain
     public class Guest
     {
 
-        public int GuestId { get; }
-        public string Name { get; }
+        public int GuestId { get; set; }
+        public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
