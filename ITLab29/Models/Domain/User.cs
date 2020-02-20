@@ -16,6 +16,7 @@ namespace ITLab29.Models.Domain
         public UserStatus UserStatus { get; set; }
         public ICollection<Session> Sessions { get; set; }
         public string Email { get; set; }
+        public Media Avatar { get; set; }
 
         #endregion 
 
