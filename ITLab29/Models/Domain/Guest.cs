@@ -12,7 +12,6 @@ namespace ITLab29.Models.Domain
         public string Name { get; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public ICollection<Event> Events { get; set; }
 
 
         public Guest(int guestId, string name, string email, string phoneNumber)
@@ -21,20 +20,7 @@ namespace ITLab29.Models.Domain
             Name = name;
             Email = email;
             PhoneNumber = phoneNumber;
-            Events = new List<Event>();
         }
 
-
-
-        public Event AddEvent(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location)
-        {
-            if (Events.Any(e => e.EventId == id))
-            {
-                throw new ArgumentException($"User {Name} has already an event with title: {title}");
-            }
-            Event newEvent = new Event(id, title, description, responsible, start, end, capacity, location);
-            Events.Add(newEvent);
-            return newEvent;
-        }
     }
 }

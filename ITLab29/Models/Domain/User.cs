@@ -12,7 +12,7 @@ namespace ITLab29.Models.Domain
         public string LastName { get; }
         public UserType UserType { get; set; }
         public UserStatus UserStatus { get; set; }
-        public ICollection<Event> Events { get; }
+        public ICollection<Session> Sessions { get; }
         public string Email { get; set; }
 
         public User(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email)
@@ -28,17 +28,17 @@ namespace ITLab29.Models.Domain
             UserType = userType;
             UserStatus = userStatus;
             Email = email;
-            Events = new List<Event>();
+            Sessions = new List<Session>();
         }
 
-        public Event AddEvent(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
-            if (Events.Any(e => e.EventId == id))
+        public Session AddSession(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
+            if (Sessions.Any(e => e.SessionId == id))
             {
                 throw new ArgumentException($"User {FirstName} {LastName} has already an event with title: {title}");
             }
-            Event newEvent = new Event(id, title, description, responsible, start, end, capacity, location);
-            Events.Add(newEvent);
-            return newEvent;
+            Session newSession = new Session(id, title, description, responsible, start, end, capacity, location);
+            Sessions.Add(newSession);
+            return newSession;
         }
 
         public Boolean IsActive()

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace ITLab29.Models.Domain
 {
-    public class Event
+    public class Session
     {
 
-        public int EventId { get;}
+        public int SessionId { get;}
         public string Title { get; set; }
         public string Description { get; set; }
         public User Responsible { get; set; }
@@ -22,7 +22,7 @@ namespace ITLab29.Models.Domain
         public ICollection<Feedback> Feedback { get; set; }
 
 
-        public Event(int eventId, string title, string description,
+        public Session(int eventId, string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
             Location location) {
             if (title == null || description == null || responsible == null ||  location == null) { 
@@ -44,7 +44,7 @@ namespace ITLab29.Models.Domain
             {
                 throw new ArgumentException("Endtime can't be before starttime.");
             }
-            EventId = eventId;
+            SessionId = eventId;
             Title = title;
             Description = description;
             Responsible = responsible;

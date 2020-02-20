@@ -6,7 +6,7 @@ namespace ITLab29.Tests.Models.Domain {
     public class UserTest {
         private User _user;
         private User _user2;
-        private Event _evt;
+        private Session _evt;
 
         private string Id = "0s5";
         private string FName = "Jordy";
@@ -20,12 +20,12 @@ namespace ITLab29.Tests.Models.Domain {
         }
 
         [Fact]
-        public void AddEventTest() {
-            _user.AddEvent(1, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30));
-            Assert.Equal(1, _user.Events.Count);
-            Event evtTest = _user2.AddEvent(10, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30));
-            Assert.True(_user2.Events.Contains(evtTest));
-            Assert.Throws<ArgumentException>(() => _user.AddEvent(1, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30)));
+        public void AddSessionTest() {
+            _user.AddSession(1, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30));
+            Assert.Equal(1, _user.Sessions.Count);
+            Session session = _user2.AddSession(10, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30));
+            Assert.True(_user2.Sessions.Contains(session));
+            Assert.Throws<ArgumentException>(() => _user.AddSession(1, "title", "desc", _user, new DateTime(), new DateTime(), 25, new Location("loc1", CampusEnum.SCHOONMEERSEN, 30)));
         }
 
         [Fact]
