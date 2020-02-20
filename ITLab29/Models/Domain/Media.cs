@@ -8,8 +8,8 @@ namespace ITLab29.Models.Domain
     public class Media
     {
 
-        public int MediaId { get; }
-        public MediaType Type { get; }
+        public int MediaId { get; set; }
+        public MediaType Type { get; set; }
         public string Path { get; set; }
 
         public Media(int mediaId, MediaType type, string path)

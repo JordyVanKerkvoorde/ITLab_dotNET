@@ -8,8 +8,8 @@ namespace ITLab29.Models.Domain
     public class Location
     {
 
-        public string LocationId { get; }
-        public CampusEnum Campus { get; }
+        public string LocationId { get; set; }
+        public CampusEnum Campus { get; set; }
         public int Capacity { get; set; }
 
         public Location(string locationId, CampusEnum campus, int capacity)
