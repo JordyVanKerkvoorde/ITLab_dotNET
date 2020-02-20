@@ -16,7 +16,7 @@ namespace ITLab29.Models.Domain
         public DateTime End { get; set; }
         public int Capacity { get; set; }
         public Location Location { get; set; }
-        public ICollection<User> Attendees { get; set; }
+        public ICollection<UserSession> UserSessions { get; set; }
         public ICollection<Media> Media { get; set; }
         public ICollection<Guest> Guests { get; set; }
         public ICollection<Feedback> Feedback { get; set; }
@@ -53,23 +53,23 @@ namespace ITLab29.Models.Domain
             Capacity = capacity;
             Location = location;
 
-            Attendees = new List<User>();
+            UserSessions = new List<UserSession>();
             Media = new List<Media>();
             Guests = new List<Guest>();
             Feedback = new List<Feedback>();
         }
 
-        public User AddAttendee(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email) {
-            if (userId != null && Attendees.Any(a => a.UserId == userId)) {
-                throw new ArgumentException("User cannot be added more than once.");
-            }
-            if (userStatus == UserStatus.BLOCKED) {
-                throw new ArgumentException("Blocked user cannot be added.");
-            }
-            User user = new User(userId, firstName, lastName, userType, userStatus, email);
-            Attendees.Add(user);
-            return user;
-        }
+        //public User AddAttendee(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email) {
+            //if (userId != null && Attendees.Any(a => a.UserId == userId)) {
+            //    throw new ArgumentException("User cannot be added more than once.");
+            //}
+            //if (userStatus == UserStatus.BLOCKED) {
+            //    throw new ArgumentException("Blocked user cannot be added.");
+            //}
+            //User user = new User(userId, firstName, lastName, userType, userStatus, email);
+            //Attendees.Add(user);
+            //return user;
+        //}
 
         public Media AddMedia(int mediaId, MediaType type, string path) {
             if (Media.Any(m => m.MediaId == mediaId)) {

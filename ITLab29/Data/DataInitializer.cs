@@ -19,14 +19,14 @@ namespace ITLab29.Data
         {
             _dbContext.Database.EnsureDeleted();
 
-            if(_dbContext.Database.EnsureCreated())
+            if (_dbContext.Database.EnsureCreated())
             {
                 User dummyUser = new User("864460yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE, "yvdwoest@gmail.com");
                 User dummyUser2 = new User("12345wfd", "Eric", "De Man", UserType.RESPONSIBLE, UserStatus.ACTIVE, "ericdeman@man.com");
                 User dummyUser3 = new User("596074kkk", "Jan", "Willem", UserType.RESPONSIBLE, UserStatus.ACTIVE, "janwillem@mail.com");
 
-                IList <User> users = new List<User> { dummyUser, dummyUser2, dummyUser3 };
-                
+                IList<User> users = new List<User> { dummyUser, dummyUser2, dummyUser3 };
+
                 Location schoonmeersen = new Location("GSCHB1.420", CampusEnum.SCHOONMEERSEN, 500);
                 Location aalst = new Location("GSCHA6.099", CampusEnum.AALST, 420);
                 Location mercator = new Location("GSCHM4.012", CampusEnum.MERCATOR, 200);
@@ -54,9 +54,7 @@ namespace ITLab29.Data
                 Guest guest4 = new Guest(3, "De heer Vrouwke", "deheervrouwke@mail.com", "0415 15 15 15");
 
                 IList<Guest> guests = new List<Guest> { guest1, guest2, guest3, guest4 };
-
-                
             }
-        }
+    }
     }
 }

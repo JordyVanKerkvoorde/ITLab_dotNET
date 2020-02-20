@@ -14,7 +14,12 @@ namespace ITLab29.Data.Mapping
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("User");
-            builder.HasMany(t => t.Media)
+            builder.Property(t => t.Email).IsRequired();
+            builder.Property(t => t.UserId).IsRequired();
+            builder.Property(t => t.FirstName).IsRequired();
+            builder.Property(t => t.UserType).IsRequired();
+            builder.Property(t => t.UserStatus).IsRequired();
+            builder.HasOne(t => t.Avatar).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
