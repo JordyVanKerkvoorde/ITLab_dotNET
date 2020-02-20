@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ITLab29.Models.Domain {
-    public class UserEnum {
         public enum UserStatus { 
             ACTIVE,
             BLOCKED,
@@ -16,5 +15,5 @@ namespace ITLab29.Models.Domain {
             RESPONSIBLE,
             USER
         }
-    }
+    
 }
