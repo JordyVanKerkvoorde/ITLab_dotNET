@@ -23,7 +23,7 @@ namespace ITLab29.Data.Repositories {
         }
 
         public Session GetById(int sessionId) {
-            return _sessions.Include(s => s.Attendees).SingleOrDefault(s => s.SessionId == sessionId);
+            return _sessions.Include(s => s.UserSessions).SingleOrDefault(s => s.SessionId == sessionId);
         }
 
         public void SaveChanges() {

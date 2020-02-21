@@ -12,6 +12,8 @@ using ITLab29.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ITLab29.Data.Repositories;
+using ITLab29.Models.Domain;
 
 namespace ITLab29 {
     public class Startup {
@@ -27,6 +29,8 @@ namespace ITLab29 {
                 options.UseSqlServer(@"Server=.;Database=ITLab;Integrated Security=True;"));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<DataInitializer>();
+            services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<DataInitializer>();
