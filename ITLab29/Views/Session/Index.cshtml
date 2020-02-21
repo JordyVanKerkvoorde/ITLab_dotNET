@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Session>
+@using ITLab29.Models.Domain
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lijst van sessies:</h1>
+
+
+
+@foreach (var session in Model) {
+    <div class="card">
+        <img src="~/photo/800x560.png"/>
+        <h5 class="card-header">@session.Title</h5>
+        <p class="card-text" style="overflow: hidden">@session.Description</p>
+        <a class="btn btn-primary" asp-controller="Session" asp-action="Details" asp-route-id="@session.SessionId">Meer info...</a>
+    </div>
+}
