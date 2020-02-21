@@ -22,14 +22,18 @@ namespace ITLab29.Controllers
                 sessions = _sessionRepository.GetAll();
             } else {
                 sessions = _sessionRepository.GetByDate(date??DateTime.Now);
-                //aanpassen ^^^^ 
+                //aanpassen na database met data of dummy dates ^^^^ 
             }
             sessions = sessions.OrderBy(s => s.Start).ToList();
             return View(sessions);
         }
 
-        public IActionResult Details() {
-            return View();
+        public IActionResult Details(int id) {
+            Session session = _sessionRepository.GetById(id);
+            if (session == null) {
+                return NotFound();
+            }
+            return View(session);
         }
 
     }

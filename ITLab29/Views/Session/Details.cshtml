@@ -1,7 +1,85 @@
-﻿
+﻿@model Session;
+@using ITLab29.Models.Domain;
+
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="page-header">
+                        <h1>
+                            @Model.Title
+                        </h1>
+                    </div>
+                    <img src="~/photo/stock.png" />
+                    <!--foto scalen in CSS later-->
+                    <dl>
+                        <dt>
+                            Omschrijving
+                        </dt>
+                        <dd>
+                            @Model.Description
+                        </dd>
+                    </dl>
+                    <p></p> <!--veranderen in CSS later-->
+                    <div class="card">
+                        <h5 class="card-header">
+                            Toegevoegde Media
+                        </h5>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Media1
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            Media2
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <h5 class="card-header">
+                            Locatie: @Model.Location.Campus  @Model.Location.LocationId
+                        </h5>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Tijdstip: @Model.Start.Date @Model.Start.Hour:@Model.Start.Minute <!--Methode voor schrijven-->
+                                <!--moet nog aangepast worden-->
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
+                            <!--in verantwoordelijke methode getfullname toevoegen-->
+                        </div>
+                    </div> <span class="badge badge-default">x / @Model.Capacity</span> <!--x moet door dynamisch user.count vervangen worden-->
+                    <div class="progress">
+                        <div class="progress-bar w-75">
+                            <!--Geen idee hoe dees werkt ma tzou wel fancy zijn-->
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success">
+                        <!--logic moet toegevoegd worden aan btn-->
+                        Schrijf me in
+                    </button>
+                    <p></p> <!--veranderen in CSS later-->
+                    <p></p> <!--veranderen in CSS later-->
+                    <form role="form">
+                        <div class="form-group">
+                            <!--standaard form moet aangepast worden eens we de feedback doen-->
+                            <label for="feedback">Feedback</label>
+                            <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
+                        </div>
+                        
+                        <button type="Verstuur" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
