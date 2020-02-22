@@ -27,6 +27,17 @@ namespace ITLab29.Controllers
             sessions = sessions.OrderBy(s => s.Start).ToList();
             return View(sessions);
         }
+        public IActionResult Calendar() {
+            IEnumerable<Session> sessions;
+            /*if (date == null) {*/
+                sessions = _sessionRepository.GetAll();
+            /*} else {
+                sessions = _sessionRepository.GetByDate(date ?? DateTime.Now);
+                //aanpassen na database met data of dummy dates ^^^^ 
+            }*/
+            sessions = sessions.OrderBy(s => s.Start).ToList();
+            return View(sessions);
+        }
 
         public IActionResult Details(int id) {
             Session session = _sessionRepository.GetById(id);
