@@ -1,4 +1,5 @@
 ﻿using ITLab29.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,12 @@ namespace ITLab29.Data
     public class DataInitializer
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public DataInitializer(ApplicationDbContext dbcontext)
+        public DataInitializer(ApplicationDbContext dbcontext, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbcontext;
+            _userManager = userManager;
         }
 
         public async Task InitializeData()
@@ -21,6 +24,7 @@ namespace ITLab29.Data
 
             if (_dbContext.Database.EnsureCreated())
             {
+                await InitializeUsers();
                 User dummyUser = new User("864460yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE, "yvdwoest@gmail.com");
                 User dummyUser2 = new User("12345wfd", "Eric", "De Man", UserType.RESPONSIBLE, UserStatus.ACTIVE, "ericdeman@man.com");
                 User dummyUser3 = new User("596074kkk", "Jan", "Willem", UserType.RESPONSIBLE, UserStatus.ACTIVE, "janwillem@mail.com");
@@ -83,6 +87,14 @@ namespace ITLab29.Data
                 _dbContext.Media.AddRange(medias);
             }
             _dbContext.SaveChanges();
-    }
+        }
+
+        private async Task InitializeUsers()
+        {
+            IdentityUser user1 = new IdentityUser { UserName = "user1@gmail.com", Email = "user1@gmail.com", EmailConfirmed=true };
+            IdentityUser user2 = new IdentityUser { UserName = "user2@gmail.com", Email = "user2@gmail.com", EmailConfirmed=true };
+            await _userManager.CreateAsync(user1, "P@ssword1");
+            await _userManager.CreateAsync(user2, "P@ssword1");
+        }
     }
 }
