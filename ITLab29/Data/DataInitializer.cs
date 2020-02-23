@@ -59,7 +59,7 @@ namespace ITLab29.Data
                 Feedback feedback1 = new Feedback(5, "Yeet");
                 Feedback feedback2 = new Feedback(3, "foobar");
 
-                _dbContext.Feedback.AddRange(new List<Feedback>{ feedback1, feedback2});
+                _dbContext.Feedback.AddRange(new List<Feedback> { feedback1, feedback2 });
 
 
                 Guest guest1 = new Guest("De heer Meneer", "deheermeneer@mail.com", "0412 12 12 12");
@@ -72,6 +72,15 @@ namespace ITLab29.Data
                 {
                     _dbContext.Guests.Add(item);
                 }
+
+                IList<Media> medias = new List<Media>
+                {
+                    new Media(MediaType.FILE, "/path/mamamia.pdf"),
+                    new Media(MediaType.IMAGE, "/path/file.jpg"),
+                    new Media(MediaType.VIDEO, "/path/videos/18+.mov")
+                };
+
+                _dbContext.Media.AddRange(medias);
             }
             _dbContext.SaveChanges();
     }
