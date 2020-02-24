@@ -104,5 +104,9 @@ namespace ITLab29.Models.Domain
         public string GetTimeFormat() {
             return Start.ToString("HH:mm");
         }
+
+        public void AddUserSession(UserSession session) {
+            UserSessions.Add(session);
+        }
     }
 }

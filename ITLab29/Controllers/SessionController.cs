@@ -10,9 +10,11 @@ namespace ITLab29.Controllers
     public class SessionController : Controller
     {
         private readonly ISessionRepository _sessionRepository;
+        private readonly IUserRepository _userRepository;
 
-        public SessionController(ISessionRepository sessionRepository) {
+        public SessionController(ISessionRepository sessionRepository, IUserRepository userRepository) {
             _sessionRepository = sessionRepository;
+            _userRepository = userRepository;
         }
 
         public IActionResult Index(DateTime? date)
@@ -54,5 +56,18 @@ namespace ITLab29.Controllers
             return View(session);
         }
 
+        [HttpPost]
+        public IActionResult Add(string userId, int sessionId) {
+            User user = _userRepository.GetById(userId);
+            Session session = _sessionRepository.GetById(sessionId);
+
+            UserSession us = new UserSession();
+            us.Session = session;
+            us.User = user;
+            us.SessionId = session.SessionId;
+            us.UserId = user.Id;
+
+            return RedirectToAction("Index");
+        }
     }
 }
