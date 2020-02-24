@@ -396,6 +396,7 @@ a[data-goto]:hover {
     border: 1px solid #3a87ad;
     font-weight: 400
 }
+/*use this attribute to change hover color*/
     .fc-event:hover {
         background-color: cadetblue;
     }
