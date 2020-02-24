@@ -9,14 +9,12 @@ namespace ITLab29.Models.Domain
     {
 
         #region Properties
-
         public string UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public UserType UserType { get; set; }
         public UserStatus UserStatus { get; set; }
         public ICollection<UserSession> UserSessions { get; set; }
-        //public string Email { get; set; }
         public Media Avatar { get; set; }
 
         #endregion 
@@ -24,17 +22,16 @@ namespace ITLab29.Models.Domain
         public User(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus) : 
             base()
         {
-            //if(userId == null || firstName == null || lastName == null || email == null)
-            //{
-            //    throw new ArgumentNullException();
-            //}
+            if (userId == null || firstName == null || lastName == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             UserId = userId;
             FirstName = firstName;
             LastName = lastName;
             UserType = userType;
             UserStatus = userStatus;
-            //Email = email;
             UserSessions = new List<UserSession>();
         }
 
@@ -53,8 +50,5 @@ namespace ITLab29.Models.Domain
             return UserStatus == UserStatus.ACTIVE;
 
         }
-
-
-
     }
 }
