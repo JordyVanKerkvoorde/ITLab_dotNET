@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITLab29.Data {
     public class ApplicationDbContext : IdentityDbContext {
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Media> Media { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Location> Locations { get; set; }
