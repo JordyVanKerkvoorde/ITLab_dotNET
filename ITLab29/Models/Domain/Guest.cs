@@ -14,9 +14,8 @@ namespace ITLab29.Models.Domain
         public string PhoneNumber { get; set; }
 
 
-        public Guest(int guestId, string name, string email, string phoneNumber)
+        public Guest(string name, string email, string phoneNumber)
         {
-            GuestId = guestId;
             Name = name;
             Email = email;
             PhoneNumber = phoneNumber;
