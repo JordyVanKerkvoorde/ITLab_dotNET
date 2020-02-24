@@ -48,15 +48,22 @@ namespace ITLab29.Controllers
 
         [HttpPost]
         public IActionResult Add(string userId, int sessionId) {
+            
             User user = _userRepository.GetById(userId);
             Session session = _sessionRepository.GetById(sessionId);
-
-            UserSession us = new UserSession();
-            us.Session = session;
-            us.User = user;
-            us.SessionId = session.SessionId;
-            us.UserId = user.Id;
-
+            if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
+                //insert code
+            } else { 
+                //TODO implementation pop up/error
+            }
+            UserSession us = new UserSession {
+                Session = session,
+                User = user,
+                SessionId = session.SessionId,
+                UserId = user.Id
+            };
+            ViewData["userId"] = userId;
+            ViewData["sessionId"] = sessionId;
             return RedirectToAction("Index");
         }
     }

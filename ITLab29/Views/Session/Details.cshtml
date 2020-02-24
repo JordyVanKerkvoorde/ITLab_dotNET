@@ -59,16 +59,22 @@
                         </div>
                         <div class="card-footer">
                             Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
-                            <!--in verantwoordelijke methode getfullname toevoegen-->
                         </div>
-                    </div> <span class="badge badge-default">x / @Model.Capacity</span> <!--x moet door dynamisch user.count vervangen worden-->
+                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span> 
                     <div class="progress">
                         <div class="progress-bar w-75"></div>
                     </div>
-                    <button type="button" class="btn btn-success">
-                        <!--logic moet toegevoegd worden aan btn-->
-                        Schrijf me in
-                    </button>
+                    @if (!user.UserSessions.Select(s => s.SessionId == @Model.SessionId).Any()) {
+                        <!--De routing is nog nie juist, het inschrijven zelf gebeurt nog niet
+                            voornamelijk omdat ik nie weet hoe ik meerdere parameters meegeef zonder er een form van te maken-->
+                        <button type="button" class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-userId="@user.UserId" asp-route-sessionId="@Model.SessionId" >
+                            Schrijf me in
+                        </button>
+                    } else { 
+                        <button type="button" class="btn btn-danger">
+                            Schrijf me uit
+                        </button>
+                    }
                     <p></p> <!--veranderen in CSS later-->
                     <p></p> <!--veranderen in CSS later-->
                     <form role="form">
