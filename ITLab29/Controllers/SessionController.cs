@@ -38,6 +38,13 @@ namespace ITLab29.Controllers
             sessions = sessions.OrderBy(s => s.Start).ToList();
             return View(sessions);
         }
+        [HttpGet]
+        public IActionResult Get()
+        {
+            IEnumerable<Session> sessions;
+            sessions = _sessionRepository.GetAll();
+            return Ok(sessions.OrderBy(s => s.Start).ToList());
+        }
 
         public IActionResult Details(int id) {
             Session session = _sessionRepository.GetById(id);
