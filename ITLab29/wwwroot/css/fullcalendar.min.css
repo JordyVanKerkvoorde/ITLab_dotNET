@@ -396,13 +396,16 @@ a[data-goto]:hover {
     border: 1px solid #3a87ad;
     font-weight: 400
 }
-
+    .fc-event:hover {
+        background-color: cadetblue;
+    }
 .fc-event, .fc-event-dot {
     background-color: #3a87ad
 }
 
+
     .fc-event, .fc-event:hover, .ui-widget .fc-event {
-        color: #fff;
+        color: #63ebdf;
         text-decoration: none
     }
 

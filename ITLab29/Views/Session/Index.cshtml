@@ -41,8 +41,7 @@
                             title: v.title,
                             description: v.description,
                             start: v.start,
-                            end: v.end,
-                            color: v.ThemeColor
+                            end: v.end
                         });
                     })
 
@@ -65,13 +64,10 @@
                         right: 'month,basicWeek,basicDay,agenda'
                     },
                     eventLimit: true,
-                    eventColor: '#378006',
                     events: events,
                     eventClick: function (calEvent, jsEvent, view) {
-                        console.log(calEvent.sessionId);
-                        console.log(calEvent.title);
                         window.location.href = "/session/" + calEvent.sessionId;
-                    }
+                    },
                 })
             }
         })
