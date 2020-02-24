@@ -47,8 +47,7 @@
                         </h5>
                         <div class="card-body">
                             <p class="card-text">
-                                Tijdstip: @Model.Start.Date @Model.Start.Hour:@Model.Start.Minute <!--Methode voor schrijven-->
-                                <!--moet nog aangepast worden-->
+                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat() 
                             </p>
                         </div>
                         <div class="card-footer">
@@ -57,9 +56,7 @@
                         </div>
                     </div> <span class="badge badge-default">x / @Model.Capacity</span> <!--x moet door dynamisch user.count vervangen worden-->
                     <div class="progress">
-                        <div class="progress-bar w-75">
-                            <!--Geen idee hoe dees werkt ma tzou wel fancy zijn-->
-                        </div>
+                        <div class="progress-bar w-75"></div>
                     </div>
                     <button type="button" class="btn btn-success">
                         <!--logic moet toegevoegd worden aan btn-->
@@ -74,8 +71,8 @@
                             <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
                         </div>
                         
-                        <button type="Verstuur" class="btn btn-primary">
-                            Submit
+                        <button type="button" class="btn btn-primary">
+                            Verstuur
                         </button>
                     </form>
                 </div>
