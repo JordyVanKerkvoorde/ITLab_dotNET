@@ -50,5 +50,9 @@ namespace ITLab29.Models.Domain
             return UserStatus == UserStatus.ACTIVE;
 
         }
+
+        public void AddUserSession(UserSession session) {
+            UserSessions.Add(session);
+        }
     }
 }
