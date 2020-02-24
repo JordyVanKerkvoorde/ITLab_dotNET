@@ -97,5 +97,12 @@ namespace ITLab29.Models.Domain
             return feedback;
         }
 
+        public string GetDateFormat() {
+            return Start.ToString("d/M/yyyy");
+        }
+
+        public string GetTimeFormat() {
+            return Start.ToString("HH:mm");
+        }
     }
 }

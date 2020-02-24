@@ -14,6 +14,7 @@
         <div class="card col-sm-6 mb-3">
             <img src="~/photo/stock.png" />
             <h5 class="card-header">@session.Title</h5>
+            <p class="card-header-pills">@session.GetDateFormat() @session.GetTimeFormat()</p>
             <p class="card-text" style="overflow: hidden">@session.Description</p>
             <a class="btn btn-primary" asp-controller="Session" asp-action="Details" asp-route-id="@session.SessionId">Meer info...</a>
         </div>
