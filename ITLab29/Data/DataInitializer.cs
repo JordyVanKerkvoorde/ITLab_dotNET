@@ -10,9 +10,9 @@ namespace ITLab29.Data
     public class DataInitializer
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public DataInitializer(ApplicationDbContext dbcontext, UserManager<IdentityUser> userManager)
+        public DataInitializer(ApplicationDbContext dbcontext, UserManager<User> userManager)
         {
             _dbContext = dbcontext;
             _userManager = userManager;

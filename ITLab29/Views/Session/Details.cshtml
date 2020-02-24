@@ -1,8 +1,15 @@
 ﻿@model Session;
+@using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
+}
+
+@{
+    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
 }
 
 <div class="container-fluid">
@@ -47,7 +54,7 @@
                         </h5>
                         <div class="card-body">
                             <p class="card-text">
-                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat() 
+                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat()
                             </p>
                         </div>
                         <div class="card-footer">
@@ -70,7 +77,7 @@
                             <label for="feedback">Feedback</label>
                             <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
                         </div>
-                        
+
                         <button type="button" class="btn btn-primary">
                             Verstuur
                         </button>
