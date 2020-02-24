@@ -24,13 +24,25 @@ namespace ITLab29.Data
 
             if (_dbContext.Database.EnsureCreated())
             {
-                await InitializeUsers();
-                User dummyUser = new User("864460yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE, "yvdwoest@gmail.com");
-                User dummyUser2 = new User("12345wfd", "Eric", "De Man", UserType.RESPONSIBLE, UserStatus.ACTIVE, "ericdeman@man.com");
-                User dummyUser3 = new User("596074kkk", "Jan", "Willem", UserType.RESPONSIBLE, UserStatus.ACTIVE, "janwillem@mail.com");
 
-                IList<User> users = new List<User> { dummyUser, dummyUser2, dummyUser3 };
-                _dbContext.User.AddRange(users);
+                User dummyUser = new User("88888", "Yorick", "VdW", UserType.ADMIN, UserStatus.ACTIVE)
+                { UserName = "yvdwoest@gmail.com", Email = "yvdwoest@gmail.com", EmailConfirmed = true };
+                User dummyUser2 = new User("11111", "Jan", "Willem", UserType.USER, UserStatus.INACTIVE)
+                { UserName = "janw@gmail.com", Email = "janw@gmail.com", EmailConfirmed = true };
+                User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.BLOCKED)
+                { UserName = "sandercm@gmail.com", Email = "sandercm@gmail.com", EmailConfirmed = true };
+
+
+                await _userManager.CreateAsync(dummyUser, "P@ssword1");
+                await _userManager.CreateAsync(dummyUser2, "P@ssword1");
+                await _userManager.CreateAsync(dummyUser3, "P@ssword1");
+                //await InitializeUsers();
+                //User dummyUser = new User("864460yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE, "yvdwoest@gmail.com");
+                //User dummyUser2 = new User("12345wfd", "Eric", "De Man", UserType.RESPONSIBLE, UserStatus.ACTIVE, "ericdeman@man.com");
+                //User dummyUser3 = new User("596074kkk", "Jan", "Willem", UserType.RESPONSIBLE, UserStatus.ACTIVE, "janwillem@mail.com");
+
+                //IList<User> users = new List<User> { dummyUser, dummyUser2, dummyUser3 };
+                //_dbContext.User.AddRange(users);
 
                 Location schoonmeersen = new Location("GSCHB1.420", CampusEnum.SCHOONMEERSEN, 500);
                 Location aalst = new Location("GSCHA6.099", CampusEnum.AALST, 420);
@@ -89,11 +101,22 @@ namespace ITLab29.Data
             _dbContext.SaveChanges();
         }
 
-        private async Task InitializeUsers()
+        private async Task InitializeUsers(User user, string password)
         {
-            IdentityUser user1 = new IdentityUser { UserName = "user1@gmail.com", Email = "user1@gmail.com", EmailConfirmed=true };
-            IdentityUser user2 = new IdentityUser { UserName = "user2@gmail.com", Email = "user2@gmail.com", EmailConfirmed=true };
-            await _userManager.CreateAsync(user1, "P@ssword1");
+            //IdentityUser user1 = new IdentityUser { UserName = "user1@gmail.com", Email = "user1@gmail.com", EmailConfirmed=true };
+            //IdentityUser user2 = new IdentityUser { UserName = "user2@gmail.com", Email = "user2@gmail.com", EmailConfirmed=true };
+            //await _userManager.CreateAsync(user1, "P@ssword1");
+            //await _userManager.CreateAsync(user2, "P@ssword1");
+            //User dummyUser = new User("864460yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE, "yvdwoest@gmail.com")
+            //{ UserName = "yvdwoest@gmail.com", EmailConfirmed = true };
+            await _userManager.CreateAsync(user, password);
+
+            User dummyUser = new User("88888", "Yorick", "VdW", UserType.ADMIN, UserStatus.ACTIVE)
+            { UserName = "yvdwoest@gmail.com", Email = "yvdwoest@gmail.com", EmailConfirmed = true };
+            User user2 = new User("11111", "Jan", "Willem", UserType.USER, UserStatus.INACTIVE)
+            { UserName = "janw@gmail.com", Email = "janw@gmail.com", EmailConfirmed = true };
+
+            await _userManager.CreateAsync(dummyUser, "P@ssword1");
             await _userManager.CreateAsync(user2, "P@ssword1");
         }
     }
