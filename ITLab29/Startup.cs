@@ -31,9 +31,11 @@ namespace ITLab29 {
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<DataInitializer>();
             services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<DataInitializer>();
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
