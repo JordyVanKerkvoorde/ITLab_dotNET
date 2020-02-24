@@ -35,7 +35,7 @@ namespace ITLab29.Controllers
             sessions = _sessionRepository.GetAll();
             return Ok(sessions.OrderBy(s => s.Start).ToList());
         }
-        
+        [Route("session/{id}")]
         public IActionResult Details(int id) {
             Session session = _sessionRepository.GetById(id);
             if (session == null) {
