@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ITLab29.Data.Mapping;
 using ITLab29.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +23,7 @@ namespace ITLab29.Data {
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new SessionConfiguration());
-            builder.ApplyConfiguration(new UserConfiguration());
+            //builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new LocationConfiguration());
             builder.ApplyConfiguration(new MediaMapper());
             builder.ApplyConfiguration(new GuestConfiguration());
