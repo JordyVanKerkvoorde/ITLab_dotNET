@@ -59,7 +59,7 @@ namespace ITLab29 {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Session}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 

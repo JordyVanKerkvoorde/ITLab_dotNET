@@ -3,26 +3,28 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Lijst van sessies:</h1>
-<div id="calender"></div>
-
-
-<div class="row">
-    @foreach (var session in Model)
-    {
-        <div class="card col-sm-6 mb-3">
-            <img src="~/photo/stock.png" />
-            <h5 class="card-header">@session.Title</h5>
-            <p class="card-header-pills">@session.GetDateFormat() @session.GetTimeFormat()</p>
-            <p class="card-text" style="overflow: hidden">@session.Description</p>
-            <a class="btn btn-primary" asp-controller="Session" asp-action="Details" asp-route-id="@session.SessionId">Meer info...</a>
-        </div>
-    }
-</div>
-
 <link href="~/css/fullcalendar.min.css" rel="stylesheet" />
 <link href="~/css/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+@{ var nextEvent = Model.OrderBy(t => t.Start).FirstOrDefault();}
+
+<div class="card bg-light" style="max-width: 18rem; position:fixed;top:inherit;left:inherit;z-index:1">
+    <div class="card-header">Next event</div>
+    <img class="card-img-top" src="~/wwwroot/photo/stock.png" onerror="this.src = '/photo/stock.png';">
+    <div class="card-body">
+        <h5 class="card-title">@nextEvent.Title</h5>
+        <p class="card-text">@nextEvent.Description</p>
+    </div>
+    <div class="card-footer">
+        <a asp-controller="Session" asp-action="Details" asp-route-id="@nextEvent.SessionId" class="btn btn-primary">Go to event</a>
+    </div>
+</div>
+
+<div class="card bg-light" style="margin-left: 20rem;">
+    <div class="card-body">
+        <div id="calender"></div>
+    </div>
+</div>
 
 @section Scripts{
     <script src="~/js/moment.js"></script>
