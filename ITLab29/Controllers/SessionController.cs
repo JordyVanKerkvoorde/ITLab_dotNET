@@ -62,12 +62,12 @@ namespace ITLab29.Controllers
             } else { 
                 //TODO implementation pop up/error
             }*/
-            UserSession us = new UserSession {
+            /*UserSession us = new UserSession {
                 Session = session,
                 User = user,
                 SessionId = session.SessionId,
                 UserId = user.Id
-            };
+            };*/
             _userSessionRepository.AddSessiontoUser(session, user);
             _userSessionRepository.SaveChanges();
             /*user.AddUserSession(us);

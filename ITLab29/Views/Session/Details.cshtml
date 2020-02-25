@@ -11,7 +11,8 @@
 @{
     User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
 }
-
+    <h1>Sessions: @user.GetSessions().Count()</h1>
+    <h1>Users: @Model.GetUsers().Count()</h1>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -60,17 +61,17 @@
                         <div class="card-footer">
                             Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
                         </div>
-                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span> 
+                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span>
                     <div class="progress">
                         <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    @if (!user.IsRegistered(Model.SessionId)) {
-                        <a class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
-                            Inschrijven
-                        </a>
-                    } else { 
+                    @if (Model.UserSessions.Where(u => u.UserId == user.UserId).Any()) {
                         <a class="btn btn-warning">
                             Uitschrijven
+                        </a>
+                    } else {
+                        <a class1="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                            Inschrijven
                         </a>
                     }
                     <p></p> <!--veranderen in CSS later-->

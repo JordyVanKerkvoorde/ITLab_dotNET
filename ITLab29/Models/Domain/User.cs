@@ -56,6 +56,7 @@ namespace ITLab29.Models.Domain
         }
 
         public IEnumerable<Session> GetSessions() {
+
             return UserSessions.Where(u => u.UserId == UserId).Select(u => u.Session).ToList();
         }
 
