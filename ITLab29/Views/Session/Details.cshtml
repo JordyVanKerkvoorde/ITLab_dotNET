@@ -62,12 +62,10 @@
                         </div>
                     </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span> 
                     <div class="progress">
-                        <div class="progress-bar w-75"></div>
+                        <div class="progress-bar w-75" aria-valuenow=@Model.UserSessions.Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
                     @if (!user.UserSessions.Select(s => s.SessionId == @Model.SessionId).Any()) {
-                        <!--De routing is nog nie juist, het inschrijven zelf gebeurt nog niet
-                            voornamelijk omdat ik nie weet hoe ik meerdere parameters meegeef zonder er een form van te maken-->
-                        <button type="button" class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-userId="@user.UserId" asp-route-sessionId="@Model.SessionId" >
+                        <button type="button" class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId" >
                             Schrijf me in
                         </button>
                     } else { 
