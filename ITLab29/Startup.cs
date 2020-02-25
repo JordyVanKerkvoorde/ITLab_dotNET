@@ -32,6 +32,7 @@ namespace ITLab29 {
             services.AddScoped<DataInitializer>();
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMediaRepository, MediaRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<DataInitializer>();

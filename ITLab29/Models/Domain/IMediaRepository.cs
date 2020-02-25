@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ITLab29.Models.Domain
 {
-    interface IMediaRepository
+    public interface IMediaRepository
     {
 
         IEnumerable<Media> GetAll();

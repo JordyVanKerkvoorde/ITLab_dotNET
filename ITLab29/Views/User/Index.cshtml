@@ -2,6 +2,7 @@
 @using ITLab29.Models.Domain;
 @inject SignInManager<User> SignInManager;
 @inject UserManager<User> UserManager;
+@model ITLab29.Models.Domain.User;
 @{
     ViewData["Title"] = "Index";
 }
@@ -21,12 +22,13 @@
     <h2>@s</h2>
     <img src="~/photo/stock.png"/>*@
     <ul>
-        <li>@user.Email</li>
-        <li>@user.FirstName</li>
-        <li>@user.LastName</li>
-        <li>@user.UserStatus</li>
-        <li>@user.UserType</li>
-        <li>@user.Avatar</li>
+        <li>@Model.Email</li>
+        <li>@Model.FirstName</li>
+        <li>@Model.LastName</li>
+        <li>@Model.UserStatus</li>
+        <li>@Model.UserType</li>
+        <img src="@ViewData["MediaPath"]"/>
+        @*<li>"@Model.Avatar"</li>*@
     </ul>
 } else
 {
