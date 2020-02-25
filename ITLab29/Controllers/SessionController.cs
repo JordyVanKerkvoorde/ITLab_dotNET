@@ -49,11 +49,11 @@ namespace ITLab29.Controllers
             return View(session);
         }
 
-        [HttpPost]
-        public IActionResult Add(int sessionId) {
-            //User user = _userRepository.GetById(userId);
+        
+        public IActionResult Add(int id) {
+            Console.WriteLine("success Add method");
             User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
-            Session session = _sessionRepository.GetById(sessionId);
+            Session session = _sessionRepository.GetById(id);
             /*if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
                 //insert code
             } else { 
@@ -65,9 +65,12 @@ namespace ITLab29.Controllers
                 SessionId = session.SessionId,
                 UserId = user.Id
             };
+
+            /*user.AddUserSession(us);
+            session.AddUserSession(us);*/
             //ViewData["userId"] = userId;
-            ViewData["sessionId"] = sessionId;
-            return RedirectToAction($"session/{sessionId}");
+            ViewData["sessionId"] = id;
+            return RedirectToAction("Index");
         }
     }
 }

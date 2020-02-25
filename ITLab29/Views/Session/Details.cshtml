@@ -62,16 +62,16 @@
                         </div>
                     </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span> 
                     <div class="progress">
-                        <div class="progress-bar w-75" aria-valuenow=@Model.UserSessions.Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
+                        <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    @if (!user.UserSessions.Select(s => s.SessionId == @Model.SessionId).Any()) {
-                        <button type="button" class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId" >
-                            Schrijf me in
-                        </button>
+                    @if (!user.IsRegistered(Model.SessionId)) {
+                        <a class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                            Inschrijven
+                        </a>
                     } else { 
-                        <button type="button" class="btn btn-danger">
-                            Schrijf me uit
-                        </button>
+                        <a class="btn btn-warning">
+                            Uitschrijven
+                        </a>
                     }
                     <p></p> <!--veranderen in CSS later-->
                     <p></p> <!--veranderen in CSS later-->

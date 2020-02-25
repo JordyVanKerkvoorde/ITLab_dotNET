@@ -54,5 +54,13 @@ namespace ITLab29.Models.Domain
         public void AddUserSession(UserSession session) {
             UserSessions.Add(session);
         }
+
+        public IEnumerable<Session> GetSessions() {
+            return UserSessions.Where(u => u.UserId == UserId).Select(u => u.Session).ToList();
+        }
+
+        public bool IsRegistered(int sessionId) {
+            return GetSessions().Where(s => s.SessionId == sessionId).Any();
+        }
     }
 }
