@@ -1,8 +1,15 @@
 ﻿@model Session;
+@using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
+}
+
+@{
+    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
 }
 
 <div class="container-fluid">
@@ -47,21 +54,25 @@
                         </h5>
                         <div class="card-body">
                             <p class="card-text">
-                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat() 
+                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat()
                             </p>
                         </div>
                         <div class="card-footer">
                             Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
-                            <!--in verantwoordelijke methode getfullname toevoegen-->
                         </div>
-                    </div> <span class="badge badge-default">x / @Model.Capacity</span> <!--x moet door dynamisch user.count vervangen worden-->
+                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span> 
                     <div class="progress">
-                        <div class="progress-bar w-75"></div>
+                        <div class="progress-bar w-75" aria-valuenow=@Model.UserSessions.Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    <button type="button" class="btn btn-success">
-                        <!--logic moet toegevoegd worden aan btn-->
-                        Schrijf me in
-                    </button>
+                    @if (!user.UserSessions.Select(s => s.SessionId == @Model.SessionId).Any()) {
+                        <button type="button" class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId" >
+                            Schrijf me in
+                        </button>
+                    } else { 
+                        <button type="button" class="btn btn-danger">
+                            Schrijf me uit
+                        </button>
+                    }
                     <p></p> <!--veranderen in CSS later-->
                     <p></p> <!--veranderen in CSS later-->
                     <form role="form">
@@ -70,7 +81,7 @@
                             <label for="feedback">Feedback</label>
                             <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
                         </div>
-                        
+
                         <button type="button" class="btn btn-primary">
                             Verstuur
                         </button>

@@ -10,9 +10,9 @@ namespace ITLab29.Data
     public class DataInitializer
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public DataInitializer(ApplicationDbContext dbcontext, UserManager<IdentityUser> userManager)
+        public DataInitializer(ApplicationDbContext dbcontext, UserManager<User> userManager)
         {
             _dbContext = dbcontext;
             _userManager = userManager;
@@ -31,7 +31,11 @@ namespace ITLab29.Data
                 { UserName = "janw@gmail.com", Email = "janw@gmail.com", EmailConfirmed = true };
                 User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.BLOCKED)
                 { UserName = "sandercm@gmail.com", Email = "sandercm@gmail.com", EmailConfirmed = true };
-
+                Media avatar = new Media(MediaType.IMAGE, "/photo/stock.png");
+                _dbContext.Media.Add(avatar);
+                dummyUser.Avatar = avatar;
+                dummyUser2.Avatar = avatar;
+                dummyUser3.Avatar = avatar;
 
                 await _userManager.CreateAsync(dummyUser, "P@ssword1");
                 await _userManager.CreateAsync(dummyUser2, "P@ssword1");

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ITLab29.Models.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITLab29.Controllers
@@ -11,10 +12,12 @@ namespace ITLab29.Controllers
     {
         private readonly ISessionRepository _sessionRepository;
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<User> _userManager;
 
-        public SessionController(ISessionRepository sessionRepository, IUserRepository userRepository) {
+        public SessionController(ISessionRepository sessionRepository, IUserRepository userRepository, UserManager<User> userManager) {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         public IActionResult Index(DateTime? date)
@@ -47,17 +50,24 @@ namespace ITLab29.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(string userId, int sessionId) {
-            User user = _userRepository.GetById(userId);
+        public IActionResult Add(int sessionId) {
+            //User user = _userRepository.GetById(userId);
+            User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
             Session session = _sessionRepository.GetById(sessionId);
-
-            UserSession us = new UserSession();
-            us.Session = session;
-            us.User = user;
-            us.SessionId = session.SessionId;
-            us.UserId = user.Id;
-
-            return RedirectToAction("Index");
+            /*if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
+                //insert code
+            } else { 
+                //TODO implementation pop up/error
+            }*/
+            UserSession us = new UserSession {
+                Session = session,
+                User = user,
+                SessionId = session.SessionId,
+                UserId = user.Id
+            };
+            //ViewData["userId"] = userId;
+            ViewData["sessionId"] = sessionId;
+            return RedirectToAction($"session/{sessionId}");
         }
     }
 }

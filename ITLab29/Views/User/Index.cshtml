@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ITLab29.Models.Domain;
+@inject SignInManager<User> SignInManager;
+@inject UserManager<User> UserManager;
+@model ITLab29.Models.Domain.User;
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{ 
+    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+    Media avatar = user.Avatar;
+    string s = "hello world";
+    if (avatar != null)
+    {
+        s = avatar.Path;
+    }
+}
+
+@if (SignInManager.IsSignedIn(User)) {
+    @*<h1>@user.FirstName @user.LastName</h1>
+    <h2>@s</h2>
+    <img src="~/photo/stock.png"/>*@
+    <ul>
+        <li>@Model.Email</li>
+        <li>@Model.FirstName</li>
+        <li>@Model.LastName</li>
+        <li>@Model.UserStatus</li>
+        <li>@Model.UserType</li>
+        <img src="@ViewData["MediaPath"]"/>
+        @*<li>"@Model.Avatar"</li>*@
+    </ul>
+} else
+{
+    <h1>Please log in</h1>
+}
+
