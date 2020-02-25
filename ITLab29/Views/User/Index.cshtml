@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ITLab29.Models.Domain;
+@inject SignInManager<User> SignInManager;
+@inject UserManager<User> UserManager;
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{ 
+    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+}
+
+@if (SignInManager.IsSignedIn(User)) {
+    <h1>@user.FirstName @user.LastName</h1>
+} else
+{
+    <h1>Please log in</h1>
+}
+
