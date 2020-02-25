@@ -8,10 +8,26 @@
 
 @{ 
     User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+    Media avatar = user.Avatar;
+    string s = "hello world";
+    if (avatar != null)
+    {
+        s = avatar.Path;
+    }
 }
 
 @if (SignInManager.IsSignedIn(User)) {
-    <h1>@user.FirstName @user.LastName</h1>
+    @*<h1>@user.FirstName @user.LastName</h1>
+    <h2>@s</h2>
+    <img src="~/photo/stock.png"/>*@
+    <ul>
+        <li>@user.Email</li>
+        <li>@user.FirstName</li>
+        <li>@user.LastName</li>
+        <li>@user.UserStatus</li>
+        <li>@user.UserType</li>
+        <li>@user.Avatar</li>
+    </ul>
 } else
 {
     <h1>Please log in</h1>
