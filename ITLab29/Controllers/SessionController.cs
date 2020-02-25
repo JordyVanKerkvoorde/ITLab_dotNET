@@ -12,12 +12,15 @@ namespace ITLab29.Controllers
     {
         private readonly ISessionRepository _sessionRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUserSessionRepository _userSessionRepository;
+
         private readonly UserManager<User> _userManager;
 
-        public SessionController(ISessionRepository sessionRepository, IUserRepository userRepository, UserManager<User> userManager) {
+        public SessionController(ISessionRepository sessionRepository, IUserRepository userRepository, UserManager<User> userManager, IUserSessionRepository userSessionRepository) {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
             _userManager = userManager;
+            _userSessionRepository = userSessionRepository;
         }
 
         public IActionResult Index(DateTime? date)
@@ -65,7 +68,8 @@ namespace ITLab29.Controllers
                 SessionId = session.SessionId,
                 UserId = user.Id
             };
-
+            _userSessionRepository.AddSessiontoUser(session, user);
+            _userSessionRepository.SaveChanges();
             /*user.AddUserSession(us);
             session.AddUserSession(us);*/
             //ViewData["userId"] = userId;

@@ -25,6 +25,7 @@ namespace ITLab29.Data {
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new SessionConfiguration());
+            builder.ApplyConfiguration(new UserSessionConfiguration());
             //builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new LocationConfiguration());
             builder.ApplyConfiguration(new MediaMapper());
