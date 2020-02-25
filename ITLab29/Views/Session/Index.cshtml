@@ -10,7 +10,7 @@
 
 <div class="card bg-light" style="max-width: 18rem; position:absolute;left:inherit;z-index:1">
     <div class="card-header">Next event</div>
-    <img class="card-img-top" src=@nextEvent.Media onerror="this.src = '/photo/stock.png';">
+    <img class="card-img-top" src="~/photo/@nextEvent.Media" onerror="this.src = '/photo/stock.png';">
     <div class="card-body">
         <h5 class="card-title">@nextEvent.Title</h5>
         <p class="card-text">@nextEvent.Description</p>
