@@ -57,22 +57,11 @@ namespace ITLab29.Controllers
             Console.WriteLine("success Add method");
             User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
             Session session = _sessionRepository.GetById(id);
-            /*if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
-                //insert code
-            } else { 
-                //TODO implementation pop up/error
-            }*/
-            /*UserSession us = new UserSession {
-                Session = session,
-                User = user,
-                SessionId = session.SessionId,
-                UserId = user.Id
-            };*/
-            _userSessionRepository.AddSessiontoUser(session, user);
-            _userSessionRepository.SaveChanges();
-            /*user.AddUserSession(us);
-            session.AddUserSession(us);*/
-            //ViewData["userId"] = userId;
+            if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
+                _userSessionRepository.AddSessiontoUser(session, user);
+                _userSessionRepository.SaveChanges();
+            } 
+
             ViewData["sessionId"] = id;
             return RedirectToAction("Index");
         }
