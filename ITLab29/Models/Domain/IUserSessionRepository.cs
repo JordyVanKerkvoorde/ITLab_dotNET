@@ -11,6 +11,8 @@ namespace ITLab29.Models.Domain
 
         void AddSessiontoUser(Session session, User user);
 
+        void RemoveUserSession(Session session, User user);
+
         IEnumerable<User> GetUsersBySessionId(int sessionId);
 
         IEnumerable<Session> GetSessionsByUser(string userId);

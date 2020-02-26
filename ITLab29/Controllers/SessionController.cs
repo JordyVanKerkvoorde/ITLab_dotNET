@@ -54,7 +54,6 @@ namespace ITLab29.Controllers
 
         
         public IActionResult Add(int id) {
-            Console.WriteLine("success Add method");
             User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
             Session session = _sessionRepository.GetById(id);
             if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
@@ -63,6 +62,15 @@ namespace ITLab29.Controllers
             } 
 
             ViewData["sessionId"] = id;
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id) {
+            User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
+            Session session = _sessionRepository.GetById(id);
+            //misschien moet hier nog een check komen, maar er is al een controle client-side dus idk of we ook server-side moeten checken dan?
+            _userSessionRepository.RemoveUserSession(session, user);
+            _userSessionRepository.SaveChanges();
             return RedirectToAction("Index");
         }
     }

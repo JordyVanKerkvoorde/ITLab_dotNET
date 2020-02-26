@@ -10,9 +10,9 @@
 
 @{
     User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+    bool isAuth = User.Identity.IsAuthenticated;
 }
-    <h1>Sessions: @user.GetSessions().Count()</h1>
-    <h1>Users: @Model.GetUsers().Count()</h1>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -65,15 +65,22 @@
                     <div class="progress">
                         <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    @if (user.IsRegistered(Model.SessionId)) {
-                        <a class="btn btn-warning">
-                            Uitschrijven
-                        </a>
-                    } else {
-                        <a class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
-                            Inschrijven
-                        </a>
+                    @if (isAuth) {<!--werkt niet :(-->
+                        if (Model.GetUsers().Count() < Model.Capacity) {
+                            if (user.IsRegistered(Model.SessionId)) {
+                                <a class="btn btn-danger" asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
+                                    Uitschrijven
+                                </a>
+                            } else {
+                                <a class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                                    Inschrijven
+                                </a>
+                            }
+                        } else { 
+                            <button class="btn-warning">>Volzet!</button>
+                        }
                     }
+
                     <p></p> <!--veranderen in CSS later-->
                     <p></p> <!--veranderen in CSS later-->
                     <form role="form">

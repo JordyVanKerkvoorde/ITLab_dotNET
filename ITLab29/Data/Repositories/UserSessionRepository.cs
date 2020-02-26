@@ -50,6 +50,10 @@ namespace ITLab29.Data.Repositories
             return _usersessions.Where(us => us.SessionId == sessionId).Select(us => us.User).ToList();
         }
 
+        public void RemoveUserSession(Session session, User user) {
+            _usersessions.Remove(_usersessions.Where(us => us.Session == session && us.User == user).FirstOrDefault());
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();
