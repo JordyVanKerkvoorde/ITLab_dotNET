@@ -57,7 +57,7 @@ namespace ITLab29.Models.Domain
 
         public IEnumerable<Session> GetSessions() {
 
-            return UserSessions.Where(u => u.UserId == UserId).Select(u => u.Session).ToList();
+            return UserSessions.Where(u => u.UserId == Id).Select(u => u.Session).ToList();
         }
 
         public bool IsRegistered(int sessionId) {
