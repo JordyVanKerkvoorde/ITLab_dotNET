@@ -65,7 +65,7 @@
                     <div class="progress">
                         <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    @if (Model.UserSessions.Where(u => u.UserId == user.UserId).Any()) {
+                    @if (user.IsRegistered(Model.SessionId)) {
                         <a class="btn btn-warning">
                             Uitschrijven
                         </a>
