@@ -33,7 +33,6 @@ Op deze pagina vul je een geregistreerde gebruikersnaam en bijhorden wachtwoord 
 <img src="Documentation/Images/Login2.png" width="750"/> 
   
 Indien juiste gebruikersnaam en wachtwoord ben je nu succesvol ingelogd en zie je vanboven een welkomstbericht met je gebruikersnaam.  
-<img src="Documentation/Images/Login3.png" width="750"/>
 
 
 #### Lijst sessies weergeven
