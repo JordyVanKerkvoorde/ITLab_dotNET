@@ -1,10 +1,18 @@
 ﻿@model Session;
+@using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
 }
 
+@{
+    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+}
+    <h1>Sessions: @user.GetSessions().Count()</h1>
+    <h1>Users: @Model.GetUsers().Count()</h1>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -15,7 +23,7 @@
                             @Model.Title
                         </h1>
                     </div>
-                    <img src="~/photo/stock.png" />
+                    <img src="~/photo/ITLAB_MED.jpg" />
                     <!--foto scalen in CSS later-->
                     <dl>
                         <dt>
@@ -47,21 +55,25 @@
                         </h5>
                         <div class="card-body">
                             <p class="card-text">
-                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat() 
+                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat()
                             </p>
                         </div>
                         <div class="card-footer">
                             Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
-                            <!--in verantwoordelijke methode getfullname toevoegen-->
                         </div>
-                    </div> <span class="badge badge-default">x / @Model.Capacity</span> <!--x moet door dynamisch user.count vervangen worden-->
+                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span>
                     <div class="progress">
-                        <div class="progress-bar w-75"></div>
+                        <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    <button type="button" class="btn btn-success">
-                        <!--logic moet toegevoegd worden aan btn-->
-                        Schrijf me in
-                    </button>
+                    @if (user.IsRegistered(Model.SessionId)) {
+                        <a class="btn btn-warning">
+                            Uitschrijven
+                        </a>
+                    } else {
+                        <a class1="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                            Inschrijven
+                        </a>
+                    }
                     <p></p> <!--veranderen in CSS later-->
                     <p></p> <!--veranderen in CSS later-->
                     <form role="form">
@@ -70,7 +82,7 @@
                             <label for="feedback">Feedback</label>
                             <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
                         </div>
-                        
+
                         <button type="button" class="btn btn-primary">
                             Verstuur
                         </button>

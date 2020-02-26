@@ -27,11 +27,13 @@ namespace ITLab29 {
         public void ConfigureServices(IServiceCollection services) {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(@"Server=.;Database=ITLab;Integrated Security=True;"));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<DataInitializer>();
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMediaRepository, MediaRepository>();
+            services.AddScoped<IUserSessionRepository, UserSessionRepository>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<DataInitializer>();
@@ -59,7 +61,7 @@ namespace ITLab29 {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Session}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
 
