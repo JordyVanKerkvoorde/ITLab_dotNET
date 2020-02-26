@@ -11,7 +11,7 @@ Projecten 2: Programmeren door:
 https://docs.google.com/document/d/1nHahe-rHXzC9qHJKZP31QGMkAKhOFeiZEcpY7UWPW8M/edit?usp=sharing
 
 
-##Sprint 1
+## Sprint 1
 
 ### Functionaliteiten
 
