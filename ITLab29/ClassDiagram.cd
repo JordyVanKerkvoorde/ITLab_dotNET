@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ITLab29.Models.Domain.User">
+    <Position X="5.5" Y="2.5" Width="1.5" />
+    <AssociationLine Name="UserType" Type="ITLab29.Models.Domain.UserType">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.958" Y="0.107" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="UserSessions" Type="ITLab29.Models.Domain.UserSession">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.145" Y="0.203" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAEAQgAAgAAAAADAACAAEACAAAAAg=</HashCode>
+      <FileName>Models\Domain\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="UserType" />
+      <Property Name="UserStatus" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="UserSessions" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ITLab29.Models.Domain.Session">
+    <Position X="9" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>4AIAAAAAASAgAECAAAKiAAAKAAAABAAAAAAAAAAAAA4=</HashCode>
+      <FileName>Models\Domain\Session.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Location" />
+      <Property Name="Responsible" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Guests" />
+      <Property Name="UserSessions" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="ITLab29.Models.Domain.Location">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAIAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Location.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Campus" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ITLab29.Models.Domain.Media">
+    <Position X="2.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAEAAAQAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Media.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ITLab29.Models.Domain.UserSession">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <AssociationLine Name="Session" Type="ITLab29.Models.Domain.Session">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="-0.288" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAQAAAAAAAAgIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\UserSession.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Session" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ITLab29.Models.Domain.Guest">
+    <Position X="12" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgCAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\Guest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="ITLab29.Models.Domain.CampusEnum">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAgCAAAAAAAAAA=</HashCode>
+      <FileName>Models\Domain\CampusEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ITLab29.Models.Domain.MediaType">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAQCAAAAA=</HashCode>
+      <FileName>Models\Domain\MediaEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ITLab29.Models.Domain.UserStatus">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\Domain\UserEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ITLab29.Models.Domain.UserType">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAAIAAAAA=</HashCode>
+      <FileName>Models\Domain\UserEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
