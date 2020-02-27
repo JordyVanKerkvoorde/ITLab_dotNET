@@ -13,7 +13,7 @@
     <img class="card-img-top" src="~/photo/@nextEvent.Media" onerror="this.src = '/photo/stock.png';">
     <div class="card-body">
         <h5 class="card-title">@nextEvent.Title</h5>
-        <p class="card-text">@nextEvent.Description</p>
+        <p class="card-text">@nextEvent.GetShortDescription()</p>
     </div>
     <div class="card-footer">
         <a asp-controller="Session" asp-action="Details" asp-route-id="@nextEvent.SessionId" class="btn btn-primary">Meer informatie</a>
