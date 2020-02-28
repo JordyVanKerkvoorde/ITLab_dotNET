@@ -52,7 +52,7 @@ namespace ITLab29.Controllers
             return View(session);
         }
 
-        
+        [HttpPost]
         public IActionResult Add(int id) {
             User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
             Session session = _sessionRepository.GetById(id);
@@ -65,6 +65,7 @@ namespace ITLab29.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public IActionResult Delete(int id) {
             User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
             Session session = _sessionRepository.GetById(id);

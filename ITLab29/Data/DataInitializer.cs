@@ -56,7 +56,7 @@ namespace ITLab29.Data
 
                 Session session1 = new Session("What I Wish I Had Known Before Scaling Uber to 1000 Services",
                     "Matt Ranney, Senior Staff Engineer bij Uber, vertelt over zijn ervaringen met microservices bij Uber: \"To Keep up with Uber's growth, we've embraced microservices in a big way.This has led to an explosion of new services, crossing over 1, 000 production services in early March 2016.Along the way we've learned a lot, and if we had to do it all over again, we'd do some things differently.If you are earlier along on your personal microservices journey than we are, then this talk may save you from having to learn some things learn the hard way. \"",
-                        dummyUser, DateTime.Now.AddDays(2), DateTime.Now.AddDays(2).AddHours(2), 20, schoonmeersen);
+                        dummyUser, DateTime.Now.AddDays(2), DateTime.Now.AddDays(2).AddHours(2), 1, schoonmeersen);
                 Session session2 =
                     new Session("Life is Terrible: Let’s Talk About the Web",
                     "Zij die Webapps 2 gehad hebben kennen JavaScript al, anderen beginnen nu net aan hun \"avontuur\". James Mickens kwam vorig semester al aan bod met een tirade over security en machine learning, nu is hij terug om iedereen te laten weten wat hij vindt van de nummer 1 programmeertaal voor het Web.",
