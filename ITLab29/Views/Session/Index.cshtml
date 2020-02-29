@@ -40,7 +40,7 @@
                     $.each(data, function (i, v) {
                         events.push({
                             sessionId: v.sessionId,
-                            title: v.title,
+                            title: '\n' + v.title,
                             description: v.description,
                             start: v.start,
                             end: v.end
@@ -57,7 +57,7 @@
             function GenerateCalender(events) {
                 $('#calender').fullCalendar('destroy');
                 $('#calender').fullCalendar({
-                    contentHeight: 400,
+                    contentHeight: 600,
                     defaultDate: new Date(),
                     timeFormat: 'h(:mm)a',
                     header: {
@@ -70,6 +70,15 @@
                     eventClick: function (calEvent, jsEvent, view) {
                         window.location.href = "/session/" + calEvent.sessionId;
                     },
+                    eventRender: (eventObj, $el) => {
+                        $el.popover({
+                            title: eventObj.title,
+                            content: eventObj.description,
+                            trigger: 'hover',
+                            placement: 'top',
+                            container: 'body'
+                        });
+                    }
                 })
             }
         })
