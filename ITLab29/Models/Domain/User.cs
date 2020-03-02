@@ -50,7 +50,7 @@ namespace ITLab29.Models.Domain
         //    return newSession;
         //}
 
-        public Boolean IsActive()
+        public bool IsActive()
         {
             return UserStatus == UserStatus.ACTIVE;
 
@@ -58,11 +58,6 @@ namespace ITLab29.Models.Domain
 
         public void AddUserSession(UserSession session) {
             UserSessions.Add(session);
-        }
-
-        public IEnumerable<Session> GetSessions() {
-
-            return UserSessions.Where(u => u.UserId == Id).Select(u => u.Session).ToList();
         }
 
         public bool IsRegistered(int sessionId) {
