@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITLab29.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ namespace ITLab29.Models.Domain
 {
     public class Session
     {
+
+        private string _shortDescription => DescriptionModifier.TruncateAtWord(Description, 200);
 
         public int SessionId { get; set; }
         public string Title { get; set; }
@@ -111,6 +114,11 @@ namespace ITLab29.Models.Domain
 
         public IEnumerable<User> GetUsers() {
             return UserSessions.Where(u => u.SessionId == SessionId).Select(u => u.User).ToList();
+        }
+
+        public string GetShortDescription()
+        {
+            return _shortDescription;
         }
     }
 }

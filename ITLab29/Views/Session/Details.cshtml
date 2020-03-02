@@ -1,15 +1,13 @@
 ﻿@model Session;
 @using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
 }
 
 @{
-    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+    User user = ViewData["user"] as User;
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
@@ -65,19 +63,27 @@
                     <div class="progress">
                         <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    @if (isAuth) {<!--werkt niet :(-->
-                        if (Model.GetUsers().Count() < Model.Capacity) {
-                            if (user.IsRegistered(Model.SessionId)) {
-                                <a class="btn btn-danger" asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
+                    @if (isAuth) {
+                        if (user.IsRegistered(Model.SessionId)) {
+                            <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
+                                <button type="submit" class="btn btn-danger">
                                     Uitschrijven
-                                </a>
+                                </button>
+                            </form>
+                        } else {
+                            if (Model.GetUsers().Count() < Model.Capacity) {
+                                <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                                    <button type="submit" class="btn btn-success">
+                                        Inschrijven
+                                    </button>
+                                </form>
                             } else {
-                                <a class="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
-                                    Inschrijven
-                                </a>
+                                <form>
+                                    <button type="submit" class="btn btn-warning">
+                                        Volzet!
+                                    </button>
+                                </form>
                             }
-                        } else { 
-                            <button class="btn-warning">>Volzet!</button>
                         }
                     }
 
