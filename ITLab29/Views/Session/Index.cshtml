@@ -28,8 +28,8 @@
 
 @section Scripts{
     <script src="~/js/moment.js"></script>
-    <script src="~/js/fullcalendar.min.js"></script>
-    <script src="~/js/nl.js"></script>
+    <script src="~/js/fullcalendar.js"></script>
+    <script src="~/js/nl-be.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -65,7 +65,7 @@
                     header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'month,agenda,listWeek'
+                        right: 'month,agendaWeek,agendaDay,listMonth'
                     },
                     eventLimit: true,
                     events: events,
