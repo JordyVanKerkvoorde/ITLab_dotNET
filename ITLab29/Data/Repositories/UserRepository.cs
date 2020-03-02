@@ -31,7 +31,7 @@ namespace ITLab29.Data.Repositories
         public User GetById(string userId)
         {
             return _users
-                .Include(u => u.UserSessions) //comment if kapot
+                .Include(u => u.UserSessions) 
                 //.Include(u => u.UserStatus)
                 //.Include(u => u.UserType)
                 .Include(u => u.Avatar)

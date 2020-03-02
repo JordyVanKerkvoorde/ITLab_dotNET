@@ -108,8 +108,17 @@ namespace ITLab29.Models.Domain
             return Start.ToString("HH:mm");
         }
 
-        public void AddUserSession(UserSession session) {
-            UserSessions.Add(session);
+        public void AddUserSession( User user) {
+            UserSessions.Add(new UserSession { 
+                Session = this,
+                User = user,
+                UserId = user.UserId,
+                SessionId = SessionId
+            });
+        }
+
+        public void RemoveUserSession(User user) {
+            UserSessions.Remove(UserSessions.Where(u => u.Session == this && u.User == user).FirstOrDefault());
         }
 
         public IEnumerable<User> GetUsers() {

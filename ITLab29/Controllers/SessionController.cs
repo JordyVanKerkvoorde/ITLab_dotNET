@@ -14,15 +14,10 @@ namespace ITLab29.Controllers
     {
         private readonly ISessionRepository _sessionRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IUserSessionRepository _userSessionRepository;
 
-       // private readonly UserManager<User> _userManager;
-
-        public SessionController(ISessionRepository sessionRepository, IUserRepository userRepository, UserManager<User> userManager, IUserSessionRepository userSessionRepository) {
+        public SessionController(ISessionRepository sessionRepository, IUserRepository userRepository) {
             _sessionRepository = sessionRepository;
             _userRepository = userRepository;
-            //_userManager = userManager;
-            _userSessionRepository = userSessionRepository;
         }
 
         public IActionResult Index(DateTime? date)
@@ -59,11 +54,11 @@ namespace ITLab29.Controllers
         [HttpPost]
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult Add(int id, User user) {
-            //User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
             Session session = _sessionRepository.GetById(id);
             if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
-                _userSessionRepository.AddSessiontoUser(session, user);
-                _userSessionRepository.SaveChanges();
+                session.AddUserSession(user);
+                _userRepository.SaveChanges();
+                _sessionRepository.SaveChanges();
             } 
 
             ViewData["sessionId"] = id;
@@ -73,10 +68,12 @@ namespace ITLab29.Controllers
         [HttpPost]
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult Delete(int id, User user) {
-            //User user = _userManager.FindByIdAsync(_userManager.GetUserId(User)).Result;
             Session session = _sessionRepository.GetById(id);
-            _userSessionRepository.RemoveUserSession(session, user);
-            _userSessionRepository.SaveChanges();
+            user.RemoveUserSession(session);
+            session.RemoveUserSession(user);
+            _userRepository.SaveChanges();
+            _sessionRepository.SaveChanges();
+
             return RedirectToAction("Index");
         }
     }
