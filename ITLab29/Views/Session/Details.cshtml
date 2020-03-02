@@ -1,15 +1,13 @@
 ﻿@model Session;
 @using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
 }
 
 @{
-    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+    User user = ViewData["user"] as User;
     bool isAuth = User.Identity.IsAuthenticated;
 }
 

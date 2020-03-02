@@ -46,11 +46,13 @@ namespace ITLab29.Controllers
             return Ok(sessions.OrderBy(s => s.Start).ToList());
         }
         [Route("session/{id}")]
-        public IActionResult Details(int id) {
+        [ServiceFilter(typeof(LoggedOnUserFilter))]
+        public IActionResult Details(int id, User user) {
             Session session = _sessionRepository.GetById(id);
             if (session == null) {
                 return NotFound();
             }
+            ViewData["user"] = user;
             return View(session);
         }
 
