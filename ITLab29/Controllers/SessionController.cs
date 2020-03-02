@@ -6,6 +6,7 @@ using ITLab29.Models.Domain;
 using ITLab29.Filters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ITLab29.Models.ViewModels;
 
 namespace ITLab29.Controllers
 {
@@ -47,8 +48,10 @@ namespace ITLab29.Controllers
             if (session == null) {
                 return NotFound();
             }
+
             ViewData["user"] = user;
-            return View(session);
+            ViewData["session"] = session;
+            return View(new FeedBackViewModel());
         }
 
         [HttpPost]
@@ -72,6 +75,16 @@ namespace ITLab29.Controllers
             _userRepository.SaveChanges();
             _sessionRepository.SaveChanges();
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult AddFeedback(int id, FeedBackViewModel fbvm) {
+            //begin in html form aan te passen, nadien hier feedback toevoegen en savechanges
+            //includes feedback niet vergeten bij sessionrepo
+            Feedback fb = new Feedback(fbvm.Score, fbvm.Description);
+            Session session = _sessionRepository.GetById(id);
+            _sessionRepository.SaveChanges();
             return RedirectToAction("Index");
         }
     }

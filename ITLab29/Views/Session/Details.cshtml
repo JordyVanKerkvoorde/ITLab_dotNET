@@ -1,6 +1,7 @@
-﻿@model Session;
+﻿@model ITLab29.Models.ViewModels.FeedBackViewModel;
 @using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
+@using ITLab29.Models.ViewModels;
 
 @{
     ViewData["Title"] = "Details";
@@ -8,9 +9,10 @@
 
 @{
     User user = ViewData["user"] as User;
+    Session session = ViewData["session"] as Session;
     bool isAuth = User.Identity.IsAuthenticated;
 }
-    <h1>@user.UserSessions.Count()</h1>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -18,7 +20,7 @@
                 <div class="col-md-8">
                     <div class="page-header">
                         <h1>
-                            @Model.Title
+                            @session.Title
                         </h1>
                     </div>
                     <img src="~/photo/ITLAB_MED.jpg" />
@@ -28,7 +30,7 @@
                             Omschrijving
                         </dt>
                         <dd>
-                            @Model.Description
+                            @session.Description
                         </dd>
                     </dl>
                     <p></p> <!--veranderen in CSS later-->
@@ -49,30 +51,30 @@
                 <div class="col-md-4">
                     <div class="card">
                         <h5 class="card-header">
-                            Locatie: @Model.Location.Campus  @Model.Location.LocationId
+                            Locatie: @session.Location.Campus  @session.Location.LocationId
                         </h5>
                         <div class="card-body">
                             <p class="card-text">
-                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat()
+                                Tijdstip: @session.GetDateFormat() @session.GetTimeFormat()
                             </p>
                         </div>
                         <div class="card-footer">
-                            Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
+                            Verantwoordelijke: @session.Responsible.FirstName @session.Responsible.LastName
                         </div>
-                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span>
+                    </div> <span class="badge badge-default">@session.UserSessions.Count() / @session.Capacity</span>
                     <div class="progress">
-                        <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
+                        <div class="progress-bar" aria-valuenow=@session.GetUsers().Count() aria-valuemin="0" aria-valuemax=@session.Capacity></div>
                     </div>
                     @if (isAuth) {
-                        if (user.IsRegistered(Model.SessionId)) {
-                            <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
+                        if (user.IsRegistered(session.SessionId)) {
+                            <form asp-controller="Session" asp-action="Delete" asp-route-id="@session.SessionId">
                                 <button type="submit" class="btn btn-danger">
                                     Uitschrijven
                                 </button>
                             </form>
                         } else {
-                            if (Model.GetUsers().Count() < Model.Capacity) {
-                                <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                            if (session.GetUsers().Count() < session.Capacity) {
+                                <form asp-controller="Session" asp-action="Add" asp-route-id="@session.SessionId">
                                     <button type="submit" class="btn btn-success">
                                         Inschrijven
                                     </button>
@@ -89,19 +91,57 @@
 
                     <p></p> <!--veranderen in CSS later-->
                     <p></p> <!--veranderen in CSS later-->
-                    <form role="form">
-                        <div class="form-group">
-                            <!--standaard form moet aangepast worden eens we de feedback doen-->
-                            <label for="feedback">Feedback</label>
-                            <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
-                        </div>
+                    @if (isAuth && user.IsRegistered(session.SessionId)) {
+                        //nog checken of het event in het verleden ligt 
+                        <form method="post" asp-controller="Session" asp-action="AddFeedback" asp-route-id="@session.SessionId">
+                            <div asp-validation-summary="All"></div>
+                            <div class="form-group">
+                                <input type="radio" id="one" name="rating" value="1" asp-for="Score" />
+                                <label for="one">1</label>
+                                <input type="radio" id="two" name="rating" value="2" asp-for="Score" />
+                                <label for="one">2</label>
+                                <input type="radio" id="three" name="rating" value="3" asp-for="Score" />
+                                <label for="one">3</label>
+                                <input type="radio" id="four" name="rating" value="4" asp-for="Score" />
+                                <label for="one">4</label>
+                                <input type="radio" id="five" name="rating" value="5" asp-for="Score" />
+                                <label for="one">5</label>
+                                <span asp-validation-for="Score" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <!--standaard form moet aangepast worden eens we de feedback doen-->
+                                <label asp-for="Description">Feedback</label>
+                                <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">
+                                    Verstuur
+                                </button>
+                            </div>
+                        </form>
+                    }
+                    @if (session.Feedback.Any()) {
+                        foreach(var feedback in session.Feedback) { 
+                            <div class="card">
+                                <h5 class="card-header">@feedback.Score</h5>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        @feedback.Description
+                                    </p>
+                                </div>
 
-                        <button type="button" class="btn btn-primary">
-                            Verstuur
-                        </button>
-                    </form>
+                            </div>
+                        }
+                    }
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+} 
