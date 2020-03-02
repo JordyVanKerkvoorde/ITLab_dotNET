@@ -19,8 +19,9 @@ namespace ITLab29.Filters {
         }
 
         public override void OnActionExecuting(ActionExecutingContext context) {
+            //_user = _userRepository.GetById(context.HttpContext.User.Identity.Name);
             context.ActionArguments["user"] = context.HttpContext.User.Identity.IsAuthenticated ?
-                _userRepository.GetById(context.HttpContext.User.Identity.Name) : null;
+                _userRepository.GetByName(context.HttpContext.User.Identity.Name) : null;
             base.OnActionExecuting(context);
         }
     }

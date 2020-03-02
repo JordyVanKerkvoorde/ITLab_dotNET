@@ -35,6 +35,11 @@ namespace ITLab29.Models.Domain
             UserSessions = new List<UserSession>();
         }
 
+        public User()
+        {
+            UserSessions = new List<UserSession>();
+        }
+
         //public Session AddSession(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
         //    if (UserSessions.Any(e => e.SessionId == id))
         //    {
