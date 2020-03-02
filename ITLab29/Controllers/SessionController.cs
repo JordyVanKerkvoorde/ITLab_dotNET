@@ -55,11 +55,9 @@ namespace ITLab29.Controllers
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult Add(int id, User user) {
             Session session = _sessionRepository.GetById(id);
-            if (session.UserSessions.Count() < session.Capacity || user.UserStatus != UserStatus.BLOCKED) {
-                session.AddUserSession(user);
-                _userRepository.SaveChanges();
-                _sessionRepository.SaveChanges();
-            } 
+            session.AddUserSession(user);
+            _userRepository.SaveChanges();
+            _sessionRepository.SaveChanges();
 
             ViewData["sessionId"] = id;
             return RedirectToAction("Index");
