@@ -66,7 +66,7 @@ namespace ITLab29.Models.Domain
         }
 
         public bool IsRegistered(int sessionId) {
-            return GetSessions().Where(s => s.SessionId == sessionId).Any();
+            return UserSessions.Where(us => us.UserId == Id && us.SessionId == sessionId).Any();
         }
     }
 }
