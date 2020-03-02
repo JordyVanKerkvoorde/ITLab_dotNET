@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ITLab29.Data.Repositories;
 using ITLab29.Models.Domain;
+using ITLab29.Filters;
 
 namespace ITLab29 {
     public class Startup {
@@ -34,10 +35,12 @@ namespace ITLab29 {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMediaRepository, MediaRepository>();
             services.AddScoped<IUserSessionRepository, UserSessionRepository>();
+            services.AddScoped<LoggedOnUserFilter>();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<DataInitializer>();
             services.AddRouting(options => options.LowercaseUrls = true);
+            //services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +60,7 @@ namespace ITLab29 {
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.UseSession();
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
