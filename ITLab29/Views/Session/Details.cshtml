@@ -11,97 +11,106 @@
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="page-header">
-                        <h1>
-                            @Model.Title
-                        </h1>
-                    </div>
-                    <img src="~/photo/ITLAB_MED.jpg" />
-                    <!--foto scalen in CSS later-->
-                    <dl>
-                        <dt>
-                            Omschrijving
-                        </dt>
-                        <dd>
-                            @Model.Description
-                        </dd>
-                    </dl>
-                    <p></p> <!--veranderen in CSS later-->
-                    <div class="card">
-                        <h5 class="card-header">
-                            Toegevoegde Media
-                        </h5>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Media1
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            Media2
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <h5 class="card-header">
-                            Locatie: @Model.Location.Campus  @Model.Location.LocationId
-                        </h5>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat()
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
-                        </div>
-                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span>
-                    <div class="progress">
-                        <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
-                    </div>
-                    @if (isAuth) {
-                        if (user.IsRegistered(Model.SessionId)) {
-                            <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
-                                <button type="submit" class="btn btn-danger">
-                                    Uitschrijven
-                                </button>
-                            </form>
-                        } else {
-                            if (Model.GetUsers().Count() < Model.Capacity) {
-                                <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
-                                    <button type="submit" class="btn btn-success">
-                                        Inschrijven
-                                    </button>
-                                </form>
-                            } else {
-                                <form>
-                                    <button type="submit" class="btn btn-warning">
-                                        Volzet!
-                                    </button>
-                                </form>
-                            }
-                        }
-                    }
-
-                    <p></p> <!--veranderen in CSS later-->
-                    <p></p> <!--veranderen in CSS later-->
-                    <form role="form">
-                        <div class="form-group">
-                            <!--standaard form moet aangepast worden eens we de feedback doen-->
-                            <label for="feedback">Feedback</label>
-                            <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
-                        </div>
-
-                        <button type="button" class="btn btn-primary">
-                            Verstuur
-                        </button>
-                    </form>
-                </div>
+<div class="h-25 row">
+    <div class="col-md-5">
+        <img class="img-fluid" src="https://i1.wp.com/guide-high-tech.com/wp-content/uploads/2019/04/Cloud-Computing-01.jpg?fit=1000%2C680&ssl=1" alt="Alternate Text" />
+    </div>
+    <div class="col-md-7 my-auto">
+        <div class="page-header">
+            <h1>
+                @Model.Title
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-7">
+        <!--foto scalen in CSS later-->
+        <dl>
+            <dt>
+                Omschrijving
+            </dt>
+            <dd>
+                @Model.Description
+            </dd>
+        </dl>
+        <p></p> <!--veranderen in CSS later-->
+        <div class="card">
+            <h5 class="card-header">
+                Toegevoegde Media
+            </h5>
+            <div class="card-body">
+                <p class="card-text">
+                    Media1
+                </p>
+            </div>
+            <div class="card-footer">
+                Media2
             </div>
         </div>
     </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <h5 class="card-header">
+                Locatie: @Model.Location.Campus  @Model.Location.LocationId
+            </h5>
+            <div class="card-body">
+                <p class="card-text">
+                    Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat()
+                </p>
+            </div>
+            <div class="card-footer">
+                Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
+            </div>
+        </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span>
+        <div class="progress">
+            <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
+        </div>
+        @if (isAuth)
+        {
+            if (user.IsRegistered(Model.SessionId))
+            {
+                <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
+                    <button type="submit" class="btn btn-danger">
+                        Uitschrijven
+                    </button>
+                </form>
+            }
+            else
+            {
+                if (Model.GetUsers().Count() < Model.Capacity)
+                {
+                    <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                        <button type="submit" class="btn btn-success">
+                            Inschrijven
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form>
+                        <button type="submit" class="btn btn-warning">
+                            Volzet!
+                        </button>
+                    </form>
+                }
+            }
+        }
+
+
+        <div class="card">
+            <form role="form">
+                <div class="form-group">
+                    <!--standaard form moet aangepast worden eens we de feedback doen-->
+                    <label for="feedback">Feedback</label>
+                    <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
+                </div>
+
+                <button type="button" class="btn btn-primary">
+                    Verstuur
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
