@@ -1,7 +1,17 @@
-﻿
+﻿@model IEnumerable<ITLab29.Models.Domain.Session>
 @{
     ViewData["Title"] = "OpenSessionsView";
 }
 
 <h1>OpenSessionsView</h1>
+
+<ul>
+    @{
+
+        foreach (ITLab29.Models.Domain.Session m in Model)
+        {
+            <li>@m.Title</li>
+        }
+    }
+</ul>
 
