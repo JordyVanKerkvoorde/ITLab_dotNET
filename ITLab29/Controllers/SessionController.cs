@@ -51,7 +51,7 @@ namespace ITLab29.Controllers
 
             ViewData["user"] = user;
             ViewData["session"] = session;
-            return View(new FeedBackViewModel(new Feedback()));
+            return View(new FeedBackViewModel());
         }
 
         [HttpPost]
