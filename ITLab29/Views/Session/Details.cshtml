@@ -1,18 +1,16 @@
 ﻿@model Session;
 @using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
 }
 
 @{
-    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
+    User user = ViewData["user"] as User;
+    bool isAuth = User.Identity.IsAuthenticated;
 }
-    <h1>Sessions: @user.GetSessions().Count()</h1>
-    <h1>Users: @Model.GetUsers().Count()</h1>
+    <h1>@user.UserSessions.Count()</h1>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -65,15 +63,30 @@
                     <div class="progress">
                         <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
                     </div>
-                    @if (user.IsRegistered(Model.SessionId)) {
-                        <a class="btn btn-warning">
-                            Uitschrijven
-                        </a>
-                    } else {
-                        <a class1="btn btn-success" asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
-                            Inschrijven
-                        </a>
+                    @if (isAuth) {
+                        if (user.IsRegistered(Model.SessionId)) {
+                            <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
+                                <button type="submit" class="btn btn-danger">
+                                    Uitschrijven
+                                </button>
+                            </form>
+                        } else {
+                            if (Model.GetUsers().Count() < Model.Capacity) {
+                                <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
+                                    <button type="submit" class="btn btn-success">
+                                        Inschrijven
+                                    </button>
+                                </form>
+                            } else {
+                                <form>
+                                    <button type="submit" class="btn btn-warning">
+                                        Volzet!
+                                    </button>
+                                </form>
+                            }
+                        }
                     }
+
                     <p></p> <!--veranderen in CSS later-->
                     <p></p> <!--veranderen in CSS later-->
                     <form role="form">

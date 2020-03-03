@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ITLab29.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ namespace ITLab29.Models.Domain
 {
     public class Session
     {
+
+        private string _shortDescription => DescriptionModifier.TruncateAtWord(Description, 200);
 
         public int SessionId { get; set; }
         public string Title { get; set; }
@@ -105,12 +108,31 @@ namespace ITLab29.Models.Domain
             return Start.ToString("HH:mm");
         }
 
-        public void AddUserSession(UserSession session) {
-            UserSessions.Add(session);
+        public void AddUserSession( User user) {
+            if (UserSessions.Count() < Capacity || user.UserStatus != UserStatus.BLOCKED) {
+                UserSessions.Add(new UserSession {
+                    Session = this,
+                    User = user,
+                    UserId = user.UserId,
+                    SessionId = SessionId
+                });
+            } else {
+                throw new Exception("Er moeten beschikbare plekken zijn en je mag geen blocked user zijn");
+            }
+            
+        }
+
+        public void RemoveUserSession(User user) {
+            UserSessions.Remove(UserSessions.Where(u => u.Session == this && u.User == user).FirstOrDefault());
         }
 
         public IEnumerable<User> GetUsers() {
             return UserSessions.Where(u => u.SessionId == SessionId).Select(u => u.User).ToList();
+        }
+
+        public string GetShortDescription()
+        {
+            return _shortDescription;
         }
     }
 }

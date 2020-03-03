@@ -540,7 +540,7 @@ tr:first-child > td > .fc-day-grid-event {
 }
 
 .fc-day-grid-event .fc-content {
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden
 }
 

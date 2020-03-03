@@ -35,6 +35,11 @@ namespace ITLab29.Models.Domain
             UserSessions = new List<UserSession>();
         }
 
+        public User()
+        {
+            UserSessions = new List<UserSession>();
+        }
+
         //public Session AddSession(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
         //    if (UserSessions.Any(e => e.SessionId == id))
         //    {
@@ -45,23 +50,27 @@ namespace ITLab29.Models.Domain
         //    return newSession;
         //}
 
-        public Boolean IsActive()
+        public bool IsActive()
         {
             return UserStatus == UserStatus.ACTIVE;
 
         }
 
-        public void AddUserSession(UserSession session) {
-            UserSessions.Add(session);
+        public void AddUserSession(Session session) {
+            UserSessions.Add(new UserSession { 
+                Session = session,
+                User = this,
+                UserId = UserId,
+                SessionId = session.SessionId
+            });
         }
 
-        public IEnumerable<Session> GetSessions() {
-
-            return UserSessions.Where(u => u.UserId == Id).Select(u => u.Session).ToList();
+        public void RemoveUserSession(Session session) {
+            UserSessions.Remove(UserSessions.Where(u => u.Session == session && u.User == this).FirstOrDefault());
         }
 
         public bool IsRegistered(int sessionId) {
-            return GetSessions().Where(s => s.SessionId == sessionId).Any();
+            return UserSessions.Where(us => us.UserId == Id && us.SessionId == sessionId).Any();
         }
     }
 }

@@ -9,14 +9,14 @@
 @{ var nextEvent = Model.OrderBy(t => t.Start).FirstOrDefault();}
 
 <div class="card bg-light" style="max-width: 18rem; position:absolute;left:inherit;z-index:1">
-    <div class="card-header">Next event</div>
+    <div class="card-header">Volgende sessie</div>
     <img class="card-img-top" src="~/photo/@nextEvent.Media" onerror="this.src = '/photo/stock.png';">
     <div class="card-body">
         <h5 class="card-title">@nextEvent.Title</h5>
-        <p class="card-text">@nextEvent.Description</p>
+        <p class="card-text">@nextEvent.GetShortDescription()</p>
     </div>
     <div class="card-footer">
-        <a asp-controller="Session" asp-action="Details" asp-route-id="@nextEvent.SessionId" class="btn btn-primary">Go to event</a>
+        <a asp-controller="Session" asp-action="Details" asp-route-id="@nextEvent.SessionId" class="btn btn-primary">Meer informatie</a>
     </div>
 </div>
 
@@ -28,7 +28,8 @@
 
 @section Scripts{
     <script src="~/js/moment.js"></script>
-    <script src="~/js/fullcalendar.min.js"></script>
+    <script src="~/js/fullcalendar.js"></script>
+    <script src="~/js/nl-be.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -40,7 +41,7 @@
                     $.each(data, function (i, v) {
                         events.push({
                             sessionId: v.sessionId,
-                            title: v.title,
+                            title: '\n' + v.title,
                             description: v.description,
                             start: v.start,
                             end: v.end
@@ -57,19 +58,29 @@
             function GenerateCalender(events) {
                 $('#calender').fullCalendar('destroy');
                 $('#calender').fullCalendar({
-                    contentHeight: 400,
+                    contentHeight: 600,
+                    navLinks: true, // can click day/week names to navigate views
                     defaultDate: new Date(),
                     timeFormat: 'h(:mm)a',
                     header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'month,basicWeek,basicDay,agenda'
+                        right: 'month,agendaWeek,agendaDay,listMonth'
                     },
                     eventLimit: true,
                     events: events,
                     eventClick: function (calEvent, jsEvent, view) {
                         window.location.href = "/session/" + calEvent.sessionId;
                     },
+                    eventRender: (eventObj, $el) => {
+                        $el.popover({
+                            title: eventObj.title,
+                            content: eventObj.description,
+                            trigger: 'hover',
+                            placement: 'top',
+                            container: 'body'
+                        });
+                    }
                 })
             }
         })

@@ -23,10 +23,15 @@ namespace ITLab29.Data.Repositories
             return _users.AsNoTracking().ToList();
         }
 
+        public User GetByName(string name)
+        {
+            return _users.Where(u => u.UserName == name).Include(u => u.UserSessions).FirstOrDefault();
+        }
+
         public User GetById(string userId)
         {
             return _users
-                .Include(u => u.UserSessions) //comment if kapot
+                .Include(u => u.UserSessions) 
                 //.Include(u => u.UserStatus)
                 //.Include(u => u.UserType)
                 .Include(u => u.Avatar)
@@ -37,6 +42,7 @@ namespace ITLab29.Data.Repositories
         {
             return _users.Where(u => u.LastName == lastName).ToList();
         }
+
 
         public void SaveChanges()
         {
