@@ -91,11 +91,11 @@ namespace ITLab29.Models.Domain
             return guest;
         }
 
-        public Feedback AddFeedback(int feedbackId, int score, User user, string description) {
-            if (Feedback.Any(f => f.FeedbackId == feedbackId)) {
+        public Feedback AddFeedback(Feedback feedback) {
+            /*if (Feedback.Any(f => f.FeedbackId == feedbackId)) {
                 throw new ArgumentException("Feedback cannot be added twice.");
             }
-            Feedback feedback = new Feedback(score,  description);
+            Feedback feedback = new Feedback(score,  description);*/
             Feedback.Add(feedback);
             return feedback;
         }

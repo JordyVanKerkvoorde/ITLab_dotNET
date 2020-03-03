@@ -25,5 +25,8 @@ namespace ITLab29.Models.Domain
             
             Description = description;
         }
+
+        public Feedback() { 
+        }
     }
 }

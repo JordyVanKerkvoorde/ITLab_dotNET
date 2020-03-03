@@ -51,7 +51,7 @@ namespace ITLab29.Controllers
 
             ViewData["user"] = user;
             ViewData["session"] = session;
-            return View(new FeedBackViewModel());
+            return View(new FeedBackViewModel(new Feedback()));
         }
 
         [HttpPost]
@@ -80,10 +80,9 @@ namespace ITLab29.Controllers
 
         [HttpPost]
         public IActionResult AddFeedback(int id, FeedBackViewModel fbvm) {
-            //begin in html form aan te passen, nadien hier feedback toevoegen en savechanges
-            //includes feedback niet vergeten bij sessionrepo
             Feedback fb = new Feedback(fbvm.Score, fbvm.Description);
             Session session = _sessionRepository.GetById(id);
+            session.AddFeedback(fb);
             _sessionRepository.SaveChanges();
             return RedirectToAction("Index");
         }
