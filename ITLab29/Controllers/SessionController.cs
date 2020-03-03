@@ -74,5 +74,11 @@ namespace ITLab29.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [ServiceFilter(typeof(LoggedOnUserFilter))]
+        public IActionResult OpenSessions(User user)
+        {
+            return View();
+        }
     }
 }
