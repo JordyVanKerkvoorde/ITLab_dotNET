@@ -79,10 +79,12 @@ namespace ITLab29.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddFeedback(int id, FeedBackViewModel fbvm) {
-            Feedback fb = new Feedback(fbvm.Score, fbvm.Description);
-            Session session = _sessionRepository.GetById(id);
-            session.AddFeedback(fb);
+        public IActionResult AddFeedback(FeedBackViewModel feedback ) {
+            Console.WriteLine(feedback.id);
+            Console.WriteLine(feedback.Score);
+            Console.WriteLine(feedback.Description);
+            Session session = _sessionRepository.GetById(feedback.id);
+            session.AddFeedback(new Feedback(feedback.Score, feedback.Description));
             _sessionRepository.SaveChanges();
             return RedirectToAction("Index");
         }

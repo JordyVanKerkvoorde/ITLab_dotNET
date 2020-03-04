@@ -105,32 +105,12 @@
         {
             //nog checken of het event in het verleden ligt
             //nog checken of user al feedback gegeven heeft op dit event
-            <form method="post" asp-controller="Session" asp-action="AddFeedback" asp-route-id="@session.SessionId">
-                <div asp-validation-summary="All"></div>
-                <div class="form-group">
-                    <label asp-for="Score" for="one">1</label>
-                    <input type="radio" id="one" name="rating" value="1" asp-for="Score" />
-                    <label asp-for="Score" for="one">2</label>
-                    <input type="radio" id="two" name="rating" value="2" asp-for="Score" />
-                    <label asp-for="Score" for="one">3</label>
-                    <input type="radio" id="three" name="rating" value="3" asp-for="Score" />
-                    <label asp-for="Score" for="one">4</label>
-                    <input type="radio" id="four" name="rating" value="4" asp-for="Score" />
-                    <label asp-for="Score" for="one">5</label>
-                    <input type="radio" id="five" name="rating" value="5" asp-for="Score" />
-                    <span asp-validation-for="Score" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <!--standaard form moet aangepast worden eens we de feedback doen-->
-                    <label asp-for="Description" class="form-control">Feedback</label>
-                    <textarea asp-for="Description" id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-primary">
-                        Verstuur
-                    </button>
-                </div>
+            <form action="/session/AddFeedback" method="post">
+                <input type="number" name="id"/>
+                <input type="number" name="Score" />
+                <input type="text" name="Description" />
+
+                <input type="submit" value="Submit weakly typed form" />
             </form>
         }
         @if (session.Feedback.Any())
