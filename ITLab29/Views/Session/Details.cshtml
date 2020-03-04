@@ -106,11 +106,32 @@
             //nog checken of het event in het verleden ligt
             //nog checken of user al feedback gegeven heeft op dit event
             <form action="/session/AddFeedback" method="post">
-                <input type="number" name="id"/>
-                <input type="number" name="Score" />
-                <input type="text" name="Description" />
+                <div class="form-group">
+                    <input type="hidden" name="id" value="@session.SessionId" />
+                </div>
 
-                <input type="submit" value="Submit weakly typed form" />
+                <div class="form-group">
+                    <label>Score</label>
+                    <div class="form-check">
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="1" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">1</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="2" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">2</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="3" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">3</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="4" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">4</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="5" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">5</label>
+                        <span asp-validation-for="Score" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" >Feedback</label>
+                    <textarea asp-for="Description" class="form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                    <button type="submit" class="btn-primary">Verzend!</button>
             </form>
         }
         @if (session.Feedback.Any())
