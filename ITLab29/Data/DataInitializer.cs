@@ -27,7 +27,7 @@ namespace ITLab29.Data
 
                 User dummyUser = new User("88888", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
                 { UserName = "yorick.vandewoestyne@student.hogent.be", Email = "yorick.vandewoestyne@student.hogent.be", EmailConfirmed = true };
-                User dummyUser2 = new User("11111", "Jan", "Willem", UserType.USER, UserStatus.INACTIVE)
+                User dummyUser2 = new User("11111", "Jan", "Willem", UserType.ADMIN, UserStatus.INACTIVE)
                 { UserName = "jan.willem@student.hogent.be", Email = "jan.willem@student.hogent.be", EmailConfirmed = true };
                 User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.BLOCKED)
                 { UserName = "sander.castanheiramachado@student.hogent.be", Email = "sander.castanheiramachado@student.hogent.be", EmailConfirmed = true };
@@ -71,7 +71,7 @@ namespace ITLab29.Data
                     new Session("TDD, Where Did It All Go Wrong", "In Ontwerpen 1 leerde je al over het testen van software, en hoe TDD vitaal is voor het afleveren van werkende software. En in de volgende semesters blijft die focus op het schrijven van testen aanwezig. Maar moet die focus op TDD er wel zo sterk zijn? Is wat nuance niet aan de orde? Dat is wat deze talk brengt. Ian Cooper zijn kennis over software testing is al even impressionant als zijn baard dus zeker een talk om niet te missen.",
                         dummyUser2, DateTime.Now.AddDays(14), DateTime.Now.AddDays(14).AddHours(1), 123, schoonmeersen2),
                     new Session("Power Use of UNIX - Dan North", "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.",
-                        dummyUser3, DateTime.Now.AddDays(8), DateTime.Now.AddDays(8).AddHours(1), 30, schoonmeersen)
+                        dummyUser, DateTime.Now.AddMinutes(29), DateTime.Now.AddHours(2), 30, schoonmeersen)
                 };
 
                 _dbContext.Sessions.AddRange(sessions);

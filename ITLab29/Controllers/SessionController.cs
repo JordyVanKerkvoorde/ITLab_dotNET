@@ -146,5 +146,18 @@ namespace ITLab29.Controllers
             _sessionRepository.SaveChanges();
             return RedirectToAction("Index");
         }
+        [ServiceFilter(typeof(LoggedOnUserFilter))]
+        public IActionResult OpenSessions(User user)
+        {
+            //IEnumerable<Session> sessions = _sessionRepository.GetByResponsibleId(user.Id);
+            IEnumerable<Session> sessions;
+            if (user.UserType == UserType.ADMIN)
+                sessions = _sessionRepository.GetOpenableSessionsAsAdmin();
+            else
+                sessions = _sessionRepository.GetOpenableSessions(user.Id);
+
+            sessions.OrderBy(s => s.Start);
+            return View(sessions);
+        }
     }
 }
