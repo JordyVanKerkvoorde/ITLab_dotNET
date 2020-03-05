@@ -1,6 +1,7 @@
-﻿@model Session;
+﻿@model ITLab29.Models.ViewModels.FeedBackViewModel;
 @using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
+@using ITLab29.Models.ViewModels;
 
 @{
     ViewData["Title"] = "Details";
@@ -8,100 +9,150 @@
 
 @{
     User user = ViewData["user"] as User;
+    Session session = ViewData["session"] as Session;
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="page-header">
-                        <h1>
-                            @Model.Title
-                        </h1>
-                    </div>
-                    <img src="~/photo/ITLAB_MED.jpg" />
-                    <!--foto scalen in CSS later-->
-                    <dl>
-                        <dt>
-                            Omschrijving
-                        </dt>
-                        <dd>
-                            @Model.Description
-                        </dd>
-                    </dl>
-                    <p></p> <!--veranderen in CSS later-->
-                    <div class="card">
-                        <h5 class="card-header">
-                            Toegevoegde Media
-                        </h5>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Media1
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            Media2
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <h5 class="card-header">
-                            Locatie: @Model.Location.Campus  @Model.Location.LocationId
-                        </h5>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Tijdstip: @Model.GetDateFormat() @Model.GetTimeFormat()
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            Verantwoordelijke: @Model.Responsible.FirstName @Model.Responsible.LastName
-                        </div>
-                    </div> <span class="badge badge-default">@Model.UserSessions.Count() / @Model.Capacity</span>
-                    <div class="progress">
-                        <div class="progress-bar" aria-valuenow=@Model.GetUsers().Count() aria-valuemin="0" aria-valuemax=@Model.Capacity></div>
-                    </div>
-                    @if (isAuth) {
-                        if (user.IsRegistered(Model.SessionId)) {
-                            <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.SessionId">
-                                <button type="submit" class="btn btn-danger">
-                                    Uitschrijven
-                                </button>
-                            </form>
-                        } else {
-                            if (Model.GetUsers().Count() < Model.Capacity) {
-                                <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.SessionId">
-                                    <button type="submit" class="btn btn-success">
-                                        Inschrijven
-                                    </button>
-                                </form>
-                            } else {
-                                <form>
-                                    <button type="submit" class="btn btn-warning">
-                                        Volzet!
-                                    </button>
-                                </form>
-                            }
-                        }
-                    }
-
-                    <p></p> <!--veranderen in CSS later-->
-                    <p></p> <!--veranderen in CSS later-->
-                    <form role="form">
-                        <div class="form-group">
-                            <!--standaard form moet aangepast worden eens we de feedback doen-->
-                            <label for="feedback">Feedback</label>
-                            <textarea id="feedback" name="feedback" placeholder="Schrijf hier je feedback..." style="height:200px"></textarea>
-                        </div>
-
-                        <button type="button" class="btn btn-primary">
-                            Verstuur
-                        </button>
-                    </form>
-                </div>
-            </div>
+<div class="h-25 row">
+    <div class="col-md-5">
+        <img class="img-fluid"
+             src="https://i1.wp.com/guide-high-tech.com/wp-content/uploads/2019/04/Cloud-Computing-01.jpg?fit=1000%2C680&ssl=1"
+             alt="Alternate Text" />
+    </div>
+    <div class="col-md-7 my-auto">
+        <div class="page-header">
+            <h1>
+                @session.Title
+            </h1>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-7">
+        <dl>
+            <dt>
+                Omschrijving
+            </dt>
+            <dd>
+                @session.Description
+            </dd>
+        </dl>
+        <p></p>
+        <div class="card">
+            <h5 class="card-header">
+                Toegevoegde Media
+            </h5>
+            <div class="card-body">
+                <p class="card-text">
+                    Media1
+                </p>
+            </div>
+            <div class="card-footer">
+                Media2
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <h5 class="card-header">
+                Locatie: @session.Location.Campus @session.Location.LocationId
+            </h5>
+            <div class="card-body">
+                <p class="card-text">
+                    Tijdstip: @session.GetDateFormat() @session.GetTimeFormat()
+                </p>
+            </div>
+            <div class="card-footer">
+                Verantwoordelijke: @session.Responsible.FirstName @session.Responsible.LastName
+            </div>
+        </div> <span class="badge badge-default">@session.UserSessions.Count() / @session.Capacity</span>
+        <div class="progress">
+            <div class="progress-bar" aria-valuenow=@session.GetUsers().Count() aria-valuemin="0"
+                 aria-valuemax=@session.Capacity></div>
+        </div>
+        @if (isAuth)
+        {
+            if (user.IsRegistered(session.SessionId))
+            {
+                <form asp-controller="Session" asp-action="Delete" asp-route-id="@session.SessionId">
+                    <button type="submit" class="btn btn-danger">
+                        Uitschrijven
+                    </button>
+                </form>
+            }
+            else
+            {
+                if (session.GetUsers().Count() < session.Capacity)
+                {
+                    <form asp-controller="Session" asp-action="Add" asp-route-id="@session.SessionId">
+                        <button type="submit" class="btn btn-success">
+                            Inschrijven
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form>
+                        <button type="submit" class="btn btn-warning">
+                            Volzet!
+                        </button>
+                    </form>
+                }
+            }
+        }
+
+        @if (isAuth && user.IsRegistered(session.SessionId))
+        {
+            //nog checken of het event in het verleden ligt
+            //nog checken of user al feedback gegeven heeft op dit event
+            <form action="/session/AddFeedback" method="post">
+                <div class="form-group">
+                    <input type="hidden" name="id" value="@session.SessionId" />
+                </div>
+
+                <div class="form-group">
+                    <label>Score</label>
+                    <div class="form-check">
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="1" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">1</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="2" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">2</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="3" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">3</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="4" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">4</label>
+                        <input asp-for="Score" class="form-check-input" type="radio" name="Score" value="5" style="margin-left:10px;" />
+                        <label asp-for="Score" for="1">5</label>
+                        <span asp-validation-for="Score" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" >Feedback</label>
+                    <textarea asp-for="Description" class="form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                    <button type="submit" class="btn-primary">Verzend!</button>
+            </form>
+        }
+        @if (session.Feedback.Any())
+        {
+            foreach (var feedback in session.Feedback)
+            {
+                <div class="card">
+                    <h5 class="card-header">@feedback.Score / 5</h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            @feedback.Description
+                        </p>
+                    </div>
+
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+} 

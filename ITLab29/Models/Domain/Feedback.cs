@@ -22,8 +22,13 @@ namespace ITLab29.Models.Domain
         public Feedback(int score, string description)
         {
             Score = score;
-            
+
             Description = description;
         }
+
+        public Feedback()
+        {
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using ITLab29.Models.Domain;
+﻿using ITLab29.Exceptions;
+using ITLab29.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,19 +16,37 @@ namespace ITLab29.Data.Repositories {
         }
 
         public IEnumerable<Session> GetAll() {
-            return _sessions.AsNoTracking().ToList();
+            List<Session> result = _sessions.AsNoTracking().ToList();
+            // check if list is empty
+            if (!result.Any())
+            {
+                throw new EmptyListException("List of sessions is empty.");
+            }
+            return result;
         }
 
-        public IEnumerable<Session> GetByDate(DateTime date) {
-            return _sessions.Where(s => s.Start.Month == date.Month).ToList();
+        public IEnumerable<Session> GetByDate(DateTime date)
+        { 
+            List<Session> result = _sessions.Where(s => s.Start.Month == date.Month).ToList();
+            // check if list is empty
+            if (!result.Any())
+            {
+                throw new EmptyListException("List of sessions is empty.");
+            }
+            return result;
         }
 
         public Session GetById(int sessionId) {
-            return _sessions.Include(s => s.UserSessions)
+            Session result = _sessions.Include(s => s.UserSessions)
                 .Include(s => s.Location)
                 .Include(s => s.Responsible)
                 .Include(s => s.Media)
+                .Include(s => s.UserSessions)
+                .Include(s => s.Feedback)
                 .SingleOrDefault(s => s.SessionId == sessionId);
+
+            if (result == null) throw new ArgumentNullException($"SessionId: {sessionId} has no resulting session." );
+            return result;
         }
 
         public IEnumerable<Session> GetByResponsibleId(string id)
