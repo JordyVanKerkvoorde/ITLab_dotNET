@@ -41,6 +41,27 @@ namespace ITLab29.Data.Repositories {
                 .ToList();
         }
 
+        public IEnumerable<Session> GetOpenableSessions(string id)
+        {
+            return GetByResponsibleId(id)
+                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1)
+                .ToList();
+        }
+
+        public IEnumerable<Session> GetOpenableSessionsAsAdmin()
+        {
+            return _sessions
+                .Include(s => s.UserSessions)
+                .Include(s => s.Location)
+                .Include(s => s.Responsible)
+                .Include(s => s.Media)
+                .ToList()
+                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1)
+                .ToList();
+        }
+
+
+
         public void SaveChanges() {
             _context.SaveChanges();
         }

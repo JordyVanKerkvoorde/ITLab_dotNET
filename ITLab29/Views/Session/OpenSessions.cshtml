@@ -10,7 +10,9 @@
         <a>@Model.Count()</a>
         foreach (ITLab29.Models.Domain.Session m in Model)
         {
-            <li>@m.Title</li>
+            double hours = (m.Start - DateTime.Now).TotalHours;
+            <li>@m.Title  |  @hours</li>
+
         }
     }
 </ul>
