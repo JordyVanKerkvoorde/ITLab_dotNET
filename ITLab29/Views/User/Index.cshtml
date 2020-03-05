@@ -1,37 +1,38 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
-@inject SignInManager<User> SignInManager;
-@inject UserManager<User> UserManager;
 @model ITLab29.Models.Domain.User;
 @{
     ViewData["Title"] = "Index";
 }
 
-@{ 
-    User user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result;
-    Media avatar = user.Avatar;
-    string s = "hello world";
-    if (avatar != null)
-    {
-        s = avatar.Path;
-    }
+@{
+    bool isAuth = User.Identity.IsAuthenticated;
 }
 
-@if (SignInManager.IsSignedIn(User)) {
-    @*<h1>@user.FirstName @user.LastName</h1>
-    <h2>@s</h2>
-    <img src="~/photo/stock.png"/>*@
-    <ul>
-        <li>@Model.Email</li>
-        <li>@Model.FirstName</li>
-        <li>@Model.LastName</li>
-        <li>@Model.UserStatus</li>
-        <li>@Model.UserType</li>
-        <img src="@ViewData["MediaPath"]"/>
-        @*<li>"@Model.Avatar"</li>*@
-    </ul>
-} else
-{
+@if (isAuth) {
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="text-center">@Model.FirstName @Model.LastName</h3>
+                <img src="~/photo/800x560.png" />
+                <div class="card">
+                    <h5 class="card-header">Persoonlijke informatie </h5>
+                    <div class="card-body">
+                        <p class="card-text"><b>Email:</b> @Model.Email</p>
+                        <p class="card-text"><b>Aantal afwezigheden:</b> @Model.Penalties</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h1>@Model.GetRegisteredSessions().Count()</h1>
+                
+                @foreach (var session in Model.GetRegisteredSessions()) { 
+                    <p>test</p>
+                }
+            </div>
+        </div>
+    </div>
+} else {
     <h1>Please log in</h1>
 }
 

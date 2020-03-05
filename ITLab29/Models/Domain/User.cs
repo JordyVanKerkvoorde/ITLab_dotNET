@@ -16,6 +16,7 @@ namespace ITLab29.Models.Domain
         public UserStatus UserStatus { get; set; }
         public ICollection<UserSession> UserSessions { get; set; }
         public Media Avatar { get; set; }
+        public int Penalties { get; set; }
 
         #endregion 
 
@@ -33,6 +34,7 @@ namespace ITLab29.Models.Domain
             UserType = userType;
             UserStatus = userStatus;
             UserSessions = new List<UserSession>();
+            Penalties = 0;
         }
 
         public User()
@@ -71,6 +73,10 @@ namespace ITLab29.Models.Domain
 
         public bool IsRegistered(int sessionId) {
             return UserSessions.Where(us => us.UserId == Id && us.SessionId == sessionId).Any();
+        }
+
+        public IEnumerable<Session> GetRegisteredSessions() {
+            return UserSessions.Where(us => us.UserId == Id).Select(us => us.Session);
         }
     }
 }
