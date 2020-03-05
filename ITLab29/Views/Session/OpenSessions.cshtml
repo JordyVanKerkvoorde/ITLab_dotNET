@@ -3,17 +3,28 @@
     ViewData["Title"] = "OpenSessionsView";
 }
 
-<h1>OpenSessionsView</h1>
-
-<ul>
-    @{
-        <a>@Model.Count()</a>
-        foreach (ITLab29.Models.Domain.Session m in Model)
-        {
-            double hours = (m.Start - DateTime.Now).TotalHours;
-            <li>@m.Title  |  @hours</li>
-
+<h1>Sessies</h1>
+<table class="table table-striped table-sm table-bordered">
+    <tr>
+        <th>Titel</th>
+        <th>Verantwoordelijke</th>
+        <th>Lokaal</th>
+        <th>Starttijd</th>
+        <th>Eindtijd</th>
+        <th>Deelnemers</th>
+    </tr>
+    <tr>
+        @{
+            foreach (ITLab29.Models.Domain.Session m in Model)
+            {
+                <td>@m.Title</td>
+                <td>@m.Responsible.FirstName @m.Responsible.LastName</td>
+                <td>@m.Location.LocationId</td>
+                <td>@m.Start</td>
+                <td>@m.End</td>
+                <td>@m.UserSessions.Count</td> <!--aantal usersessions is het aantal users gelinkt in db aan sessie, en dus aantal deelnemers-->
+            }
         }
-    }
-</ul>
+    </tr>
+</table>
 
