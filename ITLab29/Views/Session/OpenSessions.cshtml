@@ -7,7 +7,7 @@
 
 <ul>
     @{
-
+        <a>@Model.Count()</a>
         foreach (ITLab29.Models.Domain.Session m in Model)
         {
             <li>@m.Title</li>

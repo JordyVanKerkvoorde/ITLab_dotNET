@@ -78,7 +78,7 @@ namespace ITLab29.Controllers
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult OpenSessions(User user)
         {
-            IEnumerable<Session> sessions = user.UserSessions.Select(us => us.Session).ToList();
+            IEnumerable<Session> sessions = _sessionRepository.GetByResponsibleId(user.Id);
             return View(sessions);
         }
     }

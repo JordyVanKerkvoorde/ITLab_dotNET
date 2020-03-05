@@ -27,8 +27,18 @@ namespace ITLab29.Data.Repositories {
                 .Include(s => s.Location)
                 .Include(s => s.Responsible)
                 .Include(s => s.Media)
-                .Include(s => s.UserSessions)
                 .SingleOrDefault(s => s.SessionId == sessionId);
+        }
+
+        public IEnumerable<Session> GetByResponsibleId(string id)
+        {
+            return _sessions
+                .Include(s => s.UserSessions)
+                .Include(s => s.Location)
+                .Include(s => s.Responsible)
+                .Include(s => s.Media)
+                .Where(s => s.Responsible.Id == id)
+                .ToList();
         }
 
         public void SaveChanges() {

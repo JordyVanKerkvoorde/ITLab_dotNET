@@ -8,6 +8,7 @@ namespace ITLab29.Models.Domain {
         IEnumerable<Session> GetAll();
         IEnumerable<Session> GetByDate(DateTime date);
         Session GetById(int sessionId);
+        IEnumerable<Session> GetByResponsibleId(string id);
         void SaveChanges();
     }
 }
