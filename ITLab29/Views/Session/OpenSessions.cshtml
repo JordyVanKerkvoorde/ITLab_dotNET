@@ -12,6 +12,8 @@
         <th>Starttijd</th>
         <th>Eindtijd</th>
         <th>Deelnemers</th>
+        <th></th>
+        <th></th>
     </tr>
     <tr>
         @{
@@ -22,7 +24,24 @@
                 <td>@m.Location.LocationId</td>
                 <td>@m.Start</td>
                 <td>@m.End</td>
-                <td>@m.UserSessions.Count</td> <!--aantal usersessions is het aantal users gelinkt in db aan sessie, en dus aantal deelnemers-->
+                <td>@m.UserSessions.Count</td>
+                <!--aantal usersessions is het aantal users gelinkt in db aan sessie, en dus aantal deelnemers-->
+                <td>
+                    <form asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
+                        <button type="submit" class="btn btn-primary">
+                            Details
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-controller="Session" asp-action="OpenSession" asp-route-id="@m.SessionId">
+                        <button type="submit" class="btn btn-primary">
+                            Zet open
+                        </button>
+                    </form>
+                </td>
+                @*<td><a asp-controller="Session" asp-action="Detail" asp-route-id="@m.SessionId">Details</a></td>
+                <td><a asp-controller="Session" asp-action="Open" asp-route-id="@m.SessionId">Zet open</a></td>*@
             }
         }
     </tr>
