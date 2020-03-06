@@ -11,7 +11,6 @@ namespace ITLab29.Models.Domain
         User GetById(string userId);
         IEnumerable<User> GetByLastName(string lastName);
         User GetByName(string name);
-        Media GetAvatar(string userId);
         void SaveChanges();
 
     }

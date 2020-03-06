@@ -43,18 +43,7 @@ namespace ITLab29.Data.Repositories
             return _users.Where(u => u.LastName == lastName).ToList();
         }
 
-        public Media GetAvatar(string userId)
-        {
-            User user = _users.Include(u => u.Avatar).ToList().FirstOrDefault();
-            if (user == null) {
-                return new Media(MediaType.IMAGE, "/photo/800x560.png");
-            }
-            else
-            {
-                return user.Avatar;
-            }
 
-        }
 
 
         public void SaveChanges()

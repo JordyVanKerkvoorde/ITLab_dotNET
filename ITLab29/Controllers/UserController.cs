@@ -24,11 +24,7 @@ namespace ITLab29.Controllers
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult Index(User user)
         {
-            //Media media = _mediaRepository.GetById(user.Avatar.MediaId);
-            //ViewData["MediaPath"] = media.Path; 
-            //ViewData["Path"] = user.Avatar==null ? "avatar null" : "avatar not null";
-            Console.WriteLine(user.UserId);
-            ViewData["Avatar"] = _userRepository.GetAvatar(user.UserId).Path;
+            ViewData["Avatar"] = _mediaRepository.GetAvatar(user.UserId).Path;
             return View(user);
         }
     }
