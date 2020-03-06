@@ -109,7 +109,7 @@ namespace ITLab29.Models.Domain
         }
 
         public void AddUserSession( User user) {
-            if (UserSessions.Count() < Capacity || user.UserStatus != UserStatus.BLOCKED) {
+            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity || user.UserStatus != UserStatus.BLOCKED) {
                 UserSessions.Add(new UserSession {
                     Session = this,
                     User = user,

@@ -25,11 +25,10 @@
             </div>
         </div>
         <div class="col-md-8">
-            <h1>@Model.GetRegisteredSessions().Count()</h1>
 
-            @foreach (var session in Model.GetRegisteredSessions())
+            @foreach (Session session in ViewData["Sessions"] as IList<Session>)
             {
-                <p>test</p>
+                <p>@session.Title</p>
             }
         </div>
     </div>

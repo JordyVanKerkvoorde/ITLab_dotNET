@@ -11,11 +11,13 @@ namespace ITLab29.Data.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<User> _users;
+        private readonly DbSet<Session> _sessions;
 
         public UserRepository(ApplicationDbContext context)
         {
             _context = context;
             _users = context.Users;
+            _sessions = context.Sessions;
         }
 
         public IEnumerable<User> GetAll()
@@ -43,7 +45,22 @@ namespace ITLab29.Data.Repositories
             return _users.Where(u => u.LastName == lastName).ToList();
         }
 
-
+        public IEnumerable<Session> GetRegisteredSessions(string userId)
+        {
+            // yeah this is probably wrong
+            Console.WriteLine("execution get registeredSessions");
+            User user = GetById(userId);
+            IEnumerable<int> sessions = user.UserSessions.Where(u => u.UserId == userId).Select(u => u.SessionId).ToList();
+            IList<Session> result = new List<Session>();
+            foreach (int id in sessions)
+            {
+                foreach (Session ses in _sessions.Where(p => p.SessionId == id))
+                {
+                    result.Add(ses);
+                }
+            }
+            return result;
+        }
 
 
         public void SaveChanges()

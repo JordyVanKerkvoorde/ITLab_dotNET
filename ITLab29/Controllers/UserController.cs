@@ -25,6 +25,7 @@ namespace ITLab29.Controllers
         public IActionResult Index(User user)
         {
             ViewData["Avatar"] = _mediaRepository.GetAvatar(user.UserId).Path;
+            ViewData["Sessions"] = _userRepository.GetRegisteredSessions(user.UserId);
             return View(user);
         }
     }
