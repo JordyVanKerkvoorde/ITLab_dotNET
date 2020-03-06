@@ -9,30 +9,33 @@
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
-@if (isAuth) {
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-4">
-                <h3 class="text-center">@Model.FirstName @Model.LastName</h3>
-                <img src="~/photo/800x560.png" />
-                <div class="card">
-                    <h5 class="card-header">Persoonlijke informatie </h5>
-                    <div class="card-body">
-                        <p class="card-text"><b>Email:</b> @Model.Email</p>
-                        <p class="card-text"><b>Aantal afwezigheden:</b> @Model.Penalties</p>
-                    </div>
+@if (isAuth)
+{
+
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="text-center">@Model.FirstName @Model.LastName</h3>
+            <img class="img-fluid" src=@ViewData["Avatar"]>
+            <div class="card">
+                <h5 class="card-header">Persoonlijke informatie </h5>
+                <div class="card-body">
+                    <p class="card-text"><b>Email:</b> @Model.Email</p>
+                    <p class="card-text"><b>Aantal afwezigheden:</b> @Model.Penalties</p>
                 </div>
             </div>
-            <div class="col-md-8">
-                <h1>@Model.GetRegisteredSessions().Count()</h1>
-                
-                @foreach (var session in Model.GetRegisteredSessions()) { 
-                    <p>test</p>
-                }
-            </div>
+        </div>
+        <div class="col-md-8">
+            <h1>@Model.GetRegisteredSessions().Count()</h1>
+
+            @foreach (var session in Model.GetRegisteredSessions())
+            {
+                <p>test</p>
+            }
         </div>
     </div>
-} else {
+}
+else
+{
     <h1>Please log in</h1>
 }
 

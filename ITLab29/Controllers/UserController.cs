@@ -27,6 +27,8 @@ namespace ITLab29.Controllers
             //Media media = _mediaRepository.GetById(user.Avatar.MediaId);
             //ViewData["MediaPath"] = media.Path; 
             //ViewData["Path"] = user.Avatar==null ? "avatar null" : "avatar not null";
+            Console.WriteLine(user.UserId);
+            ViewData["Avatar"] = _userRepository.GetAvatar(user.UserId).Path;
             return View(user);
         }
     }
