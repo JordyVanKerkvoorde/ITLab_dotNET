@@ -109,13 +109,13 @@ namespace ITLab29.Models.Domain
         }
 
         public void AddUserSession( User user) {
-            if (UserSessions.Count() < Capacity || user.UserStatus != UserStatus.BLOCKED) {
-                UserSessions.Add(new UserSession {
-                    Session = this,
-                    User = user,
-                    UserId = user.UserId,
-                    SessionId = SessionId
-                });
+            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity || user.UserStatus != UserStatus.BLOCKED) {
+                UserSession us = new UserSession();
+                us.User = user;
+                us.UserId = user.UserId;
+                us.SessionId = SessionId;
+                us.Session = this;
+                UserSessions.Add(us);
             } else {
                 throw new Exception("Er moeten beschikbare plekken zijn en je mag geen blocked user zijn");
             }

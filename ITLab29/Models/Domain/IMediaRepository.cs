@@ -11,6 +11,7 @@ namespace ITLab29.Models.Domain
         IEnumerable<Media> GetAll();
         Media GetById(int mediaId);
         IEnumerable<Media> GetByType(MediaType type);
+        Media GetAvatar(string userId);
         void SaveChanges();
     }
 }

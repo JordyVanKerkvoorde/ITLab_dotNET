@@ -29,7 +29,7 @@ namespace ITLab29.Data
                 { UserName = "yorick.vandewoestyne@student.hogent.be", Email = "yorick.vandewoestyne@student.hogent.be", EmailConfirmed = true };
                 User dummyUser2 = new User("11111", "Jan", "Willem", UserType.ADMIN, UserStatus.INACTIVE)
                 { UserName = "jan.willem@student.hogent.be", Email = "jan.willem@student.hogent.be", EmailConfirmed = true };
-                User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.BLOCKED)
+                User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.ACTIVE)
                 { UserName = "sander.castanheiramachado@student.hogent.be", Email = "sander.castanheiramachado@student.hogent.be", EmailConfirmed = true };
                 User dummyUser4 = new User("00200", "Jordy", "Van Kerkvoorde", UserType.RESPONSIBLE, UserStatus.ACTIVE)
                 { UserName = "jordy.vankerkvoorde@student.hogent.be", Email = "jordy.vankerkvoorde@student.hogent.be", EmailConfirmed = true };

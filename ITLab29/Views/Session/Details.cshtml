@@ -127,11 +127,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Description" >Feedback</label>
+                    <label asp-for="Description">Feedback</label>
                     <textarea asp-for="Description" class="form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
-                    <button type="submit" class="btn-primary">Verzend!</button>
+                <button type="submit" class="btn-primary">Verzend!</button>
             </form>
         }
         @if (session.Feedback.Any())
