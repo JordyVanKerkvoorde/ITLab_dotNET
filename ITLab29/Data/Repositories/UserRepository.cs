@@ -49,17 +49,18 @@ namespace ITLab29.Data.Repositories
         {
             // yeah this is probably wrong
             Console.WriteLine("execution get registeredSessions");
-            User user = GetById(userId);
-            IEnumerable<int> sessions = user.UserSessions.Where(u => u.UserId == userId).Select(u => u.SessionId).ToList();
-            IList<Session> result = new List<Session>();
-            foreach (int id in sessions)
+            User user = _users.Include(u => u.UserSessions).Where(p => p.UserId == userId).FirstOrDefault();
+            IList<Session> sessions = new List<Session>();
+            foreach (UserSession us in user.UserSessions)
             {
-                foreach (Session ses in _sessions.Where(p => p.SessionId == id))
-                {
-                    result.Add(ses);
-                }
+                sessions.Add(_sessions.Where(s => s.SessionId == us.SessionId).FirstOrDefault());
             }
-            return result;
+            //IList<Session> result = new List<Session>();
+            //foreach (UserSession us in sessions)
+            //{
+            //    result.Add(us.Session);
+            //}
+            return sessions;
         }
 
 
