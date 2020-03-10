@@ -55,11 +55,6 @@ namespace ITLab29.Data.Repositories
             {
                 sessions.Add(_sessions.Where(s => s.SessionId == us.SessionId).FirstOrDefault());
             }
-            //IList<Session> result = new List<Session>();
-            //foreach (UserSession us in sessions)
-            //{
-            //    result.Add(us.Session);
-            //}
             return sessions;
         }
 
@@ -69,4 +64,4 @@ namespace ITLab29.Data.Repositories
             _context.SaveChanges();
         }
     }
-}
+} 
