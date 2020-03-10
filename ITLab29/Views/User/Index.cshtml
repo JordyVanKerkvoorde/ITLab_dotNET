@@ -25,11 +25,18 @@
             </div>
         </div>
         <div class="col-md-8">
-
-            @foreach (Session session in ViewData["Sessions"] as IList<Session>)
-            {
-                <p>@session.Title</p>
-            }
+            <div class="row">
+                <h1>Upcoming events:</h1>
+                @foreach (Session session in ViewData["Sessions"] as IList<Session>)
+                {
+                    <div class="card">
+                        <h6 class="card-header">
+                            <a asp-controller="Session" asp-action="Details" asp-route-id=@session.SessionId>@session.Title</a>
+                        </h6>
+                        <p class="card-body">@session.Description</p>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 }

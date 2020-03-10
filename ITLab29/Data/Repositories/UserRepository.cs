@@ -47,9 +47,10 @@ namespace ITLab29.Data.Repositories
 
         public IEnumerable<Session> GetRegisteredSessions(string userId)
         {
-            // yeah this is probably wrong
-            Console.WriteLine("execution get registeredSessions");
             User user = _users.Include(u => u.UserSessions).Where(p => p.UserId == userId).FirstOrDefault();
+            // this part is needed to fix a bug in the framework
+            // before the loop the Session field of UserSession will always be null
+            // after the loop the fields are populated
             IList<Session> sessions = new List<Session>();
             foreach (UserSession us in user.UserSessions)
             {
