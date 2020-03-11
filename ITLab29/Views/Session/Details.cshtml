@@ -37,7 +37,6 @@
                 @session.Description
             </dd>
         </dl>
-        <p></p>
         <div class="card">
             <h5 class="card-header">
                 Toegevoegde Media
@@ -56,8 +55,7 @@
             //nog checken of het event in het verleden ligt
             //nog checken of user al feedback gegeven heeft op dit event
             //TODO: needs more markup
-            <div class="card">
-                <h5 class="card-title">Plaats een comment:</h5>
+            <div class="card mt-md-2 border-0">
                 <form asp-controller="Session" asp-action="AddFeedback" method="post">
                     <div class="form-group">
                         <input type="hidden" name="id" value="@session.SessionId" />
@@ -73,9 +71,9 @@
                             <option>5</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="md-form">
                         <label asp-for="Description">Feedback</label>
-                        <textarea asp-for="Description" class="form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
+                        <textarea asp-for="Description" class="md-textarea form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn-primary">Verzend!</button>
@@ -85,18 +83,21 @@
         @if (session.Feedback.Any())
         {
             <h3>Comments: </h3>
-            foreach (var feedback in session.Feedback)
-            {
-                <div class="card">
-                    <h5 class="card-header">@feedback.Score / 5</h5>
-                    <div class="card-body">
-                        <p class="card-text">
-                            @feedback.Description
-                        </p>
-                    </div>
-
-                </div>
-            }
+            <ul class="list-group-flush mb-9">
+                @foreach (var feedback in session.Feedback)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-2">@feedback.Score / 5</div>
+                            <div class="col-md-10">
+                                <p class="text-body">
+                                    @feedback.Description
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
         }
     </div>
     <div class="col-sm-3">
