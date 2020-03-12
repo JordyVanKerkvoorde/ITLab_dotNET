@@ -161,15 +161,21 @@ namespace ITLab29.Controllers
         }
 
         [HttpPost]
-        [ServiceFilter(typeof(LoggedOnUserFilter))]
-        public IActionResult OpenSession(User user, int id)
+        public IActionResult OpenSession(int id)
         {
-            Session session = _sessionRepository.GetById(id);
+            try
+            {
+                Session session = _sessionRepository.GetById(id);
+                session.OpenSession();
+                _sessionRepository.SaveChanges();
+                TempData["message"] = "Sessie succesvol opengezet";
 
-            //session.
-            session.OpenSession();
-            _sessionRepository.SaveChanges();
-
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = "Er is iets misgegaan bij het openzetten van de sessie";
+            }
+            ViewData["message"] = "bajldakl;sdkljfa;sd succesvol opengezet";
 
             return RedirectToAction("OpenSessions");
         }
