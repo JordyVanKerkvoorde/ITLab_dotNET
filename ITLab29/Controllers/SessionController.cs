@@ -159,5 +159,18 @@ namespace ITLab29.Controllers
             sessions.OrderBy(s => s.Start);
             return View(sessions);
         }
+
+        [HttpPost]
+        [ServiceFilter(typeof(LoggedOnUserFilter))]
+        public IActionResult OpenSession(User user, int id)
+        {
+            Session session = _sessionRepository.GetById(id);
+
+            //session.
+
+
+
+            return RedirectToAction("OpenSessions");
+        }
     }
 }

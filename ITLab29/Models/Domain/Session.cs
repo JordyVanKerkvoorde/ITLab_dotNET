@@ -1,4 +1,5 @@
-﻿using ITLab29.Extensions;
+﻿using ITLab29.Exceptions;
+using ITLab29.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace ITLab29.Models.Domain
         public ICollection<Media> Media { get; set; }
         public ICollection<Guest> Guests { get; set; }
         public ICollection<Feedback> Feedback { get; set; }
+        public bool IsOpened { get; set; }
 
         public Session() { }
         public Session(string title, string description,
@@ -54,6 +56,7 @@ namespace ITLab29.Models.Domain
             End = end;
             Capacity = capacity;
             Location = location;
+            IsOpened = false;
 
             UserSessions = new List<UserSession>();
             Media = new List<Media>();
@@ -133,6 +136,14 @@ namespace ITLab29.Models.Domain
         public string GetShortDescription()
         {
             return _shortDescription;
+        }
+
+        public void OpenSession()
+        {
+            if (IsOpened)
+                throw new AlreadyOpenException("Session already open");
+            else
+                IsOpened = true;
         }
     }
 }
