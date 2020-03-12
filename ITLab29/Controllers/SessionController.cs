@@ -167,7 +167,8 @@ namespace ITLab29.Controllers
             Session session = _sessionRepository.GetById(id);
 
             //session.
-
+            session.OpenSession();
+            _sessionRepository.SaveChanges();
 
 
             return RedirectToAction("OpenSessions");
