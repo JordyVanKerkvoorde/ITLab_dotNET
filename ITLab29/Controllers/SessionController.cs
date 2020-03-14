@@ -105,7 +105,7 @@ namespace ITLab29.Controllers
             _userRepository.SaveChanges();
 
             ViewData["sessionId"] = id;
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Session", new { id });
         }
 
         [HttpPost]
@@ -124,14 +124,11 @@ namespace ITLab29.Controllers
             user.RemoveUserSession(session);
             _userRepository.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Session", new { id });
         }
 
         [HttpPost]
         public IActionResult AddFeedback(FeedBackViewModel feedback ) {
-            Console.WriteLine(feedback.id);
-            Console.WriteLine(feedback.Score);
-            Console.WriteLine(feedback.Description);
             Session session;
             try
             {
@@ -144,7 +141,7 @@ namespace ITLab29.Controllers
             }
             session.AddFeedback(new Feedback(feedback.Score, feedback.Description));
             _sessionRepository.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Session", new { feedback.id });
         }
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult OpenSessions(User user)
