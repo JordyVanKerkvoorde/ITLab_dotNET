@@ -82,7 +82,8 @@ namespace ITLab29.Data
                 IList<Media> media = new List<Media>() {
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg"),
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg"),
-                    new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg")
+                    new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"),
+                    new Media(MediaType.FILE, "/photo/stock.png")
                 };
                 foreach (var item in media)
                 {
