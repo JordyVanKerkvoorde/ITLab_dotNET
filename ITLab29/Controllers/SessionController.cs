@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ITLab29.Models.ViewModels;
 using ITLab29.Exceptions;
+using System.Collections;
 
 namespace ITLab29.Controllers
 {
@@ -81,9 +82,11 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            
+            Console.WriteLine("@@@@@@@@@ session media count @@@@@@@@@@");
+            Console.WriteLine(session.Media.Where(t => t.Type==MediaType.IMAGE).Count());
             ViewData["user"] = user;
             ViewData["session"] = session;
+            ViewData["images"] = session.Media.Where(t => t.Type == MediaType.IMAGE).ToList();
             return View(new FeedBackViewModel());
         }
 

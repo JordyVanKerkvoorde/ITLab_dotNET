@@ -74,13 +74,21 @@ namespace ITLab29.Data
                         dummyUser, DateTime.Now.AddMinutes(29), DateTime.Now.AddHours(2), 30, schoonmeersen)
                 };
 
-                _dbContext.Sessions.AddRange(sessions);
 
                 //Feedback feedback1 = new Feedback(5, "Goede gastspreker!");
                 //Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.");
 
                 //_dbContext.Feedback.AddRange(new List<Feedback> { feedback1, feedback2 });
-
+                IList<Media> media = new List<Media>() {
+                    new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg"),
+                    new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg"),
+                    new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg")
+                };
+                foreach (var item in media)
+                {
+                    session2.AddMedia(item);
+                }
+                _dbContext.Sessions.AddRange(sessions);
 
                 Guest guest1 = new Guest("Elon Musk", "elon.musk@gmail.com", "0412 12 12 12");
                 Guest guest2 = new Guest("Tim Cook", "tim.cook@gmail.com", "0413 13 13 13");
