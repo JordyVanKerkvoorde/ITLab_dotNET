@@ -61,23 +61,14 @@ namespace ITLab29.Models.Domain
             Feedback = new List<Feedback>();
         }
 
-        //public User AddAttendee(string userId, string firstName, string lastName, UserType userType, UserStatus userStatus, string email) {
-            //if (userId != null && Attendees.Any(a => a.UserId == userId)) {
-            //    throw new ArgumentException("User cannot be added more than once.");
-            //}
-            //if (userStatus == UserStatus.BLOCKED) {
-            //    throw new ArgumentException("Blocked user cannot be added.");
-            //}
-            //User user = new User(userId, firstName, lastName, userType, userStatus, email);
-            //Attendees.Add(user);
-            //return user;
-        //}
 
-        public Media AddMedia(int mediaId, MediaType type, string path) {
-            if (Media.Any(m => m.MediaId == mediaId)) {
-                throw new ArgumentException("Media exists.");
-            }
+        public Media AddMedia(MediaType type, string path) {
             Media media = new Media(type, path);
+            Media.Add(media);
+            return media;
+        }
+        public Media AddMedia(Media media)
+        {
             Media.Add(media);
             return media;
         }
@@ -92,10 +83,6 @@ namespace ITLab29.Models.Domain
         }
 
         public Feedback AddFeedback(Feedback feedback) {
-            /*if (Feedback.Any(f => f.FeedbackId == feedbackId)) {
-                throw new ArgumentException("Feedback cannot be added twice.");
-            }
-            Feedback feedback = new Feedback(score,  description);*/
             Feedback.Add(feedback);
             return feedback;
         }
