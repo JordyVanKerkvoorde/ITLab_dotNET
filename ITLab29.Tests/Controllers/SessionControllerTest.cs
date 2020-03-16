@@ -1,5 +1,6 @@
 ﻿using ITLab29.Controllers;
 using ITLab29.Models.Domain;
+using ITLab29.Models.ViewModels;
 using ITLab29.Tests.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace ITLab29.Tests.Controllers
         private SessionController _sessionController;
         private Mock<ISessionRepository> _mockSessionRepository;
         private Mock<IUserRepository> _mockUserRepository;
-        private User user1 = new User("1234", "Peter", "Jansens", UserType.ADMIN, UserStatus.ACTIVE)
+        private User user1 = new User("1234", "Peter", "Jansens", UserType.USER, UserStatus.ACTIVE)
         { UserName = "peter.jansens@student.hogent.be", Email = "peter.jansens@student.hogent.be", EmailConfirmed = true };
         private User user2 = new User("5678", "Michael", "Vandamme", UserType.ADMIN, UserStatus.ACTIVE)
         { UserName = "michael.vandammme@student.hogent.be", Email = "michael.vandamme@student.hogent.be", EmailConfirmed = true };
@@ -51,62 +52,104 @@ namespace ITLab29.Tests.Controllers
             Assert.Equal("TDD, Where Did It All Go Wrong", sessions.ElementAt(4).Title);
         }
 
-        //[Theory]
-        //[InlineData(1, "Power Use of UNIX - Dan North")]
-        //[InlineData(2, "TDD, Where Did It All Go Wrong")]
-        //[InlineData(3, "De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk ?")]
-        //[InlineData(4, "Life is Terrible: Let’s Talk About the Web")]
-        //[InlineData(5, "What I Wish I Had Known Before Scaling Uber to 1000 Services")]
-        //public void Details_Test(int id, string title)
-        //{
-        //    _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
-        //    //Session session = _dummyContext.Sessions.Where(s => s.SessionId == id).First();
-        //    var result = Assert.IsType<ViewResult>(_sessionController.Details(id, user1));
-        //    Session session = Assert.IsType<Session>(result.Model);
-        //    Assert.Equal(title, session.Title);
-        //}
+        [Theory]
+        [InlineData(1, "Power Use of UNIX - Dan North")]
+        [InlineData(2, "TDD, Where Did It All Go Wrong")]
+        [InlineData(3, "De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?")]
+        [InlineData(4, "Life is Terrible: Let’s Talk About the Web")]
+        [InlineData(5, "What I Wish I Had Known Before Scaling Uber to 1000 Services")]
+        public void Details_ShowsCorrectSession(int id, string title)
+        {
+            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
+            //Session session = _dummyContext.Sessions.Where(s => s.SessionId == id).First();
+            var result = Assert.IsType<ViewResult>(_sessionController.Details(id, user1));
+            FeedBackViewModel feedbackViewModel = Assert.IsType<FeedBackViewModel>(result.Model);
+            Session session = feedbackViewModel.Session;
+            Assert.Equal(title, session.Title);
+        }
 
 
         [Theory]
         [InlineData(1234)]
         [InlineData(12345)]
-        public void Details_NotFoundTest(int id)
+        public void Details_SessionNotFound_ReturnsNotFound(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(null as Session);
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
             Assert.IsType<NotFoundResult>(_sessionController.Details(id, user1));
         }
 
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void Add_Test(int id)
+        public void Add_SessionFound_AddsUserToSession(int id)
         {
             _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
             var result = Assert.IsType<RedirectToActionResult>(_sessionController.Add(id, user1));
-            Assert.Equal("Index", result.ActionName);
-            _mockSessionRepository.Verify(m => m.SaveChanges(), Times.Once);
+            Assert.Equal("Details", result?.ActionName);
             _mockUserRepository.Verify(m => m.SaveChanges(), Times.Once);
             Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
             Assert.Contains(user1, session.UserSessions.Select(us => us.User));
 
         }
 
+        [Theory]
+        [InlineData(1234)]
+        [InlineData(12345)]
+        public void Add_SessionNotFound_ReturnsNotFound(int id)
+        {
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            Assert.IsType<NotFoundResult>(_sessionController.Add(id, user1));
+
+        }
+
+
 
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void Delete_UserFoundTest(int id)
+        public void Delete_SessionFound_DeletesUserFromSession(int id)
         {
             _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
             _sessionController.Add(id, user1);
             Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
-            Assert.Contains(user1, session.UserSessions.Select(us => us.User));
+            Assert.Contains(user1, session.GetUsers());
             var result = _sessionController.Delete(id, user1) as ViewResult;
-            Assert.DoesNotContain(user1, session.UserSessions.Select(us => us.User));
-            _mockSessionRepository.Verify(m => m.SaveChanges(), Times.Exactly(2));
+            Assert.DoesNotContain(user1, session.GetUsers());
             _mockUserRepository.Verify(m => m.SaveChanges(), Times.Exactly(2));
 
         }
+
+        [Theory]
+        [InlineData(1234)]
+        [InlineData(12345)]
+        public void Delete_SessionNotFound_ReturnsNotFound(int id)
+        {
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            Assert.IsType<NotFoundResult>(_sessionController.Delete(id, user1));
+
+        }
+
+        [Fact]
+        public void AddFeedback_SessionFound_AddsFeedbacktoSession()
+        {
+            var feedback = new FeedBackViewModel(null) { id = 1, Score = 4, Description = "testet" };
+            _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == feedback.id));
+            var result = Assert.IsType<RedirectToActionResult>(_sessionController.AddFeedback(feedback));
+            Assert.Equal("Details", result?.ActionName);
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == feedback.id);
+            session.Feedback.Any(fb => fb.Description == feedback.Description && fb.Score == feedback.Score);
+            _mockSessionRepository.Verify(m => m.SaveChanges(), Times.Once);
+        }
+
+
+        [Fact]
+        public void AddFeedback_SessionNotFound_ReturnsNotFound()
+        {
+            var feedback = new FeedBackViewModel(null) { id = 1234, Score = 4, Description = "testet" };
+            _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Throws(new ArgumentNullException());
+            Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
+        }
+
 
     }
 }
