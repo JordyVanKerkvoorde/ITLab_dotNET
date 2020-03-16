@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ITLab29.Models.Domain.Session>
+@{
+    ViewData["Title"] = "OpenSessionsView";
+}
+
+<h1>Sessies</h1>
+<table class="table table-striped table-sm table-bordered">
+    <tr>
+        <th>Titel</th>
+        <th>Verantwoordelijke</th>
+        <th>Lokaal</th>
+        <th>Starttijd</th>
+        <th>Eindtijd</th>
+        <th>Deelnemers</th>
+    </tr>
+    <tr>
+        @{
+            foreach (ITLab29.Models.Domain.Session m in Model)
+            {
+                <td>@m.Title</td>
+                <td>@m.Responsible.FirstName @m.Responsible.LastName</td>
+                <td>@m.Location.LocationId</td>
+                <td>@m.Start</td>
+                <td>@m.End</td>
+                <td>@m.UserSessions.Count</td> <!--aantal usersessions is het aantal users gelinkt in db aan sessie, en dus aantal deelnemers-->
+            }
+        }
+    </tr>
+</table>
+
