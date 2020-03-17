@@ -102,20 +102,20 @@ namespace ITLab29.Tests.Controllers
 
 
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        public void Delete_SessionFound_DeletesUserFromSession(int id)
-        {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
-            _sessionController.Add(id, user1);
-            Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
-            Assert.Contains(user1, session.GetUsers());
-            var result = _sessionController.Delete(id, user1) as ViewResult;
-            Assert.DoesNotContain(user1, session.GetUsers());
-            _mockUserRepository.Verify(m => m.SaveChanges(), Times.Exactly(2));
+        //[Theory]
+        //[InlineData(1)]
+        //[InlineData(2)]
+        //public void Delete_SessionFound_DeletesUserFromSession(int id)
+        //{
+        //    _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
+        //    _sessionController.Add(id, user1);
+        //    Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
+        //    Assert.Contains(user1, session.GetUsers());
+        //    var result = _sessionController.Delete(id, user1) as ViewResult;
+        //    Assert.DoesNotContain(user1, session.GetUsers());
+        //    _mockUserRepository.Verify(m => m.SaveChanges(), Times.Exactly(2));
 
-        }
+        //}
 
         [Theory]
         [InlineData(1234)]

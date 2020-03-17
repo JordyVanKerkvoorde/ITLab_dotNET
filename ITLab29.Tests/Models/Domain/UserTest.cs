@@ -8,12 +8,10 @@ namespace ITLab29.Tests.Models.Domain
     {
         private User _user;
         private User _user2;
-        private Session _evt;
 
         private string Id = "0s5";
         private string FName = "Jordy";
         private string LName = "VK";
-        private string Mail = "test@test.be";
 
         public UserTest()
         {
