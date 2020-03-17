@@ -21,10 +21,7 @@ namespace ITLab29.Tests.Controllers
         private SessionController _sessionController;
         private Mock<ISessionRepository> _mockSessionRepository;
         private Mock<IUserRepository> _mockUserRepository;
-        private User user1 = new User("1234", "Peter", "Jansens", UserType.USER, UserStatus.ACTIVE)
-        { UserName = "peter.jansens@student.hogent.be", Email = "peter.jansens@student.hogent.be", EmailConfirmed = true };
-        private User user2 = new User("5678", "Michael", "Vandamme", UserType.ADMIN, UserStatus.ACTIVE)
-        { UserName = "michael.vandammme@student.hogent.be", Email = "michael.vandamme@student.hogent.be", EmailConfirmed = true };
+        private readonly  User user1;
 
         public SessionControllerTest()
         {
@@ -32,6 +29,7 @@ namespace ITLab29.Tests.Controllers
             _dummyContext = new DummyApplicationDbContext();
             _mockSessionRepository = new Mock<ISessionRepository>();
             _mockUserRepository = new Mock<IUserRepository>();
+            user1 = _dummyContext.Users.ElementAt(0);
 
             _sessionController = new SessionController(_mockSessionRepository.Object, _mockUserRepository.Object);
 

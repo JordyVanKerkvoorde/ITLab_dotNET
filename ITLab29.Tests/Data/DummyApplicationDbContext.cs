@@ -92,6 +92,11 @@ namespace ITLab29.Tests.Data
                 };
 
 
+            dummyUser.AddUserSession(session1);
+            dummyUser.AddUserSession(session3);
+            dummyUser.AddUserSession(session5);
+
+
         }
 
     }
