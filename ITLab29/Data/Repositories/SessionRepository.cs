@@ -80,7 +80,24 @@ namespace ITLab29.Data.Repositories {
                 .ToList();
         }
 
+        public IEnumerable<Session> GetOpenedSessions(string id)
+        {
+            return GetByResponsibleId(id)
+                .Where(s => s.IsOpened)
+                .ToList();
+        }
 
+        public IEnumerable<Session> GetOpenedSessionsAsAdmin()
+        {
+            return _sessions
+                .Include(s => s.UserSessions)
+                .Include(s => s.Location)
+                .Include(s => s.Responsible)
+                .Include(s => s.Media)
+                .ToList()
+                .Where(s => s.IsOpened)
+                .ToList();
+        }
 
         public void SaveChanges() {
             _context.SaveChanges();

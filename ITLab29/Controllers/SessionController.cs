@@ -152,9 +152,14 @@ namespace ITLab29.Controllers
             //IEnumerable<Session> sessions = _sessionRepository.GetByResponsibleId(user.Id);
             IEnumerable<Session> sessions;
             if (user.UserType == UserType.ADMIN)
+            {
                 sessions = _sessionRepository.GetOpenableSessionsAsAdmin();
-            else
+                ViewData["opensessions"] = _sessionRepository.GetOpenedSessionsAsAdmin();
+            }
+            else { 
                 sessions = _sessionRepository.GetOpenableSessions(user.Id);
+                ViewData["opensessions"] = _sessionRepository.GetOpenedSessions(user.Id);
+            }
 
             sessions.OrderBy(s => s.Start);
             return View(sessions);
