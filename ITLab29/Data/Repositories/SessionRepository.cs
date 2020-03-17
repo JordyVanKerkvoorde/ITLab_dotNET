@@ -99,6 +99,24 @@ namespace ITLab29.Data.Repositories {
                 .ToList();
         }
 
+        public IEnumerable<User> GetRegisteredUsersBySessionId(int id)
+        {
+            Session session = _sessions
+                .Include(s => s.UserSessions)
+                .Where(s => s.SessionId == id)
+                .FirstOrDefault();
+
+            if (session != null)
+            {
+                return session.UserSessions
+                    .Select(us => us.User)
+                    .ToList();
+            }
+            else
+                return null;
+
+        }
+
         public void SaveChanges() {
             _context.SaveChanges();
         }

@@ -63,6 +63,7 @@
         <th>Eindtijd</th>
         <th>Deelnemers</th>
         <th></th>
+        <th></th>
     </tr>
     <tr>
         @{
@@ -80,6 +81,13 @@
                         <form asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
                             <button type="submit" class="btn btn-primary">
                                 Details
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="Session" asp-action="Aanwezigen" asp-route-id="@m.SessionId">
+                            <button type="submit" class="btn btn-primary">
+                                Aanwezigen
                             </button>
                         </form>
                     </td>

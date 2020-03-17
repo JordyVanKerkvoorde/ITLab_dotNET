@@ -184,5 +184,12 @@ namespace ITLab29.Controllers
 
             return RedirectToAction("OpenSessions");
         }
+
+        public IActionResult Aanwezigen(int sessionid)
+        {
+            //IEnumerable<User> users = _sessionRepository.GetRegisteredUsersBySessionId(sessionid);
+            IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(sessionid);
+            return View(users);           
+        }
     }
 }

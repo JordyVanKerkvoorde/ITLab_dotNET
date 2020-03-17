@@ -43,6 +43,13 @@ namespace ITLab29.Data.Repositories
             return _users.Where(u => u.LastName == lastName).ToList();
         }
 
+        public IEnumerable<User> GetRegisteredBySessionId(int sessionid)
+        {
+            return _users
+                .Include(u => u.UserSessions)
+                .Where(u => u.UserSessions.Select(us => us.UserId == u.UserId && us.SessionId == sessionid).Count() != 0)
+                .ToList();
+        }
 
         public void SaveChanges()
         {
