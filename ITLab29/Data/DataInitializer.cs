@@ -73,6 +73,10 @@ namespace ITLab29.Data
                     new Session("Power Use of UNIX - Dan North", "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.",
                         dummyUser, DateTime.Now.AddMinutes(29), DateTime.Now.AddHours(2), 30, schoonmeersen)
                 };
+                foreach (var item in sessions)
+                {
+                    item.AddMedia(new Media(MediaType.IMAGE, "https://i1.wp.com/guide-high-tech.com/wp-content/uploads/2019/04/Cloud-Computing-01.jpg?fit=1000%2C680&ssl=1"));
+                }
 
 
                 //Feedback feedback1 = new Feedback(5, "Goede gastspreker!");

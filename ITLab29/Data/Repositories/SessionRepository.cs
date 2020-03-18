@@ -16,7 +16,7 @@ namespace ITLab29.Data.Repositories {
         }
 
         public IEnumerable<Session> GetAll() {
-            List<Session> result = _sessions.AsNoTracking().ToList();
+            List<Session> result = _sessions.Include(s=>s.Media).AsNoTracking().ToList();
             // check if list is empty
             if (!result.Any())
             {
@@ -64,6 +64,7 @@ namespace ITLab29.Data.Repositories {
         {
             return GetByResponsibleId(id)
                 .Where(s => (s.Start - DateTime.Now).TotalHours <= 1)
+                .Where(s => !s.IsOpened)
                 .ToList();
         }
 
@@ -75,11 +76,46 @@ namespace ITLab29.Data.Repositories {
                 .Include(s => s.Responsible)
                 .Include(s => s.Media)
                 .ToList()
-                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1)
+                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1 && !s.IsOpened)
                 .ToList();
         }
 
+        public IEnumerable<Session> GetOpenedSessions(string id)
+        {
+            return GetByResponsibleId(id)
+                .Where(s => s.IsOpened)
+                .ToList();
+        }
 
+        public IEnumerable<Session> GetOpenedSessionsAsAdmin()
+        {
+            return _sessions
+                .Include(s => s.UserSessions)
+                .Include(s => s.Location)
+                .Include(s => s.Responsible)
+                .Include(s => s.Media)
+                .ToList()
+                .Where(s => s.IsOpened)
+                .ToList();
+        }
+
+        public IEnumerable<User> GetRegisteredUsersBySessionId(int id)
+        {
+            Session session = _sessions
+                .Include(s => s.UserSessions)
+                .Where(s => s.SessionId == id)
+                .FirstOrDefault();
+
+            if (session != null)
+            {
+                return session.UserSessions
+                    .Select(us => us.User)
+                    .ToList();
+            }
+            else
+                return null;
+
+        }
 
         public void SaveChanges() {
             _context.SaveChanges();

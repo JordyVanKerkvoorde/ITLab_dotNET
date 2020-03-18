@@ -1,4 +1,5 @@
-﻿using ITLab29.Extensions;
+﻿using ITLab29.Exceptions;
+using ITLab29.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace ITLab29.Models.Domain
         public ICollection<Media> Media { get; set; }
         public ICollection<Guest> Guests { get; set; }
         public ICollection<Feedback> Feedback { get; set; }
+        public bool IsOpened { get; set; }
 
         public Session() { }
         public Session(string title, string description,
@@ -54,6 +56,7 @@ namespace ITLab29.Models.Domain
             End = end;
             Capacity = capacity;
             Location = location;
+            IsOpened = false;
 
             UserSessions = new List<UserSession>();
             Media = new List<Media>();
@@ -96,7 +99,7 @@ namespace ITLab29.Models.Domain
         }
 
         public void AddUserSession( User user) {
-            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity || user.UserStatus != UserStatus.BLOCKED) {
+            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity && user.UserStatus != UserStatus.BLOCKED) {
                 UserSession us = new UserSession();
                 us.User = user;
                 us.UserId = user.UserId;
@@ -110,16 +113,32 @@ namespace ITLab29.Models.Domain
         }
 
         public void RemoveUserSession(User user) {
-            UserSessions.Remove(UserSessions.Where(u => u.Session == this && u.User == user).FirstOrDefault());
+            UserSession us = UserSessions.Where(u => u.Session == this && u.User == user).FirstOrDefault();
+            if(us != null)
+            {
+                UserSessions.Remove(us);
+            }
+            else
+            {
+                throw new Exception($"User not found for session: {this}");
+            }
         }
 
-        public IEnumerable<User> GetUsers() {
+        public ICollection<User> GetUsers() {
             return UserSessions.Where(u => u.SessionId == SessionId).Select(u => u.User).ToList();
         }
 
         public string GetShortDescription()
         {
             return _shortDescription;
+        }
+
+        public void OpenSession()
+        {
+            if (IsOpened)
+                throw new AlreadyOpenException("Session already open");
+            else
+                IsOpened = true;
         }
     }
 }
