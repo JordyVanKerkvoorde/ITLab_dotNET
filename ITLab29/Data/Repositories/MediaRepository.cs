@@ -11,11 +11,13 @@ namespace ITLab29.Data.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<Media> _media;
+        private readonly DbSet<User> _users;
 
         public MediaRepository(ApplicationDbContext context)
         {
             _context = context;
             _media = context.Media;
+            _users = context.Users;
         }
 
         public IEnumerable<Media> GetAll()
@@ -32,7 +34,19 @@ namespace ITLab29.Data.Repositories
         {
             return _media.Where(m => m.Type == type);
         }
+        public Media GetAvatar(string userId)
+        {
+            User user = _users.Include(u => u.Avatar).ToList().FirstOrDefault();
+            if (user == null)
+            {
+                return new Media(MediaType.IMAGE, "/photo/800x560.png");
+            }
+            else
+            {
+                return user.Avatar;
+            }
 
+        }
         public void SaveChanges()
         {
             _context.SaveChanges();

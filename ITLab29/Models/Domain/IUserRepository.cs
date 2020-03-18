@@ -11,6 +11,7 @@ namespace ITLab29.Models.Domain
         User GetById(string userId);
         IEnumerable<User> GetByLastName(string lastName);
         User GetByName(string name);
+        IEnumerable<Session> GetRegisteredSessions(string userId);
         void SaveChanges();
         IEnumerable<User> GetRegisteredBySessionId(int id);
     }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ITLab29.Models.ViewModels;
 using ITLab29.Exceptions;
+using System.Collections;
 
 namespace ITLab29.Controllers
 {
@@ -81,10 +82,13 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            
+            Console.WriteLine("@@@@@@@@@ session media count @@@@@@@@@@");
+            Console.WriteLine(session.Media.Where(t => t.Type==MediaType.IMAGE).Count());
             ViewData["user"] = user;
             ViewData["session"] = session;
-            return View(new FeedBackViewModel());
+            ViewData["images"] = session.Media.Where(t => t.Type == MediaType.IMAGE).ToList();
+            ViewData["files"] = session.Media.Where(t => t.Type == MediaType.FILE).ToList();
+            return View(new FeedBackViewModel() { Session = session });
         }
 
         [HttpPost]
@@ -105,7 +109,7 @@ namespace ITLab29.Controllers
             _userRepository.SaveChanges();
 
             ViewData["sessionId"] = id;
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Session", new { id });
         }
 
         [HttpPost]
@@ -124,14 +128,11 @@ namespace ITLab29.Controllers
             user.RemoveUserSession(session);
             _userRepository.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Session", new { id });
         }
 
         [HttpPost]
         public IActionResult AddFeedback(FeedBackViewModel feedback ) {
-            Console.WriteLine(feedback.id);
-            Console.WriteLine(feedback.Score);
-            Console.WriteLine(feedback.Description);
             Session session;
             try
             {
@@ -144,7 +145,7 @@ namespace ITLab29.Controllers
             }
             session.AddFeedback(new Feedback(feedback.Score, feedback.Description));
             _sessionRepository.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Session", new { feedback.id });
         }
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult OpenSessions(User user)
