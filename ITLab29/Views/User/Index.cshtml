@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-8">
             <div class="row">
-                <h1>Upcoming events:</h1>
+                <h1>Ingeschreven events:</h1>
                 @foreach (Session session in ViewData["Sessions"] as IList<Session>)
                 {
                     <div class="card">
@@ -35,6 +35,7 @@
                         </h6>
                         <p class="card-body">@session.Description</p>
                     </div>
+                    <br>
                 }
             </div>
         </div>
