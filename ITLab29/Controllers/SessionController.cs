@@ -49,6 +49,14 @@ namespace ITLab29.Controllers
                 }
             }
             sessions = sessions.OrderBy(s => s.Start).ToList();
+            try {
+                Console.WriteLine("path test");
+                Console.WriteLine(sessions.First().Media.Count());
+                ViewData["preview"] = sessions.First().Media.Where(t => t.Type == MediaType.IMAGE).First().Path;
+            }
+            catch {
+                ViewData["preview"] = "/photo/stock.png";
+            }
             return View(sessions);
         }
 
