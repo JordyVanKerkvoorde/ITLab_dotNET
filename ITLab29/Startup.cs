@@ -34,6 +34,7 @@ namespace ITLab29 {
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMediaRepository, MediaRepository>();
+            services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             services.AddScoped<LoggedOnUserFilter>();
             services.AddControllersWithViews();
             services.AddRazorPages();

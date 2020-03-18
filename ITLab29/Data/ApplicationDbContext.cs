@@ -16,6 +16,7 @@ namespace ITLab29.Data {
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
         public DbSet<UserSession> UserSessions { get; set; }
+        public DbSet<Announcement> Announcements { get; set;}
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {

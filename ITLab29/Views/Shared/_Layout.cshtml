@@ -26,25 +26,23 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Announcement" asp-action="Index">Aankondigingen</a>
+                    </li>
                     @{ if (isAuth)
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Session" asp-action="OpenSessions">Sessies</a>
                             </li>
                         }}
-
                     <partial name="_LoginPartial" />
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Header - set the background image for the header in the line below -->
-    <header class="py-2 bg-image-full" style="background-image: url('/photo/1280px-HoGent_campusSchoonmeersen.jpg');margin-bottom:15px">
-        <a href="/">
-            <img class="img-fluid d-block mx-auto" src="~/photo/itlab_logo.png" alt="">
-        </a>
-    </header>
+    
 
 
     <div class="container mb-5">

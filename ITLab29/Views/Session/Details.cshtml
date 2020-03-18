@@ -17,6 +17,13 @@
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
+
+    <header class="py-2 bg-image-full img-fluid" style="background-image: url('https://www.eurocloud.org.uk/wp-content/uploads/2018/03/What-Is-Cloud-Computing.jpg');margin-bottom:15px">
+        <a href="/">
+            <img class="img-fluid d-block mx-auto" src="~/photo/itlab_logo.png" alt="">
+        </a>
+    </header>
+
 <div class="h-25 row">
     <div class="col-md-5">
         <img class="img-fluid"
@@ -28,11 +35,11 @@
             <h1>
                 @session.Title
             </h1>
+
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-7">
+<div class="row d-flex">
+    <div class="col-sm-7 lead">
         <dl>
             <dt>
                 Omschrijving
