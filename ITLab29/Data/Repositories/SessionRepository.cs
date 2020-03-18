@@ -16,13 +16,7 @@ namespace ITLab29.Data.Repositories {
         }
 
         public IEnumerable<Session> GetAll() {
-            List<Session> result = _sessions.Include(s => s.UserSessions)
-                .Include(s => s.Location)
-                .Include(s => s.Responsible)
-                .Include(s => s.Media)
-                .Include(s => s.UserSessions)
-                .Include(s => s.Feedback)
-                .AsNoTracking().ToList();
+            List<Session> result = _sessions.AsNoTracking().ToList();
             // check if list is empty
             if (!result.Any())
             {
@@ -33,13 +27,7 @@ namespace ITLab29.Data.Repositories {
 
         public IEnumerable<Session> GetByDate(DateTime date)
         { 
-            List<Session> result = _sessions.Include(s => s.UserSessions)
-                .Include(s => s.Location)
-                .Include(s => s.Responsible)
-                .Include(s => s.Media)
-                .Include(s => s.UserSessions)
-                .Include(s => s.Feedback)
-                .Where(s => s.Start.Month == date.Month).ToList();
+            List<Session> result = _sessions.Where(s => s.Start.Month == date.Month).ToList();
             // check if list is empty
             if (!result.Any())
             {
