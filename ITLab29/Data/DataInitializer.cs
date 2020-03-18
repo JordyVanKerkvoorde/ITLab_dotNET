@@ -74,7 +74,10 @@ namespace ITLab29.Data
                         dummyUser, DateTime.Now.AddMinutes(29), DateTime.Now.AddHours(2), 30, schoonmeersen)
                 };
 
-
+                foreach (var item in sessions)
+                {
+                    item.AddMedia(new Media(MediaType.IMAGE, "https://i1.wp.com/guide-high-tech.com/wp-content/uploads/2019/04/Cloud-Computing-01.jpg?fit=1000%2C680&ssl=1"));
+                }
                 //Feedback feedback1 = new Feedback(5, "Goede gastspreker!");
                 //Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.");
 

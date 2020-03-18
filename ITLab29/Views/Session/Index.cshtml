@@ -10,7 +10,7 @@
 
 <div class="card bg-light" style="max-width: 18rem; position:absolute;left:inherit;z-index:1">
     <div class="card-header">Volgende sessie</div>
-    <img class="card-img-top" src="~/photo/@nextEvent.Media" onerror="this.src = '/photo/stock.png';">
+    <img class="card-img-top" src=@ViewData["preview"] alt='preview image';">
     <div class="card-body">
         <h5 class="card-title">@nextEvent.Title</h5>
         <p class="card-text">@nextEvent.GetShortDescription()</p>
@@ -65,7 +65,7 @@
                     header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'month,agendaWeek,agendaDay,listMonth'
+                        right: 'month,agendaWeek,listMonth'
                     },
                     eventLimit: true,
                     events: events,
