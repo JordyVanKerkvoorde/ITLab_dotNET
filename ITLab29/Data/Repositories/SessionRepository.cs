@@ -16,7 +16,7 @@ namespace ITLab29.Data.Repositories {
         }
 
         public IEnumerable<Session> GetAll() {
-            List<Session> result = _sessions.AsNoTracking().ToList();
+            List<Session> result = _sessions.Include(s=>s.Media).AsNoTracking().ToList();
             // check if list is empty
             if (!result.Any())
             {
