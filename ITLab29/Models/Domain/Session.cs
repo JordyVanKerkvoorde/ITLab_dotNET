@@ -96,7 +96,7 @@ namespace ITLab29.Models.Domain
         }
 
         public void AddUserSession( User user) {
-            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity || user.UserStatus != UserStatus.BLOCKED) {
+            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity && user.UserStatus != UserStatus.BLOCKED) {
                 UserSession us = new UserSession();
                 us.User = user;
                 us.UserId = user.UserId;
@@ -110,10 +110,18 @@ namespace ITLab29.Models.Domain
         }
 
         public void RemoveUserSession(User user) {
-            UserSessions.Remove(UserSessions.Where(u => u.Session == this && u.User == user).FirstOrDefault());
+            UserSession us = UserSessions.Where(u => u.Session == this && u.User == user).FirstOrDefault();
+            if(us != null)
+            {
+                UserSessions.Remove(us);
+            }
+            else
+            {
+                throw new Exception($"User not found for session: {this}");
+            }
         }
 
-        public IEnumerable<User> GetUsers() {
+        public ICollection<User> GetUsers() {
             return UserSessions.Where(u => u.SessionId == SessionId).Select(u => u.User).ToList();
         }
 
