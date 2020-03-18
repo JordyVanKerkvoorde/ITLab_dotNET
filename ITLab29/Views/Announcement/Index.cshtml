@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Announcement>;
+@using ITLab29.Models.Domain;
+@{
+    ViewData["Title"] = "Details";
+}
+<header class="py-2 bg-image-full" style="background-image: url('/photo/1280px-HoGent_campusSchoonmeersen.jpg');margin-bottom:15px">
+    <a href="/">
+        <img class="img-fluid d-block mx-auto" src="~/photo/itlab_logo.png" alt="">
+    </a>
+</header>
+
+<h1>Aankondigingen</h1>
+
+@if (!Model.Any()) {
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Geen Aankondigingen</h5>
+            <p class="card-text">Er zijn nog geen aankondigingen beschikbaar</p>
+        </div>
+    </div>
+} else {
+    foreach (var aankondiging in Model) {
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@aankondiging.PostTime</h5>
+                <p class="card-text">@aankondiging.Message</p>
+            </div>
+        </div>
+    }
+}

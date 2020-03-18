@@ -16,22 +16,23 @@
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
-<div class="h-25 row">
-    <div class="col-md-5">
-        <img class="img-fluid"
-             src="https://i1.wp.com/guide-high-tech.com/wp-content/uploads/2019/04/Cloud-Computing-01.jpg?fit=1000%2C680&ssl=1"
-             alt="Alternate Text" />
-    </div>
-    <div class="col-md-7 my-auto">
-        <div class="page-header">
-            <h1>
-                @session.Title
-            </h1>
+    <header class="py-2 bg-image-full img-fluid" style="background-image: url('https://www.eurocloud.org.uk/wp-content/uploads/2018/03/What-Is-Cloud-Computing.jpg');margin-bottom:15px">
+        <a href="/">
+            <img class="img-fluid d-block mx-auto" src="~/photo/itlab_logo.png" alt="">
+        </a>
+    </header>
+
+    <div class="h-25 row">
+        <div class="col-md-7 my-auto">
+            <div class="page-header">
+                <h1>
+                    @session.Title
+                </h1>
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-7">
+<div class="row d-flex">
+    <div class="col-sm-7 lead">
         <dl>
             <dt>
                 Omschrijving

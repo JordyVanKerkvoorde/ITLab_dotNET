@@ -3,14 +3,19 @@
 @{
     ViewData["Title"] = "Index";
 }
+<!-- Header - set the background image for the header in the line below -->
+<header class="py-2 bg-image-full" style="background-image: url('/photo/1280px-HoGent_campusSchoonmeersen.jpg');margin-bottom:15px">
+    <a href="/">
+        <img class="img-fluid d-block mx-auto" src="~/photo/itlab_logo.png" alt="">
+    </a>
+</header>
 <link href="~/css/fullcalendar.min.css" rel="stylesheet" />
 <link href="~/css/fullcalendar.print.css" rel="stylesheet" media="print" />
 
 @{ var nextEvent = Model.OrderBy(t => t.Start).FirstOrDefault();}
-
-<div class="card bg-light" style="max-width: 18rem; position:absolute;left:inherit;z-index:1">
-    <div class="card-header">Volgende sessie</div>
-    <img class="card-img-top" src="~/photo/@nextEvent.Media" onerror="this.src = '/photo/stock.png';">
+<h2>Volgende Sessie</h2>
+<div class="card" style="max-width: 18rem; position:absolute;left:inherit;z-index:1">
+    <img class="card-img-top" src="~/photo/@nextEvent.Media" onerror="this.src = '/photo/What-Is-Cloud-Computing.jpg';">
     <div class="card-body">
         <h5 class="card-title">@nextEvent.Title</h5>
         <p class="card-text">@nextEvent.GetShortDescription()</p>
@@ -20,7 +25,7 @@
     </div>
 </div>
 
-<div class="card bg-light" style="margin-left: 20rem;">
+<div class="card" style="margin-left: 20rem;">
     <div class="card-body">
         <div id="calender"></div>
     </div>

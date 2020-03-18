@@ -33,7 +33,7 @@ namespace ITLab29.Data
                 { UserName = "sander.castanheiramachado@student.hogent.be", Email = "sander.castanheiramachado@student.hogent.be", EmailConfirmed = true };
                 User dummyUser4 = new User("00200", "Jordy", "Van Kerkvoorde", UserType.RESPONSIBLE, UserStatus.ACTIVE)
                 { UserName = "jordy.vankerkvoorde@student.hogent.be", Email = "jordy.vankerkvoorde@student.hogent.be", EmailConfirmed = true };
-                Media avatar = new Media(MediaType.IMAGE, "/photo/stock.png");
+                Media avatar = new Media(MediaType.IMAGE, "/photo/What-Is-Cloud-Computing.jpg");
                 _dbContext.Media.Add(avatar);
                 dummyUser.Avatar = avatar;
                 dummyUser2.Avatar = avatar;
@@ -83,7 +83,7 @@ namespace ITLab29.Data
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg"),
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg"),
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"),
-                    new Media(MediaType.FILE, "/photo/stock.png")
+                    new Media(MediaType.FILE, "/photo/What-Is-Cloud-Computing.jpg")
                 };
                 foreach (var item in media)
                 {
@@ -110,7 +110,13 @@ namespace ITLab29.Data
                 };
 
                 _dbContext.Media.AddRange(medias);
-            }
+
+                IList<Announcement> announcements = new List<Announcement> {
+                    new Announcement(DateTime.Now, "Door het het uitbreken van het coronavirus(Covid-19) in ons land worden vanaf heden alle sessies opgeschort tot en met 5/04/2020"),
+                    new Announcement(new DateTime(2020, 03, 10, 22, 35, 5), "De sessie Power Use of UNIX zal 10 minuten later beginnen.")
+                };
+                _dbContext.Announcements.AddRange(announcements);
+        }
             _dbContext.SaveChanges();
         }
     }
