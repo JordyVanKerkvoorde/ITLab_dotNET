@@ -14,11 +14,6 @@ namespace ITLab29.Models.ViewModels {
         [Required(ErrorMessage = "Geef je feedback door!")]
         [StringLength(350, ErrorMessage = "De feedback kan maximum 350 karakters bevatten")]
         public string Description { get; set; }
-        public Session Session { get; }
-
-        public FeedBackViewModel(Session session)
-        {
-            Session = session;
-        }
+        public Session Session { get; set; }
     }
 }

@@ -130,7 +130,7 @@ namespace ITLab29.Tests.Controllers
         [Fact]
         public void AddFeedback_SessionFound_AddsFeedbacktoSession()
         {
-            var feedback = new FeedBackViewModel(null) { id = 1, Score = 4, Description = "testet" };
+            var feedback = new FeedBackViewModel() { id = 1, Score = 4, Description = "testet" };
             _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == feedback.id));
             var result = Assert.IsType<RedirectToActionResult>(_sessionController.AddFeedback(feedback));
             Assert.Equal("Details", result?.ActionName);
@@ -143,7 +143,7 @@ namespace ITLab29.Tests.Controllers
         [Fact]
         public void AddFeedback_SessionNotFound_ReturnsNotFound()
         {
-            var feedback = new FeedBackViewModel(null) { id = 1234, Score = 4, Description = "testet" };
+            var feedback = new FeedBackViewModel() { id = 1234, Score = 4, Description = "testet" };
             _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Throws(new ArgumentNullException());
             Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
         }

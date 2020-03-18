@@ -96,7 +96,7 @@ namespace ITLab29.Controllers
             ViewData["session"] = session;
             ViewData["images"] = session.Media.Where(t => t.Type == MediaType.IMAGE).ToList();
             ViewData["files"] = session.Media.Where(t => t.Type == MediaType.FILE).ToList();
-            return View(new FeedBackViewModel(session));
+            return View(new FeedBackViewModel() { Session = session });
         }
 
         [HttpPost]
