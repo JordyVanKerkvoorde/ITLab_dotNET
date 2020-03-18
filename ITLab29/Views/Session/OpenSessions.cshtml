@@ -3,6 +3,14 @@
     ViewData["Title"] = "OpenSessionsView";
 }
 
+@if (TempData["message"] != null)
+{
+    <span class="alert alert-success">@TempData["message"]</span>
+}
+@if (TempData["error"] != null)
+{
+    <span class="alert alert-warning">@TempData["error"]</span>
+}
 <h1>Sessies</h1>
 <table class="table table-striped table-sm table-bordered">
     <tr>
@@ -12,6 +20,8 @@
         <th>Starttijd</th>
         <th>Eindtijd</th>
         <th>Deelnemers</th>
+        <th></th>
+        <th></th>
     </tr>
     <tr>
         @{
@@ -22,9 +32,69 @@
                 <td>@m.Location.LocationId</td>
                 <td>@m.Start</td>
                 <td>@m.End</td>
-                <td>@m.UserSessions.Count</td> <!--aantal usersessions is het aantal users gelinkt in db aan sessie, en dus aantal deelnemers-->
+                <td>@m.UserSessions.Count</td>
+                <!--aantal usersessions is het aantal users gelinkt in db aan sessie, en dus aantal deelnemers-->
+                <td>
+                    <form asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
+                        <button type="submit" class="btn btn-primary">
+                            Details
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-controller="Session" asp-action="OpenSession" asp-route-id="@m.SessionId">
+                        <button type="submit" class="btn btn-primary">
+                            Zet open
+                        </button>
+                    </form>
+                </td>
             }
         }
     </tr>
+</table>
+
+<h1>Open sessies</h1>
+<table class="table table-striped table-sm table-bordered">
+    <tr>
+        <th>Titel</th>
+        <th>Verantwoordelijke</th>
+        <th>Lokaal</th>
+        <th>Starttijd</th>
+        <th>Eindtijd</th>
+        <th>Deelnemers</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        @{
+            if (ViewData["opensessions"] != null)
+            {
+                foreach (ITLab29.Models.Domain.Session m in ViewData["opensessions"] as IEnumerable<ITLab29.Models.Domain.Session>)
+                {
+                    <td>@m.Title</td>
+                    <td>@m.Responsible.FirstName @m.Responsible.LastName</td>
+                    <td>@m.Location.LocationId</td>
+                    <td>@m.Start</td>
+                    <td>@m.End</td>
+                    <td>@m.UserSessions.Count</td>
+                    <td>
+                        <form asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
+                            <button type="submit" class="btn btn-primary">
+                                Details
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-controller="Session" asp-action="Aanwezigen" asp-route-id="@m.SessionId">
+                            <button type="submit" class="btn btn-primary">
+                                Aanwezigen
+                            </button>
+                        </form>
+                    </td>
+                }
+            }
+        }
+    </tr>
+
 </table>
 

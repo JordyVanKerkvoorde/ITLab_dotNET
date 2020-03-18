@@ -11,6 +11,9 @@ namespace ITLab29.Models.Domain {
         IEnumerable<Session> GetByResponsibleId(string id);
         IEnumerable<Session> GetOpenableSessions(string id);
         IEnumerable<Session> GetOpenableSessionsAsAdmin();
+        IEnumerable<Session> GetOpenedSessions(string id);
+        IEnumerable<Session> GetOpenedSessionsAsAdmin();
+        IEnumerable<User> GetRegisteredUsersBySessionId(int id);
         void SaveChanges();
     }
 }

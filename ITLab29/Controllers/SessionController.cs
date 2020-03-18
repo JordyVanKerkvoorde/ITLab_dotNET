@@ -153,12 +153,44 @@ namespace ITLab29.Controllers
             //IEnumerable<Session> sessions = _sessionRepository.GetByResponsibleId(user.Id);
             IEnumerable<Session> sessions;
             if (user.UserType == UserType.ADMIN)
+            {
                 sessions = _sessionRepository.GetOpenableSessionsAsAdmin();
-            else
+                ViewData["opensessions"] = _sessionRepository.GetOpenedSessionsAsAdmin();
+            }
+            else { 
                 sessions = _sessionRepository.GetOpenableSessions(user.Id);
+                ViewData["opensessions"] = _sessionRepository.GetOpenedSessions(user.Id);
+            }
 
             sessions.OrderBy(s => s.Start);
             return View(sessions);
+        }
+
+        [HttpPost]
+        public IActionResult OpenSession(int id)
+        {
+            try
+            {
+                Session session = _sessionRepository.GetById(id);
+                session.OpenSession();
+                _sessionRepository.SaveChanges();
+                TempData["message"] = "Sessie succesvol opengezet";
+
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = "Er is iets misgegaan bij het openzetten van de sessie";
+            }
+            ViewData["message"] = "bajldakl;sdkljfa;sd succesvol opengezet";
+
+            return RedirectToAction("OpenSessions");
+        }
+
+        public IActionResult Aanwezigen(int sessionid)
+        {
+            //IEnumerable<User> users = _sessionRepository.GetRegisteredUsersBySessionId(sessionid);
+            IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(sessionid);
+            return View(users);           
         }
     }
 }
