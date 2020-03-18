@@ -13,7 +13,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAAAAAEAQgAAgAAAAADAACAAEACAAAAAg=</HashCode>
+      <HashCode>AABAAEAAAAAAAAAAEAQgAAgAAAQADAAAAAEACAAAAAg=</HashCode>
       <FileName>Models\Domain\User.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -27,16 +27,16 @@
   <Class Name="ITLab29.Models.Domain.Session">
     <Position X="9" Y="2.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>4AIAAAAAASAgAECAAAKiAAAKAAAABAAAAAAAAAAAAA4=</HashCode>
+      <HashCode>4AIAAAAAASAgAECAAAKiAAAKAAQAFAAAgAAAgAAAAA4=</HashCode>
       <FileName>Models\Domain\Session.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Location" />
       <Property Name="Responsible" />
+      <Property Name="Location" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Guests" />
       <Property Name="UserSessions" />
+      <Property Name="Guests" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="ITLab29.Models.Domain.Location">
@@ -80,6 +80,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAgCAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Domain\Guest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ITLab29.Models.Domain.Announcement">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAACAA=</HashCode>
+      <FileName>Models\Domain\Announcement.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="ITLab29.Models.Domain.CampusEnum">
