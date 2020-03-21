@@ -44,78 +44,11 @@
             </dd>
         </dl>
         <partial name="MediaPartial" for="Item2"/>
-        @if (isAuth && user.IsRegistered(session.SessionId))
-        {
-            //nog checken of het event in het verleden ligt
-            //nog checken of user al feedback gegeven heeft op dit event
-            //TODO: needs more markup
-            <div class="card mt-md-2 border-0">
-                <form asp-controller="Session" asp-action="AddFeedback" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="id" value="@session.SessionId" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="@Model.Item1.Score">Score</label>
-                        <span asp-validation-for="@Model.Item1.Score" class="text-danger"></span>
-                        <select class="form-control" name="Score" asp-for="@Model.Item1.Score">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                    <div class="md-form">
-                        <label asp-for="@Model.Item1.Description">Feedback</label>
-                        <textarea asp-for="@Model.Item1.Description" class="md-textarea form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
-                        <span asp-validation-for="@Model.Item1.Description" class="text-danger"></span>
-                    </div>
-                    <button type="submit" class="btn-primary">Verzend!</button>
-                </form>
-            </div>
-        }
-        @if (session.Feedback.Any())
-        {
-            <h3>Comments: </h3>
-            <ul class="list-group-flush mb-9">
-                @foreach (var feedback in session.Feedback)
-                {
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-2">@feedback.Score / 5</div>
-                            <div class="col-md-10">
-                                <p class="text-body">
-                                    @feedback.Description
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                }
-            </ul>
-        }
+        <partial name="FeedBackPartial" model="new Tuple<ITLab29.Models.ViewModels.FeedBackViewModel, ITLab29.Models.ViewModels.EventDetailsViewModel>(Model.Item1, Model.Item2)" />
     </div>
     <div class="col-sm-3">
-        <div class="card">
-            <h5 class="card-header">
-                Locatie: @session.Location.Campus @session.Location.LocationId
-            </h5>
-            <div class="card-body">
-                <p class="card-text">
-                    Tijdstip: @session.GetDateFormat() @session.GetTimeFormat()
-                </p>
-            </div>
-            <div class="card-footer">
-                Verantwoordelijke: @session.Responsible.FirstName @session.Responsible.LastName
-            </div>
-        </div> <span class="badge badge-default">@session.UserSessions.Count() / @session.Capacity</span>
-        <div class="progress">
-            <div class="progress-bar" aria-valuenow=@session.GetUsers().Count() aria-valuemin="0"
-                 aria-valuemax=@session.Capacity></div>
-        </div>
+        <partial name="EventLocationPartial" for="Item2" />
         <partial name="EventRegisterPartial" for="Item2" />
-        
-
-
     </div>
 </div>
 
