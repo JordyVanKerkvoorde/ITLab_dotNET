@@ -14,6 +14,7 @@ namespace ITLab29.Data.Mapping
         {
             //builder.HasOne(t => t.User).WithMany();
             builder.HasKey(t => t.Description);
+            builder.Property(t => t.User).IsRequired();
         }
     }
 }

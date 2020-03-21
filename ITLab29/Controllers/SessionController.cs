@@ -147,16 +147,19 @@ namespace ITLab29.Controllers
         [HttpPost]
         public IActionResult AddFeedback(FeedBackViewModel feedback ) {
             Session session;
+            User user;
+            Console.WriteLine(feedback.UserId);
             try
             {
                 session = _sessionRepository.GetById(feedback.id);
+                user = _userRepository.GetById(feedback.UserId);
             }
             catch (ArgumentNullException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            session.AddFeedback(new Feedback(feedback.Score, feedback.Description));
+            session.AddFeedback(new Feedback(feedback.Score, feedback.Description, user));
             _sessionRepository.SaveChanges();
             return RedirectToAction("Details", "Session", new { feedback.id });
         }

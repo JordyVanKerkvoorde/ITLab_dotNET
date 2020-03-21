@@ -17,6 +17,9 @@
                 <input type="hidden" name="id" value="@session.SessionId" />
             </div>
             <div class="form-group">
+                <input type="hidden" name="UserId" value="@user.UserId" />
+            </div>
+            <div class="form-group">
                 <label asp-for="@Model.Item1.Score">Score</label>
                 <span asp-validation-for="@Model.Item1.Score" class="text-danger"></span>
                 <select class="form-control" name="Score" asp-for="@Model.Item1.Score">
@@ -46,6 +49,9 @@
                 <div class="row">
                     <div class="col-md-2">@feedback.Score / 5</div>
                     <div class="col-md-10">
+                        <p class="text-info">
+                            @feedback.User
+                        </p>
                         <p class="text-body">
                             @feedback.Description
                         </p>

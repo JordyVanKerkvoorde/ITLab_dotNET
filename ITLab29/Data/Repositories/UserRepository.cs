@@ -34,10 +34,8 @@ namespace ITLab29.Data.Repositories
         {
             return _users
                 .Include(u => u.UserSessions) 
-                //.Include(u => u.UserStatus)
-                //.Include(u => u.UserType)
                 .Include(u => u.Avatar)
-                .SingleOrDefault(u => u.Id == userId);
+                .SingleOrDefault(u => u.UserId == userId);
         }
 
         public IEnumerable<User> GetByLastName(string lastName)

@@ -15,5 +15,6 @@ namespace ITLab29.Models.ViewModels {
         [StringLength(350, ErrorMessage = "De feedback kan maximum 350 karakters bevatten")]
         public string Description { get; set; }
         public Session Session { get; set; }
+        public string UserId { get; set; }
     }
 }
