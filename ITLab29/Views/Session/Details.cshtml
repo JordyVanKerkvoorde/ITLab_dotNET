@@ -18,14 +18,14 @@
 }
 
 
-    <header class="py-2 bg-image-full img-fluid" style="background-image: url('https://www.eurocloud.org.uk/wp-content/uploads/2018/03/What-Is-Cloud-Computing.jpg');margin-bottom:15px">
-        <a href="/">
-            <img class="img-fluid d-block mx-auto" src="~/photo/itlab_logo.png" alt="">
-        </a>
-    </header>
+<header class="py-2 bg-image-full img-fluid" style="background-image: url('https://www.eurocloud.org.uk/wp-content/uploads/2018/03/What-Is-Cloud-Computing.jpg');margin-bottom:15px">
+    <a href="/">
+        <img class="img-fluid d-block mx-auto" src="~/photo/itlab_logo.png" alt="">
+    </a>
+</header>
 
 <div class="h-25 row">
-    
+
     <div class="col-md-7 my-auto">
         <div class="page-header">
             <h1>
@@ -33,26 +33,26 @@
             </h1>
         </div>
     </div>
-<div class="row d-flex">
-    <div class="col-sm-7 lead">
-        <dl>
-            <dt>
-                Omschrijving
-            </dt>
-            <dd>
-                @session.Description
-            </dd>
-        </dl>
-        <partial name="MediaPartial" for="Item2"/>
-        <partial name="FeedBackPartial" model="new Tuple<ITLab29.Models.ViewModels.FeedBackViewModel, ITLab29.Models.ViewModels.EventDetailsViewModel>(Model.Item1, Model.Item2)" />
-    </div>
-    <div class="col-sm-3">
-        <partial name="EventLocationPartial" for="Item2" />
-        <partial name="EventRegisterPartial" for="Item2" />
+    <div class="row d-flex">
+        <div class="col-sm-7 lead">
+            <dl>
+                <dt>
+                    Omschrijving
+                </dt>
+                <dd>
+                    @session.Description
+                </dd>
+            </dl>
+            <partial name="MediaPartial" for="Item2" />
+            <partial name="FeedBackPartial" model="new Tuple<ITLab29.Models.ViewModels.FeedBackViewModel, ITLab29.Models.ViewModels.EventDetailsViewModel>(Model.Item1, Model.Item2)" />
+        </div>
+        <div class="col-sm-3">
+            <partial name="EventLocationPartial" for="Item2" />
+            <partial name="EventRegisterPartial" for="Item2" />
+        </div>
     </div>
 </div>
-
-@section scripts {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-} 
+    @section scripts {
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    }
