@@ -112,36 +112,8 @@
             <div class="progress-bar" aria-valuenow=@session.GetUsers().Count() aria-valuemin="0"
                  aria-valuemax=@session.Capacity></div>
         </div>
-        @if (isAuth)
-        {
-            if (user.IsRegistered(session.SessionId))
-            {
-                <form asp-controller="Session" asp-action="Delete" asp-route-id="@session.SessionId">
-                    <button type="submit" class="btn btn-danger">
-                        Uitschrijven
-                    </button>
-                </form>
-            }
-            else
-            {
-                if (session.GetUsers().Count() < session.Capacity)
-                {
-                    <form asp-controller="Session" asp-action="Add" asp-route-id="@session.SessionId">
-                        <button type="submit" class="btn btn-success">
-                            Inschrijven
-                        </button>
-                    </form>
-                }
-                else
-                {
-                    <form>
-                        <button type="submit" class="btn btn-warning">
-                            Volzet!
-                        </button>
-                    </form>
-                }
-            }
-        }
+        <partial name="EventRegisterPartial" for="Item2" />
+        
 
 
     </div>
