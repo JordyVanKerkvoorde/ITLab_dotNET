@@ -1,4 +1,4 @@
-﻿@model ITLab29.Models.ViewModels.FeedBackViewModel;
+﻿@model Tuple<ITLab29.Models.ViewModels.FeedBackViewModel, ITLab29.Models.ViewModels.EventDetailsViewModel>
 @using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
 @using ITLab29.Models.ViewModels;
@@ -9,11 +9,11 @@
 }
 
 @{
-    User user = ViewData["user"] as User;
-    Session session = ViewData["session"] as Session;
-    IList<Media> images = ViewData["images"] as List<Media>;
-    IList<Media> files = ViewData["files"] as List<Media>;
-    IList<Media> videos = ViewData["videos"] as List<Media>;
+    User user = Model.Item2.User;
+    Session session = Model.Item2.Session;
+    IList<Media> images = Model.Item2.Images;
+    IList<Media> files = Model.Item2.Files;
+    IList<Media> videos = Model.Item2.Videos;
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
@@ -155,9 +155,9 @@
                         <input type="hidden" name="id" value="@session.SessionId" />
                     </div>
                     <div class="form-group">
-                        <label asp-for="Score">Score</label>
-                        <span asp-validation-for="Score" class="text-danger"></span>
-                        <select class="form-control" name="Score" asp-for="Score">
+                        <label asp-for="@Model.Item1.Score">Score</label>
+                        <span asp-validation-for="@Model.Item1.Score" class="text-danger"></span>
+                        <select class="form-control" name="Score" asp-for="@Model.Item1.Score">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -166,9 +166,9 @@
                         </select>
                     </div>
                     <div class="md-form">
-                        <label asp-for="Description">Feedback</label>
-                        <textarea asp-for="Description" class="md-textarea form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
+                        <label asp-for="@Model.Item1.Description">Feedback</label>
+                        <textarea asp-for="@Model.Item1.Description" class="md-textarea form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
+                        <span asp-validation-for="@Model.Item1.Description" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn-primary">Verzend!</button>
                 </form>
