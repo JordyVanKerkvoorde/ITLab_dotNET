@@ -103,7 +103,7 @@ namespace ITLab29.Models.Domain
         }
 
         public void AddUserSession( User user) {
-            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity && user.UserStatus != UserStatus.BLOCKED) {
+            if (!SessionFull() && user.UserStatus != UserStatus.BLOCKED) {
                 UserSession us = new UserSession();
                 us.User = user;
                 us.UserId = user.UserId;
@@ -147,6 +147,10 @@ namespace ITLab29.Models.Domain
 
         public bool WroteFeedback(User user) {
             return Feedback.Where(f => f.User == user).Any();
+        }
+
+        public bool SessionFull() {
+            return UserSessions.Where(p => p.SessionId == SessionId).Count() >= Capacity;
         }
     }
 }

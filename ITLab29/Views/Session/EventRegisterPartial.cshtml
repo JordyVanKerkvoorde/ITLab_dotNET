@@ -14,7 +14,7 @@
         }
         else
         {
-            if (Model.Session.GetUsers().Count() < Model.Session.Capacity)
+            if (!Model.Session.SessionFull())
             {
                 <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.Session.SessionId">
                     <button type="submit" class="btn btn-success">
