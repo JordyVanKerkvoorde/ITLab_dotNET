@@ -16,7 +16,9 @@
     IList<Media> videos = Model.Item2.Videos;
     bool isAuth = User.Identity.IsAuthenticated;
 }
-
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
 <header class="py-2 bg-image-full img-fluid" style="background-image: url('https://www.eurocloud.org.uk/wp-content/uploads/2018/03/What-Is-Cloud-Computing.jpg');margin-bottom:15px">
     <a href="/">
@@ -24,35 +26,38 @@
     </a>
 </header>
 
-<div class="h-25 row">
 
-    <div class="col-md-7 my-auto">
-        <div class="page-header">
-            <h1>
+<div class="col my-auto" style="padding-bottom: 1.5em; padding-top: 1em;">
+    <div class="page-header">
+        <h1>
+            <b style="color: #5b5b5b;">
                 @session.Title
-            </h1>
-        </div>
-    </div>
-    <div class="row d-flex">
-        <div class="col-sm-7 lead">
-            <dl>
-                <dt>
-                    Omschrijving
-                </dt>
-                <dd>
-                    @session.Description
-                </dd>
-            </dl>
-            <partial name="MediaPartial" for="Item2" />
-            <partial name="FeedBackPartial" model="new Tuple<ITLab29.Models.ViewModels.FeedBackViewModel, ITLab29.Models.ViewModels.EventDetailsViewModel>(Model.Item1, Model.Item2)" />
-        </div>
-        <div class="col-sm-3">
-            <partial name="EventLocationPartial" for="Item2" />
-            <partial name="EventRegisterPartial" for="Item2" />
-        </div>
+            </b>
+        </h1>
     </div>
 </div>
-    @section scripts {
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    }
+
+<div class="h-25 row">
+
+    <div class="col-8 lead">
+        <dl>
+            <dt>
+                Omschrijving
+            </dt>
+            <dd>
+                @session.Description
+            </dd>
+        </dl>
+        <partial name="MediaPartial" for="Item2" />
+        <partial name="FeedBackPartial" model="new Tuple<ITLab29.Models.ViewModels.FeedBackViewModel, ITLab29.Models.ViewModels.EventDetailsViewModel>(Model.Item1, Model.Item2)" />
+    </div>
+    <div class="col-4">
+        <partial name="EventLocationPartial" for="Item2" />
+        <partial name="EventRegisterPartial" for="Item2" />
+    </div>
+
+</div>
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

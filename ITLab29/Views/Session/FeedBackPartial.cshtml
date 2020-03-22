@@ -24,11 +24,9 @@
             <label asp-for="@Model.Item1.Score">Score</label>
             <span asp-validation-for="@Model.Item1.Score" class="text-danger"></span>
             <select class="form-control" name="Score" asp-for="@Model.Item1.Score">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                @for (int i = FeedBackViewModel.MinScore; i <= FeedBackViewModel.MaxScore; i++) { 
+                    <option>@i</option>
+                }
             </select>
         </div>
         <div class="md-form">
