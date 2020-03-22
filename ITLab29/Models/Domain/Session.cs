@@ -86,7 +86,11 @@ namespace ITLab29.Models.Domain
         }
 
         public Feedback AddFeedback(Feedback feedback) {
-            Feedback.Add(feedback);
+            if (!WroteFeedback(feedback.User)) {
+                Feedback.Add(feedback);
+            } else {
+                throw new Exception("Je kan maar 1 keer feedback geven per sessie");
+            }
             return feedback;
         }
 
@@ -139,6 +143,10 @@ namespace ITLab29.Models.Domain
                 throw new AlreadyOpenException("Session already open");
             else
                 IsOpened = true;
+        }
+
+        public bool WroteFeedback(User user) {
+            return Feedback.Where(f => f.User == user).Any();
         }
     }
 }
