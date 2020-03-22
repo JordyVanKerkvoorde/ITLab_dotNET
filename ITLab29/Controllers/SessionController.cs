@@ -48,11 +48,12 @@ namespace ITLab29.Controllers
                     sessions = new List<Session>();
                 }
             }
-            sessions = sessions.OrderBy(s => s.Start).ToList();
+            
             try
             {
-                Console.WriteLine("path test");
-                Console.WriteLine(sessions.First().Media.Count());
+                sessions = sessions.OrderBy(s => s.Start).ToList();
+                //Console.WriteLine("path test");
+                //Console.WriteLine(sessions.First().Media.Count());
                 ViewData["preview"] = sessions.First().Media.Where(t => t.Type == MediaType.IMAGE).First().Path;
             }
             catch
@@ -83,25 +84,28 @@ namespace ITLab29.Controllers
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult Details(int id, User user) {
             Session session;
+            EventDetailsViewModel sessionDetailsViewModel;
+            FeedBackViewModel feedBackViewModel;
             try
             {
                 session = _sessionRepository.GetById(id);
+                sessionDetailsViewModel = new EventDetailsViewModel
+                {
+                    User = user,
+                    Session = session,
+                    Images = session.Media.Where(t => t.Type == MediaType.IMAGE).ToList(),
+                    Files = session.Media.Where(t => t.Type == MediaType.FILE).ToList(),
+                    Videos = session.Media.Where(t => t.Type == MediaType.VIDEO).ToList()
+                };
+                feedBackViewModel = new FeedBackViewModel() { Session = session };
             }
             catch (ArgumentNullException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            var eventDetailsViewModel = new EventDetailsViewModel
-            {
-                User = user,
-                Session = session,
-                Images = session.Media.Where(t => t.Type == MediaType.IMAGE).ToList(),
-                Files = session.Media.Where(t => t.Type == MediaType.FILE).ToList(),
-                Videos = session.Media.Where(t => t.Type == MediaType.VIDEO).ToList()
-            };
-            var feedBackViewModel = new FeedBackViewModel() { Session = session };
-            return View(new Tuple<FeedBackViewModel, EventDetailsViewModel>( feedBackViewModel, eventDetailsViewModel ));
+            
+            return View(new Tuple<FeedBackViewModel, EventDetailsViewModel>( feedBackViewModel, sessionDetailsViewModel ));
         }
 
         [HttpPost]
@@ -111,17 +115,17 @@ namespace ITLab29.Controllers
             try
             {
                 session = _sessionRepository.GetById(id);
+                session.AddUserSession(user);
+                // maar 1 repository saven want die savet de context.
+                _userRepository.SaveChanges();
+                ViewData["sessionId"] = id;
             }
             catch (ArgumentNullException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            session.AddUserSession(user);
-            // maar 1 repository saven want die savet de context.
-            _userRepository.SaveChanges();
-
-            ViewData["sessionId"] = id;
+            
             return RedirectToAction("Details", "Session", new { id });
         }
 
@@ -132,15 +136,15 @@ namespace ITLab29.Controllers
             try
             {
                 session = _sessionRepository.GetById(id);
+                user.RemoveUserSession(session);
+                _userRepository.SaveChanges();
             }
             catch (ArgumentNullException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            user.RemoveUserSession(session);
-            _userRepository.SaveChanges();
-
+            
             return RedirectToAction("Details", "Session", new { id });
         }
 
@@ -153,14 +157,15 @@ namespace ITLab29.Controllers
             {
                 session = _sessionRepository.GetById(feedback.id);
                 user = _userRepository.GetById(feedback.UserId);
+                session.AddFeedback(new Feedback(feedback.Score, feedback.Description, user));
+                _sessionRepository.SaveChanges();
             }
             catch (ArgumentNullException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            session.AddFeedback(new Feedback(feedback.Score, feedback.Description, user));
-            _sessionRepository.SaveChanges();
+            
             return RedirectToAction("Details", "Session", new { feedback.id });
         }
         [ServiceFilter(typeof(LoggedOnUserFilter))]
@@ -168,17 +173,27 @@ namespace ITLab29.Controllers
         {
             //IEnumerable<Session> sessions = _sessionRepository.GetByResponsibleId(user.Id);
             IEnumerable<Session> sessions;
-            if (user.UserType == UserType.ADMIN)
+            try
             {
-                sessions = _sessionRepository.GetOpenableSessionsAsAdmin();
-                ViewData["opensessions"] = _sessionRepository.GetOpenedSessionsAsAdmin();
-            }
-            else { 
-                sessions = _sessionRepository.GetOpenableSessions(user.Id);
-                ViewData["opensessions"] = _sessionRepository.GetOpenedSessions(user.Id);
-            }
+                if (user.UserType == UserType.ADMIN)
+                {
+                    sessions = _sessionRepository.GetOpenableSessionsAsAdmin();
+                    ViewData["opensessions"] = _sessionRepository.GetOpenedSessionsAsAdmin();
+                }
+                else
+                {
+                    sessions = _sessionRepository.GetOpenableSessions(user.Id);
+                    ViewData["opensessions"] = _sessionRepository.GetOpenedSessions(user.Id);
+                }
 
-            sessions.OrderBy(s => s.Start);
+                sessions.OrderBy(s => s.Start);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
             return View(sessions);
         }
 
@@ -191,7 +206,6 @@ namespace ITLab29.Controllers
                 session.OpenSession();
                 _sessionRepository.SaveChanges();
                 TempData["message"] = "Sessie succesvol opengezet";
-
             }
             catch (Exception e)
             {
