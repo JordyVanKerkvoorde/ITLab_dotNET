@@ -1,0 +1,18 @@
+﻿@model ITLab29.Models.ViewModels.EventDetailsViewModel
+<div class="card">
+    <h5 class="card-header">
+        Locatie: @Model.Session.Location.Campus @Model.Session.Location.LocationId
+    </h5>
+    <div class="card-body">
+        <p class="card-text">
+            Tijdstip: @Model.Session.GetDateFormat() @Model.Session.GetTimeFormat()
+        </p>
+    </div>
+    <div class="card-footer">
+        Verantwoordelijke: @Model.Session.Responsible.FirstName @Model.Session.Responsible.LastName
+    </div>
+</div> <span class="badge badge-default">@Model.Session.UserSessions.Count() / @Model.Session.Capacity</span>
+<div class="progress">
+    <div class="progress-bar" aria-valuenow=@Model.Session.GetUsers().Count() aria-valuemin="0"
+         aria-valuemax=@Model.Session.Capacity></div>
+</div>

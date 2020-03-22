@@ -1,0 +1,36 @@
+﻿@model ITLab29.Models.ViewModels.EventDetailsViewModel
+@{
+    bool isAuth = User.Identity.IsAuthenticated;
+}
+@{ if (isAuth)
+    {
+        if (Model.User.IsRegistered(Model.Session.SessionId))
+        {
+            <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.Session.SessionId">
+                <button type="submit" class="btn btn-danger">
+                    Uitschrijven
+                </button>
+            </form>
+        }
+        else
+        {
+            if (Model.Session.GetUsers().Count() < Model.Session.Capacity)
+            {
+                <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.Session.SessionId">
+                    <button type="submit" class="btn btn-success">
+                        Inschrijven
+                    </button>
+                </form>
+            }
+            else
+            {
+                <form>
+                    <button type="submit" class="btn btn-warning">
+                        Volzet!
+                    </button>
+                </form>
+            }
+
+        }
+    }
+}

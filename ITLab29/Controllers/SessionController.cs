@@ -92,14 +92,16 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            Console.WriteLine("@@@@@@@@@ session media count @@@@@@@@@@");
-            Console.WriteLine(session.Media.Where(t => t.Type==MediaType.IMAGE).Count());
-            ViewData["user"] = user;
-            ViewData["session"] = session;
-            ViewData["images"] = session.Media.Where(t => t.Type == MediaType.IMAGE).ToList();
-            ViewData["files"] = session.Media.Where(t => t.Type == MediaType.FILE).ToList();
-            ViewData["videos"] = session.Media.Where(t => t.Type == MediaType.VIDEO).ToList();
-            return View(new FeedBackViewModel() { Session = session });
+            var eventDetailsViewModel = new EventDetailsViewModel
+            {
+                User = user,
+                Session = session,
+                Images = session.Media.Where(t => t.Type == MediaType.IMAGE).ToList(),
+                Files = session.Media.Where(t => t.Type == MediaType.FILE).ToList(),
+                Videos = session.Media.Where(t => t.Type == MediaType.VIDEO).ToList()
+            };
+            var feedBackViewModel = new FeedBackViewModel() { Session = session };
+            return View(new Tuple<FeedBackViewModel, EventDetailsViewModel>( feedBackViewModel, eventDetailsViewModel ));
         }
 
         [HttpPost]
@@ -145,16 +147,19 @@ namespace ITLab29.Controllers
         [HttpPost]
         public IActionResult AddFeedback(FeedBackViewModel feedback ) {
             Session session;
+            User user;
+            Console.WriteLine(feedback.UserId);
             try
             {
                 session = _sessionRepository.GetById(feedback.id);
+                user = _userRepository.GetById(feedback.UserId);
             }
             catch (ArgumentNullException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            session.AddFeedback(new Feedback(feedback.Score, feedback.Description));
+            session.AddFeedback(new Feedback(feedback.Score, feedback.Description, user));
             _sessionRepository.SaveChanges();
             return RedirectToAction("Details", "Session", new { feedback.id });
         }
