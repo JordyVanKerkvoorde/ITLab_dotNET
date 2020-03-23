@@ -7,7 +7,7 @@
         if (Model.User.IsRegistered(Model.Session.SessionId))
         {
             <form asp-controller="Session" asp-action="Delete" asp-route-id="@Model.Session.SessionId">
-                <button type="submit" class="btn btn-danger">
+                <button type="submit" class="btn btn-danger btn-block">
                     Uitschrijven
                 </button>
             </form>
@@ -17,7 +17,7 @@
             if (!Model.Session.SessionFull())
             {
                 <form asp-controller="Session" asp-action="Add" asp-route-id="@Model.Session.SessionId">
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-success btn-block">
                         Inschrijven
                     </button>
                 </form>
@@ -25,7 +25,7 @@
             else
             {
                 <form>
-                    <button type="submit" class="btn btn-warning">
+                    <button type="submit" class="btn btn-warning btn-block">
                         Volzet!
                     </button>
                 </form>
