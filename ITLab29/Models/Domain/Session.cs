@@ -10,7 +10,7 @@ namespace ITLab29.Models.Domain
     public class Session
     {
 
-        private string _shortDescription => DescriptionModifier.TruncateAtWord(Description, 200);
+        private string _shortDescription => StringModifier.TruncateAtWord(Description, 200);
 
         public int SessionId { get; set; }
         public string Title { get; set; }
@@ -86,7 +86,11 @@ namespace ITLab29.Models.Domain
         }
 
         public Feedback AddFeedback(Feedback feedback) {
-            Feedback.Add(feedback);
+            if (!WroteFeedback(feedback.User)) {
+                Feedback.Add(feedback);
+            } else {
+                throw new Exception("Je kan maar 1 keer feedback geven per sessie");
+            }
             return feedback;
         }
 
@@ -99,7 +103,7 @@ namespace ITLab29.Models.Domain
         }
 
         public void AddUserSession( User user) {
-            if (UserSessions.Where(p => p.SessionId == SessionId).Count() < Capacity && user.UserStatus != UserStatus.BLOCKED) {
+            if (!SessionFull() && user.UserStatus != UserStatus.BLOCKED) {
                 UserSession us = new UserSession();
                 us.User = user;
                 us.UserId = user.UserId;
@@ -139,6 +143,14 @@ namespace ITLab29.Models.Domain
                 throw new AlreadyOpenException("Session already open");
             else
                 IsOpened = true;
+        }
+
+        public bool WroteFeedback(User user) {
+            return Feedback.Where(f => f.User == user).Any();
+        }
+
+        public bool SessionFull() {
+            return UserSessions.Where(p => p.SessionId == SessionId).Count() >= Capacity;
         }
     }
 }

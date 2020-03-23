@@ -16,5 +16,6 @@ namespace ITLab29.Models.ViewModels {
         public string Description { get; set; }
         public Session Session { get; set; }
         public string UserId { get; set; }
+        public const int MaxScore = 5, MinScore = 1;
     }
 }

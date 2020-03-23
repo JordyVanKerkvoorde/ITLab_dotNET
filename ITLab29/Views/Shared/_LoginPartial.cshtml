@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using ITLab29.Models.Domain;
+@using ITLab29.Extensions;
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
@@ -7,7 +8,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a  class="nav-link" asp-controller="User" asp-action="Index" title="Manage">@User.Identity.Name</a>
+        <a  class="nav-link" asp-controller="User" asp-action="Index" title="Manage">@StringModifier.FirstLetterToUpper(User.Identity.Name.Split(".").ElementAt(0))</a>
     </li>
     <li class="nav-item">
         <form class="form-inline" id="form_login" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Session", new { area = "" })">

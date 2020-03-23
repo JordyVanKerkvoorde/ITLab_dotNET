@@ -13,7 +13,13 @@
 <link href="~/css/fullcalendar.print.css" rel="stylesheet" media="print" />
 
 @{ var nextEvent = Model.OrderBy(t => t.Start).FirstOrDefault();}
-<h2>Volgende Sessie</h2>
+<div class="page-header">
+    <h2>
+        <b style="color: #5b5b5b;">
+            Volgende sessie
+        </b>
+    </h2>
+</div>
 <div class="card" style="max-width: 18rem; position:absolute;left:inherit;z-index:1">
     <img class="card-img-top" src="~/photo/@nextEvent.Media" onerror="this.src = '/photo/What-Is-Cloud-Computing.jpg';">
 

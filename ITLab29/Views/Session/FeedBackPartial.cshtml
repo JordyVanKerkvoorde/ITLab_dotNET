@@ -6,45 +6,46 @@
     Session session = Model.Item2.Session;
     bool isAuth = User.Identity.IsAuthenticated;
 }
-@if (isAuth && user.IsRegistered(session.SessionId))
-{
+@if (isAuth && user.IsRegistered(session.SessionId)) {
+    <dl>
+        <dt>Feedback</dt>
+    </dl>
     //nog checken of het event in het verleden ligt
     //nog checken of user al feedback gegeven heeft op dit event
     //TODO: needs more markup
-    <div class="card mt-md-2 border-0">
-        <form asp-controller="Session" asp-action="AddFeedback" method="post">
-            <div class="form-group">
-                <input type="hidden" name="id" value="@session.SessionId" />
-            </div>
-            <div class="form-group">
-                <input type="hidden" name="UserId" value="@user.UserId" />
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Item1.Score">Score</label>
-                <span asp-validation-for="@Model.Item1.Score" class="text-danger"></span>
-                <select class="form-control" name="Score" asp-for="@Model.Item1.Score">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <div class="md-form">
-                <label asp-for="@Model.Item1.Description">Feedback</label>
-                <textarea asp-for="@Model.Item1.Description" class="md-textarea form-control" type="text" name="Description" placeholder="Schrijf je feedback..."></textarea>
-                <span asp-validation-for="@Model.Item1.Description" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn-primary">Verzend!</button>
-        </form>
-    </div>
+    @if (!session.WroteFeedback(user)) {
+        <div class="card mt-md-2 border-0">
+            <form asp-controller="Session" asp-action="AddFeedback" method="post">
+                <div class="form-group">
+                    <input type="hidden" name="id" value="@session.SessionId" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="UserId" value="@user.UserId" />
+                </div>
+                <div class="md-form">
+                    <label asp-for="@Model.Item1.Score">Score</label>
+                    <br />
+                    <span asp-validation-for="@Model.Item1.Score" class="text-danger" ></span>
+                    <select class="browser-default custom-select" name="Score" asp-for="@Model.Item1.Score" style="margin-top:1em;">
+                        @for (int i = FeedBackViewModel.MinScore; i <= FeedBackViewModel.MaxScore; i++) {
+                            <option>@i</option>
+                        }
+                    </select>
+                </div>
+                <div class="md-form">
+                    <label asp-for="@Model.Item1.Description">Commentaar</label>
+                    <textarea asp-for="@Model.Item1.Description" class="md-textarea form-control" type="text" name="Description" placeholder="Schrijf hier je commentaar..."></textarea>
+                    <span asp-validation-for="@Model.Item1.Description" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-blue">Verzend!</button>
+            </form>
+        </div>
+    }
+
 }
-@if (session.Feedback.Any())
-{
-    <h3>Comments: </h3>
+@if (session.Feedback.Any()) {
     <ul class="list-group-flush mb-9">
-        @foreach (var feedback in session.Feedback)
-        {
+        @foreach (var feedback in session.Feedback) {
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-md-2">@feedback.Score / 5</div>
