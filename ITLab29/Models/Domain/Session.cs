@@ -10,7 +10,7 @@ namespace ITLab29.Models.Domain
     public class Session
     {
 
-        private string _shortDescription => DescriptionModifier.TruncateAtWord(Description, 200);
+        private string _shortDescription => StringModifier.TruncateAtWord(Description, 200);
 
         public int SessionId { get; set; }
         public string Title { get; set; }
