@@ -165,6 +165,11 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
+            catch (UserNotFoundException e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
+                return NotFound();
+            }
             
             return RedirectToAction("Details", "Session", new { feedback.id });
         }
