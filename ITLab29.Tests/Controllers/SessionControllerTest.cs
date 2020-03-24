@@ -184,6 +184,14 @@ namespace ITLab29.Tests.Controllers
             Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
         }
 
+        [Fact]
+        public void AddFeedback_UserNotFound_ReturnsNotFound()
+        {
+            var feedback = new FeedBackViewModel() { id = 1234, Score = 4, Description = "testet" };
+            _mockUserRepository.Setup(u => u.GetById(feedback.UserId)).Throws(new UserNotFoundException(""));
+            Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
+        }
+
 
     }
 }
