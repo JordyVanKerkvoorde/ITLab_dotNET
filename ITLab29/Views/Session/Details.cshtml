@@ -40,14 +40,14 @@
 <div class="h-25 row">
 
     <div class="col-8 lead">
-        <dl>
-            <dt>
+        <div>
+            <h2>
                 Omschrijving
-            </dt>
-            <dd>
+            </h2>
+            <p>
                 @session.Description
-            </dd>
-        </dl>
+            </p>
+        </div>
         <partial name="MediaPartial" for="Item2" />
         <partial name="FeedBackPartial" model="new Tuple<ITLab29.Models.ViewModels.FeedBackViewModel, ITLab29.Models.ViewModels.EventDetailsViewModel>(Model.Item1, Model.Item2)" />
     </div>
@@ -57,7 +57,3 @@
     </div>
 
 </div>
-@section scripts {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-}
