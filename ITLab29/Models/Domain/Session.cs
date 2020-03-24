@@ -25,6 +25,7 @@ namespace ITLab29.Models.Domain
         public ICollection<Guest> Guests { get; set; }
         public ICollection<Feedback> Feedback { get; set; }
         public bool IsOpened { get; set; }
+        public ICollection<User> PresentUsers { get; set; }
 
         public Session() { }
         public Session(string title, string description,
@@ -62,6 +63,7 @@ namespace ITLab29.Models.Domain
             Media = new List<Media>();
             Guests = new List<Guest>();
             Feedback = new List<Feedback>();
+            PresentUsers = new List<User>();
         }
 
 
@@ -151,6 +153,16 @@ namespace ITLab29.Models.Domain
 
         public bool SessionFull() {
             return UserSessions.Where(p => p.SessionId == SessionId).Count() >= Capacity;
+        }
+
+        public void RegisterUserPresent(User user)
+        {
+            PresentUsers.Add(user);
+        }
+
+        public void RegisterUsersPresent(IEnumerable<User> users)
+        {
+            PresentUsers.Concat(users);
         }
     }
 }
