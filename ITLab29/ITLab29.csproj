@@ -19,4 +19,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\photo\Pictures\Camera Roll\" />
+    <Folder Include="wwwroot\photo\Pictures\Saved Pictures\" />
+  </ItemGroup>
+
 </Project>
