@@ -125,6 +125,12 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
+            // catch exception uit session.AddUserSession
+            catch (Exception)
+            {
+                _userRepository.SaveChanges();
+                ViewData["sessionId"] = id;
+            }
             
             return RedirectToAction("Details", "Session", new { id });
         }
@@ -136,7 +142,7 @@ namespace ITLab29.Controllers
             try
             {
                 session = _sessionRepository.GetById(id);
-                user.RemoveUserSession(session);
+                session.RemoveUserSession(user);
                 _userRepository.SaveChanges();
             }
             catch (SessionNotFoundException e)

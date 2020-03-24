@@ -48,19 +48,6 @@ namespace ITLab29.Models.Domain
 
         }
 
-        public void AddUserSession(Session session) {
-            UserSessions.Add(new UserSession { 
-                Session = session,
-                User = this,
-                UserId = UserId,
-                SessionId = session.SessionId
-            });
-        }
-
-        public void RemoveUserSession(Session session) {
-            UserSessions.Remove(UserSessions.Where(u => u.Session == session && u.User == this).FirstOrDefault());
-        }
-
         public bool IsRegistered(int sessionId) {
             return UserSessions.Where(us => us.UserId == Id && us.SessionId == sessionId).Any();
         }

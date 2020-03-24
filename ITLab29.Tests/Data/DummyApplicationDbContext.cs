@@ -91,10 +91,9 @@ namespace ITLab29.Tests.Data
                     new Media(MediaType.VIDEO, "/path/videos/testdrivendevelopment.mov")
                 };
 
-
-            dummyUser.AddUserSession(session1);
-            dummyUser.AddUserSession(session3);
-            dummyUser.AddUserSession(session5);
+            session1.AddUserSession(dummyUser);
+            session3.AddUserSession(dummyUser);
+            session5.AddUserSession(dummyUser);
 
 
         }

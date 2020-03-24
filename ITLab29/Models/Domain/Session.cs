@@ -103,7 +103,7 @@ namespace ITLab29.Models.Domain
         }
 
         public void AddUserSession( User user) {
-            if (!SessionFull() && user.UserStatus != UserStatus.BLOCKED) {
+            if (!SessionFull() && user.UserStatus != UserStatus.BLOCKED && !UserSessions.Where(us => us.User == user).Any()) {
                 UserSession us = new UserSession();
                 us.User = user;
                 us.UserId = user.UserId;
