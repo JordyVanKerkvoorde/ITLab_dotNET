@@ -99,7 +99,7 @@ namespace ITLab29.Controllers
                 };
                 feedBackViewModel = new FeedBackViewModel() { Session = session };
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
@@ -120,7 +120,7 @@ namespace ITLab29.Controllers
                 _userRepository.SaveChanges();
                 ViewData["sessionId"] = id;
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
@@ -139,7 +139,7 @@ namespace ITLab29.Controllers
                 user.RemoveUserSession(session);
                 _userRepository.SaveChanges();
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
@@ -160,7 +160,7 @@ namespace ITLab29.Controllers
                 session.AddFeedback(new Feedback(feedback.Score, feedback.Description, user));
                 _sessionRepository.SaveChanges();
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
