@@ -41,7 +41,7 @@ namespace ITLab29.Tests.Controllers
         public void Index_PassesAllSessionInOrderTest()
         {
             _mockSessionRepository.Setup(s => s.GetAll()).Returns(_dummyContext.Sessions);
-            var result = Assert.IsType<ViewResult>(_sessionController.Index(null));
+            var result = Assert.IsType<ViewResult>(_sessionController.Index());
             List<Session> sessions = Assert.IsType<List<Session>>(result.Model);
             Assert.Equal(5, sessions.Count);
             Assert.Equal("What I Wish I Had Known Before Scaling Uber to 1000 Services", sessions.ElementAt(0).Title);
@@ -49,6 +49,38 @@ namespace ITLab29.Tests.Controllers
             Assert.Equal("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", sessions.ElementAt(2).Title);
             Assert.Equal("Power Use of UNIX - Dan North", sessions.ElementAt(3).Title);
             Assert.Equal("TDD, Where Did It All Go Wrong", sessions.ElementAt(4).Title);
+        }
+
+        [Fact]
+        public void Index_NoSessions()
+        {
+            _mockSessionRepository.Setup(s => s.GetAll()).Throws(new EmptyListException(""));
+            var result = Assert.IsType<ViewResult>(_sessionController.Index());
+            List<Session> sessions = Assert.IsType<List<Session>>(result.Model);
+            Assert.Empty(sessions);
+        }
+
+        [Fact]
+        public void Get_PassesAllSessionInOrderTest()
+        {
+            _mockSessionRepository.Setup(s => s.GetAll()).Returns(_dummyContext.Sessions);
+            var result = Assert.IsType<OkObjectResult>(_sessionController.Get());
+            List<Session> sessions = Assert.IsType<List<Session>>(result.Value);
+            Assert.Equal(5, sessions.Count);
+            Assert.Equal("What I Wish I Had Known Before Scaling Uber to 1000 Services", sessions.ElementAt(0).Title);
+            Assert.Equal("Life is Terrible: Let’s Talk About the Web", sessions.ElementAt(1).Title);
+            Assert.Equal("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", sessions.ElementAt(2).Title);
+            Assert.Equal("Power Use of UNIX - Dan North", sessions.ElementAt(3).Title);
+            Assert.Equal("TDD, Where Did It All Go Wrong", sessions.ElementAt(4).Title);
+        }
+
+        [Fact]
+        public void Get_NoSessions()
+        {
+            _mockSessionRepository.Setup(s => s.GetAll()).Throws(new EmptyListException(""));
+            var result = Assert.IsType<OkObjectResult>(_sessionController.Get());
+            List<Session> sessions = Assert.IsType<List<Session>>(result.Value);
+            Assert.Empty(sessions);
         }
 
         [Theory]

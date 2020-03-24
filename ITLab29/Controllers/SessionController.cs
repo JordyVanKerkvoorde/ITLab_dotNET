@@ -23,37 +23,23 @@ namespace ITLab29.Controllers
             _userRepository = userRepository;
         }
 
-        public IActionResult Index(DateTime? date)
+        public IActionResult Index()
         {
             IEnumerable<Session> sessions;
-            if (date == null) {
-                try
-                {
-                    sessions = _sessionRepository.GetAll();
-                }
-                catch (EmptyListException e)
-                {
-                    Console.Error.WriteLine(e.StackTrace);
-                    sessions = new List<Session>();
-                }
-            } else {
-                try
-                {
-                    sessions = _sessionRepository.GetByDate(date ?? DateTime.Now);
-                    //aanpassen na database met data of dummy dates ^^^^ 
-                }
-                catch (EmptyListException e)
-                {
-                    Console.Error.WriteLine(e.StackTrace);
-                    sessions = new List<Session>();
-                }
+            
+            try
+            {
+                sessions = _sessionRepository.GetAll();
+            }
+            catch (EmptyListException e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
+                sessions = new List<Session>();
             }
             
             try
             {
                 sessions = sessions.OrderBy(s => s.Start).ToList();
-                //Console.WriteLine("path test");
-                //Console.WriteLine(sessions.First().Media.Count());
                 ViewData["preview"] = sessions.First().Media.Where(t => t.Type == MediaType.IMAGE).First().Path;
             }
             catch
