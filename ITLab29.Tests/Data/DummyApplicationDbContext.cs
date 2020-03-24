@@ -69,8 +69,8 @@ namespace ITLab29.Tests.Data
             Sessions = new List<Session> { session1, session2, session3, session4, session5 };
 
 
-            Feedback feedback1 = new Feedback(5, "Goede gastspreker!");
-            Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.");
+            Feedback feedback1 = new Feedback(5, "Goede gastspreker!", dummyUser);
+            Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.", dummyUser2);
 
             Feedback = new List<Feedback> { feedback1, feedback2 };
 

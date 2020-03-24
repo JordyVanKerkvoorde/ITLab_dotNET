@@ -42,16 +42,6 @@ namespace ITLab29.Models.Domain
             UserSessions = new List<UserSession>();
         }
 
-        //public Session AddSession(int id, string title, string description, User responsible, DateTime start, DateTime end, int capacity, Location location) {
-        //    if (UserSessions.Any(e => e.SessionId == id))
-        //    {
-        //        throw new ArgumentException($"User {FirstName} {LastName} has already an event with title: {title}");
-        //    }
-        //    Session newSession = new Session(id, title, description, responsible, start, end, capacity, location);
-        //    UserSessions.Add(newSession);
-        //    return newSession;
-        //}
-
         public bool IsActive()
         {
             return UserStatus == UserStatus.ACTIVE;

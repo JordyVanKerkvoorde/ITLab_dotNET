@@ -212,7 +212,7 @@ namespace ITLab29.Controllers
                 _sessionRepository.SaveChanges();
                 TempData["message"] = "Sessie succesvol opengezet";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 TempData["error"] = "Er is iets misgegaan bij het openzetten van de sessie";
             }

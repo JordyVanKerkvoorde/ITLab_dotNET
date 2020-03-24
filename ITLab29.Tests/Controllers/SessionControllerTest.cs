@@ -1,4 +1,5 @@
 ﻿using ITLab29.Controllers;
+using ITLab29.Exceptions;
 using ITLab29.Models.Domain;
 using ITLab29.Models.ViewModels;
 using ITLab29.Tests.Data;
@@ -61,9 +62,11 @@ namespace ITLab29.Tests.Controllers
             _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
             //Session session = _dummyContext.Sessions.Where(s => s.SessionId == id).First();
             var result = Assert.IsType<ViewResult>(_sessionController.Details(id, user1));
-            FeedBackViewModel feedbackViewModel = Assert.IsType<FeedBackViewModel>(result.Model);
-            Session session = feedbackViewModel.Session;
+            Tuple<FeedBackViewModel, EventDetailsViewModel> result2 = result.Model as Tuple<FeedBackViewModel, EventDetailsViewModel>;
+            EventDetailsViewModel eventDetailsViewModel = Assert.IsType<EventDetailsViewModel>(result2.Item2);
+            Session session = eventDetailsViewModel.Session;
             Assert.Equal(title, session.Title);
+            Assert.Equal(id, session.SessionId);
         }
 
 
@@ -72,7 +75,7 @@ namespace ITLab29.Tests.Controllers
         [InlineData(12345)]
         public void Details_SessionNotFound_ReturnsNotFound(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new SessionNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.Details(id, user1));
         }
 
@@ -95,7 +98,7 @@ namespace ITLab29.Tests.Controllers
         [InlineData(12345)]
         public void Add_SessionNotFound_ReturnsNotFound(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new SessionNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.Add(id, user1));
 
         }
@@ -122,7 +125,7 @@ namespace ITLab29.Tests.Controllers
         [InlineData(12345)]
         public void Delete_SessionNotFound_ReturnsNotFound(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new SessionNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.Delete(id, user1));
 
         }
@@ -144,7 +147,7 @@ namespace ITLab29.Tests.Controllers
         public void AddFeedback_SessionNotFound_ReturnsNotFound()
         {
             var feedback = new FeedBackViewModel() { id = 1234, Score = 4, Description = "testet" };
-            _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Throws(new SessionNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
         }
 
