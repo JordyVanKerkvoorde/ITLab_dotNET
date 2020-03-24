@@ -20,6 +20,7 @@ namespace ITLab29.Data.Mapping
             builder.HasMany(t => t.Media).WithOne();
             builder.HasMany(t => t.Guests).WithOne();
             builder.HasMany(t => t.UserSessions).WithOne();
+            builder.HasMany(t => t.PresentUsers).WithOne();
         }
     }
 }

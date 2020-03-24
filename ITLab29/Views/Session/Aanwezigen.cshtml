@@ -10,7 +10,7 @@
         <th>Avatar</th>
         <th>Naam</th>
         <th>ID</th>
-        <th>Aanwezig?</th>
+        <th>@ViewData["sessionid"]</th>
     </tr>
     @{
         if (Model != null && Model.Count() != 0)
@@ -28,12 +28,23 @@
                         @m.Id
                     </td>
                     <td>
-                        @*TODO FILL IN ACTION & ID*@
-                        <form asp-controller="Session" asp-action="" asp-route-id="">
-                            <button type="submit" class="btn btn-success btn-block">
-                                Aanwezig!
-                            </button>
-                        </form>
+                        @{ 
+                            if (ViewData["presentusers"] != null && (ViewData["presentusers"] as List<ITLab29.Models.Domain.User>).Contains(m))
+                            {
+                                <a>AANWEZIG</a>
+                            }
+                            else
+                            {
+                                <form asp-controller="Session" asp-action="SetUserPresent" asp-route-id="@m.UserId" asp-route-sessionid="@ViewData["session"]">
+                                    <button type="submit" class="btn btn-success btn-block">
+                                        Aanwezig!
+                                    </button>
+                                </form>
+                                }
+
+                            }
+
+
                     </td>
                 </tr>
             }

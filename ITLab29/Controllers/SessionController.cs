@@ -48,7 +48,7 @@ namespace ITLab29.Controllers
                     sessions = new List<Session>();
                 }
             }
-            
+
             try
             {
                 sessions = sessions.OrderBy(s => s.Start).ToList();
@@ -78,7 +78,7 @@ namespace ITLab29.Controllers
                 // Eventueel nog aanpassen en ViewData gebruiken?
                 return Ok(new List<Session>());
             }
-           
+
         }
         [Route("session/{id}")]
         [ServiceFilter(typeof(LoggedOnUserFilter))]
@@ -104,8 +104,8 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            
-            return View(new Tuple<FeedBackViewModel, EventDetailsViewModel>( feedBackViewModel, sessionDetailsViewModel ));
+
+            return View(new Tuple<FeedBackViewModel, EventDetailsViewModel>(feedBackViewModel, sessionDetailsViewModel));
         }
 
         [HttpPost]
@@ -125,7 +125,7 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            
+
             return RedirectToAction("Details", "Session", new { id });
         }
 
@@ -144,12 +144,12 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            
+
             return RedirectToAction("Details", "Session", new { id });
         }
 
         [HttpPost]
-        public IActionResult AddFeedback(FeedBackViewModel feedback ) {
+        public IActionResult AddFeedback(FeedBackViewModel feedback) {
             Session session;
             User user;
             Console.WriteLine(feedback.UserId);
@@ -165,7 +165,7 @@ namespace ITLab29.Controllers
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
             }
-            
+
             return RedirectToAction("Details", "Session", new { feedback.id });
         }
         [ServiceFilter(typeof(LoggedOnUserFilter))]
@@ -193,7 +193,7 @@ namespace ITLab29.Controllers
             {
                 throw;
             }
-            
+
             return View(sessions);
         }
 
@@ -216,11 +216,29 @@ namespace ITLab29.Controllers
             return RedirectToAction("OpenSessions");
         }
 
-        public IActionResult Aanwezigen(int sessionid)
+        public IActionResult Aanwezigen(int id)
         {
             //IEnumerable<User> users = _sessionRepository.GetRegisteredUsersBySessionId(sessionid);
-            IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(sessionid);
-            return View(users);           
+            IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(id);
+            ViewData["session"] = id;
+            return View(users);
         }
+
+        public IActionResult SetUserPresent(string id, int sessionid) 
+        {
+            Session session = _sessionRepository.GetById(sessionid);
+            User user = _userRepository.GetById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ViewData["presentusers"] = session.PresentUsers;
+            session.RegisterUserPresent(user);
+            _sessionRepository.SaveChanges();
+            //return RedirectToAction("Aanwezigen", new { sessionid=sessionid });
+            return RedirectToAction("Aanwezigen", "Session", new { sessionid });
+        }
+
+
     }
 }
