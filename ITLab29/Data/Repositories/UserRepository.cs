@@ -61,6 +61,7 @@ namespace ITLab29.Data.Repositories
         {
             return _users
                 .Include(u => u.UserSessions)
+                .Include(u => u.Avatar)
                 .Where(u => u.UserSessions.Select(us => us.UserId == u.UserId && us.SessionId == sessionid).Count() != 0)
                 .ToList();
         }
