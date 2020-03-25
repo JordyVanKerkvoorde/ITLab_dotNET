@@ -230,13 +230,17 @@ namespace ITLab29.Controllers
             {
                 Session session = _sessionRepository.GetById(sessionid);
                 User user = _userRepository.GetById(id);
-                if (user == null)
+                if (user == null || session.PresentUsers == null)
                 {
                     return NotFound();
                 }
                 ViewData["presentusers"] = session.PresentUsers;
                 session.RegisterUserPresent(user);
                 _sessionRepository.SaveChanges();
+                foreach (var item in session.PresentUsers)
+                {
+                    Console.WriteLine(item.Email);
+                }
             } catch (Exception e)
             {
                 throw e;
