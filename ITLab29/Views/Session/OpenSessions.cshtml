@@ -21,27 +21,24 @@
         <th>Eindtijd</th>
         <th>Deelnemers</th>
         <th></th>
-        <th></th>
     </tr>
 
     @{
         foreach (ITLab29.Models.Domain.Session m in Model)
         {
         <tr>
-            <td>@m.Title</td>
+            <td>
+                <b>
+                    <a style="color:dodgerblue" asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
+                        @m.Title
+                    </a>
+                </b>
+            </td>
             <td>@m.Responsible.FirstName @m.Responsible.LastName</td>
             <td>@m.Location.LocationId</td>
             <td>@m.Start</td>
             <td>@m.End</td>
             <td>@m.UserSessions.Count</td>
-            <!--aantal usersessions is het aantal users gelinkt in db aan sessie, en dus aantal deelnemers-->
-            <td>
-                <form asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
-                    <button type="submit" class="btn btn-primary">
-                        Details
-                    </button>
-                </form>
-            </td>
             <td>
                 <form asp-controller="Session" asp-action="OpenSession" asp-route-id="@m.SessionId">
                     <button type="submit" class="btn btn-primary">
@@ -74,19 +71,25 @@
             foreach (ITLab29.Models.Domain.Session m in ViewData["opensessions"] as IEnumerable<ITLab29.Models.Domain.Session>)
             {
         <tr>
-            <td>@m.Title</td>
+            <td>
+                <b>
+                    <a style="color:dodgerblue" asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
+                        @m.Title
+                    </a>
+                </b>
+            </td>
             <td>@m.Responsible.FirstName @m.Responsible.LastName</td>
             <td>@m.Location.LocationId</td>
             <td>@m.Start</td>
             <td>@m.End</td>
             <td>@m.UserSessions.Count</td>
-            <td>
+            @*<td>
                 <form asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
                     <button type="submit" class="btn btn-primary">
                         Details
                     </button>
                 </form>
-            </td>
+            </td>*@
             <td>
                 <form asp-controller="Session" asp-action="Aanwezigen" asp-route-id="@m.SessionId">
                     <button type="submit" class="btn btn-primary">
