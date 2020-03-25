@@ -226,15 +226,21 @@ namespace ITLab29.Controllers
 
         public IActionResult SetUserPresent(string id, int sessionid) 
         {
-            Session session = _sessionRepository.GetById(sessionid);
-            User user = _userRepository.GetById(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                Session session = _sessionRepository.GetById(sessionid);
+                User user = _userRepository.GetById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                ViewData["presentusers"] = session.PresentUsers;
+                session.RegisterUserPresent(user);
+                _sessionRepository.SaveChanges();
+            } catch (Exception e)
+            {
+                throw e;
             }
-            ViewData["presentusers"] = session.PresentUsers;
-            session.RegisterUserPresent(user);
-            _sessionRepository.SaveChanges();
             //return RedirectToAction("Aanwezigen", new { sessionid=sessionid });
             return RedirectToAction("Aanwezigen", "Session", new { sessionid });
         }
