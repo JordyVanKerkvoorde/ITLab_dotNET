@@ -25,13 +25,13 @@ namespace ITLab29.Data
             if (_dbContext.Database.EnsureCreated())
             {
 
-                User dummyUser = new User("88888", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
+                User dummyUser = new User("866840yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
                 { UserName = "yorick.vandewoestyne@student.hogent.be", Email = "yorick.vandewoestyne@student.hogent.be", EmailConfirmed = true };
-                User dummyUser2 = new User("11111", "Jan", "Willem", UserType.ADMIN, UserStatus.INACTIVE)
+                User dummyUser2 = new User("101001jw", "Jan", "Willem", UserType.ADMIN, UserStatus.INACTIVE)
                 { UserName = "jan.willem@student.hogent.be", Email = "jan.willem@student.hogent.be", EmailConfirmed = true };
-                User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.ACTIVE)
+                User dummyUser3 = new User("42069sm", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.ACTIVE)
                 { UserName = "sander.castanheiramachado@student.hogent.be", Email = "sander.castanheiramachado@student.hogent.be", EmailConfirmed = true };
-                User dummyUser4 = new User("00200", "Jordy", "Van Kerkvoorde", UserType.RESPONSIBLE, UserStatus.ACTIVE)
+                User dummyUser4 = new User("00200jv", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE)
                 { UserName = "jordy.vankerkvoorde@student.hogent.be", Email = "jordy.vankerkvoorde@student.hogent.be", EmailConfirmed = true };
                 Media avatar = new Media(MediaType.IMAGE, "/photo/What-Is-Cloud-Computing.jpg");
                 _dbContext.Media.Add(avatar);

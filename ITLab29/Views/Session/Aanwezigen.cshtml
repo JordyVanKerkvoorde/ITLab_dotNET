@@ -9,7 +9,7 @@
     <tr>
         <th>Avatar</th>
         <th>Naam</th>
-        <th>ID</th>
+        <th>Studentennummer</th>
         <th></th>
     </tr>
     @{
@@ -22,10 +22,10 @@
                         <img height="100" width="100" src="@m.Avatar.Path">
                     </td>
                     <td>
-                        @m.FirstName @m.LastName
+                        @m.LastName @m.FirstName
                     </td>
                     <td>
-                        @m.Id
+                        @m.UserId
                     </td>
                     <td>
                         @{

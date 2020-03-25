@@ -128,6 +128,14 @@ namespace ITLab29.Models.Domain
                 IsOpened = true;
         }
 
+        public void CloseSession()
+        {
+            if (!IsOpened)
+                throw new AlreadyOpenException("Session already closed");
+            else
+                IsOpened = false;
+        }
+
         public bool WroteFeedback(User user) {
             return Feedback.Where(f => f.User == user).Any();
         }

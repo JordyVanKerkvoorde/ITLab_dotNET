@@ -83,17 +83,18 @@
             <td>@m.Start</td>
             <td>@m.End</td>
             <td>@m.UserSessions.Count</td>
-            @*<td>
-                <form asp-controller="Session" asp-action="Details" asp-route-id="@m.SessionId">
-                    <button type="submit" class="btn btn-primary">
-                        Details
-                    </button>
-                </form>
-            </td>*@
             <td>
                 <form asp-controller="Session" asp-action="Aanwezigen" asp-route-id="@m.SessionId">
                     <button type="submit" class="btn btn-primary">
                         Aanwezigen
+                    </button>
+                </form>
+
+            </td>
+            <td>
+                <form asp-controller="Session" asp-action="CloseSession" asp-route-id="@m.SessionId">
+                    <button type="submit" class="btn btn-danger">
+                        Sluit
                     </button>
                 </form>
             </td>

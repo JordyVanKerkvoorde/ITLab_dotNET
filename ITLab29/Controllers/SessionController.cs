@@ -207,7 +207,24 @@ namespace ITLab29.Controllers
             {
                 TempData["error"] = "Er is iets misgegaan bij het openzetten van de sessie";
             }
-            ViewData["message"] = "bajldakl;sdkljfa;sd succesvol opengezet";
+
+            return RedirectToAction("OpenSessions");
+        }
+
+        [HttpPost]
+        public IActionResult CloseSession(int id)
+        {
+            try
+            {
+                Session session = _sessionRepository.GetById(id);
+                session.CloseSession();
+                _sessionRepository.SaveChanges();
+                TempData["message"] = "Sessie succesvol gesloten";
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Er is iets misgegaan bij het sluiten van de sessie";
+            }
 
             return RedirectToAction("OpenSessions");
         }
