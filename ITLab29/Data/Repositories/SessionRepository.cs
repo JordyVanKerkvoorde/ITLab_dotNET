@@ -43,7 +43,7 @@ namespace ITLab29.Data.Repositories {
                 .Include(s => s.Media)
                 .Include(s => s.Feedback)
                 .Include(s => s.PresentUsers)
-                .Include(s => s.UserSessions).ThenInclude(s => s.User)
+                .Include(s => s.UserSessions).ThenInclude(s => s.User).ThenInclude(u => u.Avatar)
                 .SingleOrDefault(s => s.SessionId == sessionId);
 
             if (result == null) throw new SessionNotFoundException($"SessionId: {sessionId} has no resulting session." );
