@@ -12,7 +12,7 @@
 <link href="~/css/fullcalendar.min.css" rel="stylesheet" />
 <link href="~/css/fullcalendar.print.css" rel="stylesheet" media="print" />
 
-@{ var nextEvent = Model.OrderBy(t => t.Start).FirstOrDefault();}
+@{ var nextEvent = Model.Where(s => s.Start >= DateTime.Now).OrderBy(t => t.Start).FirstOrDefault();}
 <div class="page-header">
     <h2>
         <b style="color: #5b5b5b;">
