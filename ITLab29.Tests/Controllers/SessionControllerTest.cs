@@ -146,10 +146,10 @@ namespace ITLab29.Tests.Controllers
         [InlineData(2)]
         public void Delete_SessionFound_DeletesUserFromSession(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
+            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(session);
             // user1 is dummyUser uit dummyDBContext en is op einde daar al toegevoegd aan sessie5 (met id 1)
            _sessionController.Add(id, user1);
-            Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
             Assert.Contains(user1, session.GetUsers());
             _sessionController.Delete(id, user1);
             Assert.DoesNotContain(user1, session.GetUsers());
@@ -266,7 +266,38 @@ namespace ITLab29.Tests.Controllers
             Assert.Equal("Van De Woestyne", users.ElementAt(0).LastName);
             Assert.Equal("Van Kerkvoorde", users.ElementAt(1).LastName);
             Assert.Equal("Willem", users.ElementAt(2).LastName);
+        }
 
+        [Fact]
+        public void Aanwezigen_SessionNotFound()
+        {
+            _mockSessionRepository.Setup(s => s.GetById(3)).Throws(new SessionNotFoundException(""));
+            Assert.IsType<NotFoundResult>(_sessionController.Aanwezigen(3));
+        }
+
+        [Fact]
+        public void SetUserPresent()
+        {
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == 3);
+            _mockSessionRepository.Setup(s => s.GetById(3)).Returns(session);
+            User user = _dummyContext.Users.ElementAt(0);
+            _mockUserRepository.Setup(u => u.GetById("123213jw")).Returns(user);
+            var result = Assert.IsType<RedirectToActionResult>(_sessionController.SetUserPresent("123213jw", 3));
+            Assert.Contains(user, session.PresentUsers);
+        }
+
+        [Fact]
+        public void RemoveUserPresent()
+        {
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == 3);
+            _mockSessionRepository.Setup(s => s.GetById(3)).Returns(session);
+            User user = _dummyContext.Users.ElementAt(0);
+            _mockUserRepository.Setup(u => u.GetById("123213jw")).Returns(user);
+            _sessionController.SetUserPresent("123213jw", 3);
+            Assert.Contains(user, session.PresentUsers);
+            var result = Assert.IsType<RedirectToActionResult>(_sessionController.RemoveUserPresent("123213jw", 3));
+            Assert.DoesNotContain(user, session.PresentUsers);
+            
         }
 
 

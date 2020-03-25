@@ -112,7 +112,9 @@ namespace ITLab29.Models.Domain
         }
 
         public ICollection<User> GetUsers() {
-            return UserSessions.Where(u => u.SessionId == SessionId).Select(u => u.User).ToList();
+
+            List<User> result = UserSessions.Where(u => u.SessionId == SessionId).Select(u => u.User).ToList();
+            return result;
         }
 
         public string GetShortDescription()

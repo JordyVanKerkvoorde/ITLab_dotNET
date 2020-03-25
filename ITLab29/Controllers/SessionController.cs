@@ -239,7 +239,6 @@ namespace ITLab29.Controllers
             Session session;
             try
             {
-                //users = _userRepository.GetRegisteredBySessionId(id);
                 session = _sessionRepository.GetById(id);
                 users = session.GetUsers().OrderBy(u => u.LastName).ToList();
             }
