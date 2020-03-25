@@ -180,7 +180,7 @@ namespace ITLab29.Controllers
                     ViewData["opensessions"] = _sessionRepository.GetOpenedSessions(user.Id);
                 }
 
-                sessions.OrderBy(s => s.Start);
+                sessions.OrderByDescending(s => s.Start);
 
             }
             catch (EmptyListException)

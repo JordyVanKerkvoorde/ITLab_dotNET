@@ -29,7 +29,7 @@
                             {
                                 <form asp-controller="Session" asp-action="RemoveUserPresent" asp-route-id="@m.UserId" asp-route-sessionid="@ViewData["session"]">
                                     <button type="submit" class="btn btn-danger btn-block">
-                                        Afwezig!
+                                        Afwezig melden
                                     </button>
                                 </form>
                             }
@@ -37,7 +37,7 @@
                             {
                                 <form asp-controller="Session" asp-action="SetUserPresent" asp-route-id="@m.UserId" asp-route-sessionid="@ViewData["session"]">
                                     <button type="submit" class="btn btn-success btn-block">
-                                        Aanwezig!
+                                        Aanwezig melden
                                     </button>
                                 </form>
                             }
