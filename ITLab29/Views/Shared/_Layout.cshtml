@@ -30,8 +30,10 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Announcement" asp-action="Index">Aankondigingen</a>
                     </li>
-                    @{ if (isAuth)
-                        {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
+                    </li>
+                    @{ if (isAuth) {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Session" asp-action="OpenSessions">Sessies</a>
                             </li>
@@ -57,6 +59,7 @@
             <a href="https://www.hogent.be">
                 <img src="~/photo/hogent_logo.png" style="height: 1.5em; margin-left: 1em;" />
             </a>
+                <a href="https://www.facebook.com/groups/HoGentITLab/"><img src="~/photo/1200px-Facebook_icon.png" style="height: 1.5em; margin-left: 1em;" /></a>
         </div>
     </footer>
     <script type="text/javascript" src="~/lib/js/jquery.min.js"></script>

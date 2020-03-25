@@ -69,8 +69,8 @@ namespace ITLab29.Tests.Data
             Sessions = new List<Session> { session1, session2, session3, session4, session5 };
 
 
-            Feedback feedback1 = new Feedback(5, "Goede gastspreker!");
-            Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.");
+            Feedback feedback1 = new Feedback(5, "Goede gastspreker!", dummyUser);
+            Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.", dummyUser2);
 
             Feedback = new List<Feedback> { feedback1, feedback2 };
 
@@ -91,10 +91,9 @@ namespace ITLab29.Tests.Data
                     new Media(MediaType.VIDEO, "/path/videos/testdrivendevelopment.mov")
                 };
 
-
-            dummyUser.AddUserSession(session1);
-            dummyUser.AddUserSession(session3);
-            dummyUser.AddUserSession(session5);
+            session1.AddUserSession(dummyUser);
+            session3.AddUserSession(dummyUser);
+            session5.AddUserSession(dummyUser);
 
 
         }

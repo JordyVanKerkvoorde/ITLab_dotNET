@@ -23,37 +23,23 @@ namespace ITLab29.Controllers
             _userRepository = userRepository;
         }
 
-        public IActionResult Index(DateTime? date)
+        public IActionResult Index()
         {
             IEnumerable<Session> sessions;
-            if (date == null) {
-                try
-                {
-                    sessions = _sessionRepository.GetAll();
-                }
-                catch (EmptyListException e)
-                {
-                    Console.Error.WriteLine(e.StackTrace);
-                    sessions = new List<Session>();
-                }
-            } else {
-                try
-                {
-                    sessions = _sessionRepository.GetByDate(date ?? DateTime.Now);
-                    //aanpassen na database met data of dummy dates ^^^^ 
-                }
-                catch (EmptyListException e)
-                {
-                    Console.Error.WriteLine(e.StackTrace);
-                    sessions = new List<Session>();
-                }
+            
+            try
+            {
+                sessions = _sessionRepository.GetAll();
+            }
+            catch (EmptyListException e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
+                sessions = new List<Session>();
             }
             
             try
             {
                 sessions = sessions.OrderBy(s => s.Start).ToList();
-                //Console.WriteLine("path test");
-                //Console.WriteLine(sessions.First().Media.Count());
                 ViewData["preview"] = sessions.First().Media.Where(t => t.Type == MediaType.IMAGE).First().Path;
             }
             catch
@@ -99,7 +85,7 @@ namespace ITLab29.Controllers
                 };
                 feedBackViewModel = new FeedBackViewModel() { Session = session };
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
@@ -120,10 +106,16 @@ namespace ITLab29.Controllers
                 _userRepository.SaveChanges();
                 ViewData["sessionId"] = id;
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
+            }
+            // catch exception uit session.AddUserSession
+            catch (Exception)
+            {
+                _userRepository.SaveChanges();
+                ViewData["sessionId"] = id;
             }
             
             return RedirectToAction("Details", "Session", new { id });
@@ -136,10 +128,10 @@ namespace ITLab29.Controllers
             try
             {
                 session = _sessionRepository.GetById(id);
-                user.RemoveUserSession(session);
+                session.RemoveUserSession(user);
                 _userRepository.SaveChanges();
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
@@ -160,7 +152,12 @@ namespace ITLab29.Controllers
                 session.AddFeedback(new Feedback(feedback.Score, feedback.Description, user));
                 _sessionRepository.SaveChanges();
             }
-            catch (ArgumentNullException e)
+            catch (SessionNotFoundException e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
+                return NotFound();
+            }
+            catch (UserNotFoundException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
                 return NotFound();
@@ -207,7 +204,7 @@ namespace ITLab29.Controllers
                 _sessionRepository.SaveChanges();
                 TempData["message"] = "Sessie succesvol opengezet";
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 TempData["error"] = "Er is iets misgegaan bij het openzetten van de sessie";
             }
