@@ -67,7 +67,7 @@ namespace ITLab29.Data
                     session1,
                     session2,
                     new Session("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", "Diederik Wyffels heeft al 20 jaar ervaring in de branche en focust zich vooral op het begeleiden van bedrijven die moeite hebben met het schalen van hun IT-infrastructuur. In deze talk bespreekt hij concreet hoe bedrijven begeleid worden in hun overstap naar de cloud.",
-                        dummyUser2, DateTime.Now.AddDays(7), DateTime.Now.AddDays(-7).AddHours(2), 30, mercator),
+                        dummyUser2, DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7).AddHours(2), 30, mercator),
                     new Session("TDD, Where Did It All Go Wrong", "In Ontwerpen 1 leerde je al over het testen van software, en hoe TDD vitaal is voor het afleveren van werkende software. En in de volgende semesters blijft die focus op het schrijven van testen aanwezig. Maar moet die focus op TDD er wel zo sterk zijn? Is wat nuance niet aan de orde? Dat is wat deze talk brengt. Ian Cooper zijn kennis over software testing is al even impressionant als zijn baard dus zeker een talk om niet te missen.",
                         dummyUser2, DateTime.Now.AddDays(14), DateTime.Now.AddDays(14).AddHours(1), 123, schoonmeersen2),
                     new Session("Power Use of UNIX - Dan North", "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.",
