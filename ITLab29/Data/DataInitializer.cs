@@ -61,13 +61,14 @@ namespace ITLab29.Data
                     new Session("Life is Terrible: Let’s Talk About the Web",
                     "Zij die Webapps 2 gehad hebben kennen JavaScript al, anderen beginnen nu net aan hun \"avontuur\". James Mickens kwam vorig semester al aan bod met een tirade over security en machine learning, nu is hij terug om iedereen te laten weten wat hij vindt van de nummer 1 programmeertaal voor het Web.",
                         dummyUser, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(3), 69, aalst);
+                Session session3 = new Session("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", "Diederik Wyffels heeft al 20 jaar ervaring in de branche en focust zich vooral op het begeleiden van bedrijven die moeite hebben met het schalen van hun IT-infrastructuur. In deze talk bespreekt hij concreet hoe bedrijven begeleid worden in hun overstap naar de cloud.",
+                        dummyUser2, DateTime.Now.AddDays(-7), DateTime.Now.AddDays(-7).AddHours(2), 30, mercator);
 
                 IList<Session> sessions = new List<Session>
                 {
                     session1,
                     session2,
-                    new Session("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", "Diederik Wyffels heeft al 20 jaar ervaring in de branche en focust zich vooral op het begeleiden van bedrijven die moeite hebben met het schalen van hun IT-infrastructuur. In deze talk bespreekt hij concreet hoe bedrijven begeleid worden in hun overstap naar de cloud.",
-                        dummyUser2, DateTime.Now.AddDays(7), DateTime.Now.AddDays(7).AddHours(2), 30, mercator),
+                    session3,
                     new Session("TDD, Where Did It All Go Wrong", "In Ontwerpen 1 leerde je al over het testen van software, en hoe TDD vitaal is voor het afleveren van werkende software. En in de volgende semesters blijft die focus op het schrijven van testen aanwezig. Maar moet die focus op TDD er wel zo sterk zijn? Is wat nuance niet aan de orde? Dat is wat deze talk brengt. Ian Cooper zijn kennis over software testing is al even impressionant als zijn baard dus zeker een talk om niet te missen.",
                         dummyUser2, DateTime.Now.AddDays(14), DateTime.Now.AddDays(14).AddHours(1), 123, schoonmeersen2),
                     new Session("Power Use of UNIX - Dan North", "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.",
@@ -120,6 +121,39 @@ namespace ITLab29.Data
                     new Announcement(new DateTime(2020, 03, 10, 22, 35, 5), "De sessie Power Use of UNIX zal 10 minuten later beginnen.")
                 };
                 _dbContext.Announcements.AddRange(announcements);
+
+                UserSession us1 = new UserSession()
+                {
+                    UserId = dummyUser.UserId,
+                    User = dummyUser,
+                    SessionId = session3.SessionId,
+                    Session = session3
+                };
+                UserSession us2 = new UserSession()
+                {
+                    UserId = dummyUser2.UserId,
+                    User = dummyUser2,
+                    SessionId = session3.SessionId,
+                    Session = session3
+                };
+                UserSession us3 = new UserSession()
+                {
+                    UserId = dummyUser3.UserId,
+                    User = dummyUser3,
+                    SessionId = session3.SessionId,
+                    Session = session3
+                };
+                UserSession us4 = new UserSession()
+                {
+                    UserId = dummyUser4.UserId,
+                    User = dummyUser4,
+                    SessionId = session3.SessionId,
+                    Session = session3
+                };
+
+                List<UserSession> usersessions = new List<UserSession>() { us1, us2, us3, us4 };
+
+                _dbContext.UserSessions.AddRange(usersessions);
         }
             _dbContext.SaveChanges();
         }

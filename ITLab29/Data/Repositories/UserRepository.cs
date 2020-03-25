@@ -1,4 +1,5 @@
-﻿using ITLab29.Models.Domain;
+﻿using ITLab29.Exceptions;
+using ITLab29.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,20 +28,48 @@ namespace ITLab29.Data.Repositories
 
         public User GetByName(string name)
         {
-            return _users.Where(u => u.UserName == name).Include(u => u.UserSessions).FirstOrDefault();
+            User result = _users.Where(u => u.UserName == name).Include(u => u.UserSessions).FirstOrDefault();
+
+            if(result == null)
+            {
+                throw new UserNotFoundException($"No user found with the name : {name}.");
+            }
+            else
+            {
+                return result;
+            }
         }
 
         public User GetById(string userId)
         {
-            return _users
-                .Include(u => u.UserSessions) 
+            User result = _users
+                .Include(u => u.UserSessions)
                 .Include(u => u.Avatar)
                 .SingleOrDefault(u => u.UserId == userId);
+
+            if (result == null)
+            {
+                throw new UserNotFoundException($"No user found with the id : {userId}.");
+            }
+            else
+            {
+                return result;
+            }
         }
 
         public IEnumerable<User> GetByLastName(string lastName)
         {
-            return _users.Where(u => u.LastName == lastName).ToList();
+            List<User> result = _users.Where(u => u.LastName == lastName).ToList();
+
+            if (!result.Any())
+            {
+                throw new EmptyListException("List of users is empty");
+            }
+            else
+            {
+                return result;
+            }
+            
         }
 
         public IEnumerable<Session> GetRegisteredSessions(string userId)
@@ -59,12 +88,21 @@ namespace ITLab29.Data.Repositories
 
         public IEnumerable<User> GetRegisteredBySessionId(int sessionid)
         {
-            return _users
+            List<User> result = _users
                 .Include(u => u.UserSessions)
                 .Include(u => u.Avatar)
                 .Where(u => u.UserSessions.Select(us => us.UserId == u.UserId && us.SessionId == sessionid).Count() != 0)
                 .OrderBy(u => u.LastName).ThenBy(u => u.FirstName)
                 .ToList();
+
+            if (!result.Any())
+            {
+                throw new EmptyListException("List of users is empty");
+            }
+            else
+            {
+                return result;
+            }
         }
 
         public void SaveChanges()

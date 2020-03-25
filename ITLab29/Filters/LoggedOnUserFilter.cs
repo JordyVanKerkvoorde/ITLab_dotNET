@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using ITLab29.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using ITLab29.Exceptions;
 
 namespace ITLab29.Filters {
     public class LoggedOnUserFilter : ActionFilterAttribute{
         private readonly IUserRepository _userRepository;
-        private User _user;
 
         public LoggedOnUserFilter(IUserRepository userRepository) {
             _userRepository = userRepository;
@@ -20,8 +20,15 @@ namespace ITLab29.Filters {
 
         public override void OnActionExecuting(ActionExecutingContext context) {
             //_user = _userRepository.GetById(context.HttpContext.User.Identity.Name);
-            context.ActionArguments["user"] = context.HttpContext.User.Identity.IsAuthenticated ?
+            try
+            {
+                context.ActionArguments["user"] = context.HttpContext.User.Identity.IsAuthenticated ?
                 _userRepository.GetByName(context.HttpContext.User.Identity.Name) : null;
+            }
+            catch (UserNotFoundException)
+            {
+                context.ActionArguments["user"] = null;
+            }
             base.OnActionExecuting(context);
         }
     }

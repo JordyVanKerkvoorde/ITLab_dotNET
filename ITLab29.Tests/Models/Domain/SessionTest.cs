@@ -86,7 +86,9 @@ namespace ITLab29.Tests.Models.Domain
         [Fact]
         public void AddFeedback()
         {
-            Feedback feedback = new Feedback(5, "Almost done testing this class");
+            User dummyUser = new User("88888", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
+            { UserName = "yorick.vandewoestyne@student.hogent.be", Email = "yorick.vandewoestyne@student.hogent.be", EmailConfirmed = true };
+            Feedback feedback = new Feedback(5, "Almost done testing this class", dummyUser);
             _session.AddFeedback(feedback);
             Assert.Equal(1, _session.Feedback.Count);
             Assert.True(_session.Feedback.Contains(feedback));
