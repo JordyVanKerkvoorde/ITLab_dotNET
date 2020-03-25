@@ -64,7 +64,7 @@ namespace ITLab29.Data.Repositories {
         public IEnumerable<Session> GetOpenableSessions(string id)
         {
             return GetByResponsibleId(id)
-                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1)
+                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1 && (s.Start - DateTime.Now).TotalHours > 0)
                 .Where(s => !s.IsOpened)
                 .ToList();
         }
@@ -77,7 +77,7 @@ namespace ITLab29.Data.Repositories {
                 .Include(s => s.Responsible)
                 .Include(s => s.Media)
                 .ToList()
-                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1 && !s.IsOpened)
+                .Where(s => (s.Start - DateTime.Now).TotalHours <= 1 && !s.IsOpened && (s.Start - DateTime.Now).TotalHours > 0)
                 .ToList();
         }
 
