@@ -27,7 +27,7 @@ namespace ITLab29.Data
 
                 User dummyUser = new User("866840yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
                 { UserName = "yorick.vandewoestyne@student.hogent.be", Email = "yorick.vandewoestyne@student.hogent.be", EmailConfirmed = true };
-                User dummyUser2 = new User("101001jw", "Jan", "Willem", UserType.ADMIN, UserStatus.INACTIVE)
+                User dummyUser2 = new User("101001jw", "Jan", "Willem", UserType.USER, UserStatus.BLOCKED)
                 { UserName = "jan.willem@student.hogent.be", Email = "jan.willem@student.hogent.be", EmailConfirmed = true };
                 User dummyUser3 = new User("42069sm", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.ACTIVE)
                 { UserName = "sander.castanheiramachado@student.hogent.be", Email = "sander.castanheiramachado@student.hogent.be", EmailConfirmed = true };
@@ -84,11 +84,6 @@ namespace ITLab29.Data
                     item.AddMedia(new Media(MediaType.IMAGE, "https://i1.wp.com/guide-high-tech.com/wp-content/uploads/2019/04/Cloud-Computing-01.jpg?fit=1000%2C680&ssl=1"));
                 }
 
-
-                //Feedback feedback1 = new Feedback(5, "Goede gastspreker!");
-                //Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.");
-
-                //_dbContext.Feedback.AddRange(new List<Feedback> { feedback1, feedback2 });
                 IList<Media> media = new List<Media>() {
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg"),
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg"),

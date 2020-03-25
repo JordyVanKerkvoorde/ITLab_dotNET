@@ -12,7 +12,6 @@ namespace ITLab29.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Feedback> builder)
         {
-            //builder.HasOne(t => t.User).WithMany();
             builder.HasKey(t => t.Description);
             builder.Property(t => t.User).IsRequired();
         }
