@@ -145,5 +145,10 @@ namespace ITLab29.Models.Domain
         {
             PresentUsers.Concat(users);
         }
+
+        public void RemoveUserPresent(User user)
+        {
+            PresentUsers.Remove(user);
+        }
     }
 }

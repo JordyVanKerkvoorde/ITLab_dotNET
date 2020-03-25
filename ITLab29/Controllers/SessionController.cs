@@ -217,6 +217,8 @@ namespace ITLab29.Controllers
             //IEnumerable<User> users = _sessionRepository.GetRegisteredUsersBySessionId(sessionid);
             IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(id);
             ViewData["session"] = id;
+            Session session = _sessionRepository.GetById(id);
+            ViewData["presentusers"] = session == null ? new List<User>() : session.PresentUsers ;
             return View(users);
         }
 
@@ -242,9 +244,35 @@ namespace ITLab29.Controllers
                 throw e;
             }
             //return RedirectToAction("Aanwezigen", new { sessionid=sessionid });
-            return RedirectToAction("Aanwezigen", "Session", new { sessionid });
+            return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
         }
 
+        public IActionResult RemoveUserPresent(string id, int sessionid)
+        {
+            try
+            {
+                Session session = _sessionRepository.GetById(sessionid);
+                User user = _userRepository.GetById(id);
+                if (user == null || session.PresentUsers == null)
+                {
+                    return NotFound();
+                }
+                ViewData["presentusers"] = session.PresentUsers;
+                session.RegisterUserPresent(user);
+                session.RemoveUserPresent(user);
+                _sessionRepository.SaveChanges();
+                foreach (var item in session.PresentUsers)
+                {
+                    Console.WriteLine(item.Email);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            //return RedirectToAction("Aanwezigen", new { sessionid=sessionid });
+            return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
+        }
 
     }
 }
