@@ -6,14 +6,15 @@
     Session session = Model.Item2.Session;
     bool isAuth = User.Identity.IsAuthenticated;
 }
-@if (isAuth && user.IsRegistered(session.SessionId)) {
-    <dl>
-        <dt>Feedback</dt>
-    </dl>
+
+@if (isAuth && user.IsRegistered(session.SessionId))
+{
+    <h2>Feedback</h2>
     //nog checken of het event in het verleden ligt
     //nog checken of user al feedback gegeven heeft op dit event
     //TODO: needs more markup
-    @if (!session.WroteFeedback(user)) {
+    @if (!session.WroteFeedback(user))
+    {
         <div class="card mt-md-2 border-0">
             <form asp-controller="Session" asp-action="AddFeedback" method="post">
                 <div class="form-group">
@@ -22,30 +23,30 @@
                 <div class="form-group">
                     <input type="hidden" name="UserId" value="@user.UserId" />
                 </div>
-                <div class="md-form">
-                    <label asp-for="@Model.Item1.Score">Score</label>
-                    <br />
-                    <span asp-validation-for="@Model.Item1.Score" class="text-danger" ></span>
-                    <select class="browser-default custom-select" name="Score" asp-for="@Model.Item1.Score" style="margin-top:1em;">
-                        @for (int i = FeedBackViewModel.MinScore; i <= FeedBackViewModel.MaxScore; i++) {
-                            <option>@i</option>
-                        }
-                    </select>
+                <div class="form-group">
+                    <span id="stars"></span>
+                    <input type="hidden" name="Score" id="Score" value="0">
                 </div>
-                <div class="md-form">
-                    <label asp-for="@Model.Item1.Description">Commentaar</label>
-                    <textarea asp-for="@Model.Item1.Description" class="md-textarea form-control" type="text" name="Description" placeholder="Schrijf hier je commentaar..."></textarea>
-                    <span asp-validation-for="@Model.Item1.Description" class="text-danger"></span>
+                <div class="form-row">
+                    <div class="col-sm-9 md-form">
+                        <textarea asp-for="@Model.Item1.Description" class="md-textarea form-control" rows="3" name="Description"></textarea>
+                        <label asp-for="@Model.Item1.Description">Schrijf hier je commentaar...</label>
+                        <span asp-validation-for="@Model.Item1.Description" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-3 d-flex align-items-center">
+                        <button onclick="submitForm()" class="btn btn-blue">Verzend!</button>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-blue">Verzend!</button>
             </form>
         </div>
     }
 
 }
-@if (session.Feedback.Any()) {
+@if (session.Feedback.Any())
+{
     <ul class="list-group-flush mb-9">
-        @foreach (var feedback in session.Feedback) {
+        @foreach (var feedback in session.Feedback)
+        {
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-md-2">@feedback.Score / 5</div>
@@ -62,3 +63,20 @@
         }
     </ul>
 }
+<script>
+    function parseStars() {
+        let children = $("#stars").children();
+        let rating = 0;
+        for (let i = 0; i<children.length; i++){
+            if(children[i].className.includes("amber")){
+                rating = rating + 1;
+            }
+        }
+        console.log(rating)
+        return rating;
+    }
+    function submitForm() {
+        $('#Score').val(parseStars().toString());
+        $('AddFeedback').submit();
+    }
+</script>
