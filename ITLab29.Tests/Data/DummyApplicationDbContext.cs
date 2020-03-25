@@ -15,6 +15,7 @@ namespace ITLab29.Tests.Data
         public IEnumerable<Location> Locations { get; set; }
         public IEnumerable<Feedback> Feedback { get; set; }
         public IEnumerable<Guest> Guests { get; set; }
+        public IEnumerable<Announcement> Announcements { get; set; }
 
 
         public DummyApplicationDbContext()
@@ -94,6 +95,14 @@ namespace ITLab29.Tests.Data
             session1.AddUserSession(dummyUser);
             session3.AddUserSession(dummyUser);
             session5.AddUserSession(dummyUser);
+
+
+            Announcement announcement1 = new Announcement(DateTime.Now.AddDays(-2), "Geen fysieke lessen tot 18 mei.");
+            Announcement announcement2 = new Announcement(DateTime.Now.AddDays(-9), "Sessies worden voorlopig uitgesteld.");
+            Announcement announcement3 = new Announcement(DateTime.Now.AddDays(-6), "Lessen gaan online door.");
+
+            Announcements = new List<Announcement> { announcement1, announcement2, announcement3 };
+
 
 
         }

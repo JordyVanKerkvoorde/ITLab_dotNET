@@ -7,7 +7,7 @@
     bool isAuth = User.Identity.IsAuthenticated;
 }
 
-@if (isAuth && user.IsRegistered(session.SessionId))
+@if (isAuth && user.IsRegistered(session.SessionId) && DateTime.Compare(session.End, DateTime.Now) < 0)
 {
     <h2>Feedback</h2>
     //nog checken of het event in het verleden ligt
