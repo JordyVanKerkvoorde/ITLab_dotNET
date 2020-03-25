@@ -61,7 +61,6 @@ namespace ITLab29.Controllers
             catch (EmptyListException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
-                // Eventueel nog aanpassen en ViewData gebruiken?
                 return Ok(new List<Session>());
             }
 
@@ -143,7 +142,6 @@ namespace ITLab29.Controllers
         public IActionResult AddFeedback(FeedBackViewModel feedback) {
             Session session;
             User user;
-            Console.WriteLine(feedback.UserId);
             try
             {
                 session = _sessionRepository.GetById(feedback.id);
@@ -164,10 +162,10 @@ namespace ITLab29.Controllers
 
             return RedirectToAction("Details", "Session", new { feedback.id });
         }
+
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult OpenSessions(User user)
         {
-            //IEnumerable<Session> sessions = _sessionRepository.GetByResponsibleId(user.Id);
             IEnumerable<Session> sessions;
             try
             {
@@ -231,7 +229,6 @@ namespace ITLab29.Controllers
 
         public IActionResult Aanwezigen(int id)
         {
-            //IEnumerable<User> users = _sessionRepository.GetRegisteredUsersBySessionId(sessionid);
             IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(id);
             ViewData["session"] = id;
             Session session = _sessionRepository.GetById(id);
@@ -252,15 +249,11 @@ namespace ITLab29.Controllers
                 ViewData["presentusers"] = session.PresentUsers;
                 session.RegisterUserPresent(user);
                 _sessionRepository.SaveChanges();
-                foreach (var item in session.PresentUsers)
-                {
-                    Console.WriteLine(item.Email);
-                }
+
             } catch (Exception e)
             {
                 throw e;
             }
-            //return RedirectToAction("Aanwezigen", new { sessionid=sessionid });
             return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
         }
 
@@ -278,16 +271,11 @@ namespace ITLab29.Controllers
                 session.RegisterUserPresent(user);
                 session.RemoveUserPresent(user);
                 _sessionRepository.SaveChanges();
-                foreach (var item in session.PresentUsers)
-                {
-                    Console.WriteLine(item.Email);
-                }
             }
             catch (Exception e)
             {
                 throw e;
             }
-            //return RedirectToAction("Aanwezigen", new { sessionid=sessionid });
             return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
         }
 
