@@ -30,8 +30,10 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Announcement" asp-action="Index">Aankondigingen</a>
                     </li>
-                    @{ if (isAuth)
-                        {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
+                    </li>
+                    @{ if (isAuth) {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Session" asp-action="OpenSessions">Sessies</a>
                             </li>
@@ -42,7 +44,7 @@
         </div>
     </nav>
 
-    
+
 
 
     <div class="container mb-5">
@@ -51,18 +53,25 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted mt-8">
         <div class="container">
             &copy; 2020 - ITLab
             <a href="https://www.hogent.be">
                 <img src="~/photo/hogent_logo.png" style="height: 1.5em; margin-left: 1em;" />
             </a>
+                <a href="https://www.facebook.com/groups/HoGentITLab/"><img src="~/photo/1200px-Facebook_icon.png" style="height: 1.5em; margin-left: 1em;" /></a>
         </div>
     </footer>
     <script type="text/javascript" src="~/lib/js/jquery.min.js"></script>
     <script type="text/javascript" src="~/lib/js/popper.min.js"></script>
     <script type="text/javascript" src="~/lib/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/lib/js/mdb.min.js"></script>
+    <script src="~/lib/js/addons/rating.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $('#stars').mdbRate();
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

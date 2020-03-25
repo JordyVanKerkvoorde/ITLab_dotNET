@@ -1,4 +1,5 @@
 ﻿using ITLab29.Controllers;
+using ITLab29.Exceptions;
 using ITLab29.Models.Domain;
 using ITLab29.Models.ViewModels;
 using ITLab29.Tests.Data;
@@ -40,7 +41,7 @@ namespace ITLab29.Tests.Controllers
         public void Index_PassesAllSessionInOrderTest()
         {
             _mockSessionRepository.Setup(s => s.GetAll()).Returns(_dummyContext.Sessions);
-            var result = Assert.IsType<ViewResult>(_sessionController.Index(null));
+            var result = Assert.IsType<ViewResult>(_sessionController.Index());
             List<Session> sessions = Assert.IsType<List<Session>>(result.Model);
             Assert.Equal(5, sessions.Count);
             Assert.Equal("What I Wish I Had Known Before Scaling Uber to 1000 Services", sessions.ElementAt(0).Title);
@@ -48,6 +49,38 @@ namespace ITLab29.Tests.Controllers
             Assert.Equal("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", sessions.ElementAt(2).Title);
             Assert.Equal("Power Use of UNIX - Dan North", sessions.ElementAt(3).Title);
             Assert.Equal("TDD, Where Did It All Go Wrong", sessions.ElementAt(4).Title);
+        }
+
+        [Fact]
+        public void Index_NoSessions()
+        {
+            _mockSessionRepository.Setup(s => s.GetAll()).Throws(new EmptyListException(""));
+            var result = Assert.IsType<ViewResult>(_sessionController.Index());
+            List<Session> sessions = Assert.IsType<List<Session>>(result.Model);
+            Assert.Empty(sessions);
+        }
+
+        [Fact]
+        public void Get_PassesAllSessionInOrderTest()
+        {
+            _mockSessionRepository.Setup(s => s.GetAll()).Returns(_dummyContext.Sessions);
+            var result = Assert.IsType<OkObjectResult>(_sessionController.Get());
+            List<Session> sessions = Assert.IsType<List<Session>>(result.Value);
+            Assert.Equal(5, sessions.Count);
+            Assert.Equal("What I Wish I Had Known Before Scaling Uber to 1000 Services", sessions.ElementAt(0).Title);
+            Assert.Equal("Life is Terrible: Let’s Talk About the Web", sessions.ElementAt(1).Title);
+            Assert.Equal("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", sessions.ElementAt(2).Title);
+            Assert.Equal("Power Use of UNIX - Dan North", sessions.ElementAt(3).Title);
+            Assert.Equal("TDD, Where Did It All Go Wrong", sessions.ElementAt(4).Title);
+        }
+
+        [Fact]
+        public void Get_NoSessions()
+        {
+            _mockSessionRepository.Setup(s => s.GetAll()).Throws(new EmptyListException(""));
+            var result = Assert.IsType<OkObjectResult>(_sessionController.Get());
+            List<Session> sessions = Assert.IsType<List<Session>>(result.Value);
+            Assert.Empty(sessions);
         }
 
         [Theory]
@@ -61,9 +94,11 @@ namespace ITLab29.Tests.Controllers
             _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
             //Session session = _dummyContext.Sessions.Where(s => s.SessionId == id).First();
             var result = Assert.IsType<ViewResult>(_sessionController.Details(id, user1));
-            FeedBackViewModel feedbackViewModel = Assert.IsType<FeedBackViewModel>(result.Model);
-            Session session = feedbackViewModel.Session;
+            Tuple<FeedBackViewModel, EventDetailsViewModel> result2 = result.Model as Tuple<FeedBackViewModel, EventDetailsViewModel>;
+            EventDetailsViewModel eventDetailsViewModel = Assert.IsType<EventDetailsViewModel>(result2.Item2);
+            Session session = eventDetailsViewModel.Session;
             Assert.Equal(title, session.Title);
+            Assert.Equal(id, session.SessionId);
         }
 
 
@@ -72,7 +107,7 @@ namespace ITLab29.Tests.Controllers
         [InlineData(12345)]
         public void Details_SessionNotFound_ReturnsNotFound(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new SessionNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.Details(id, user1));
         }
 
@@ -95,34 +130,35 @@ namespace ITLab29.Tests.Controllers
         [InlineData(12345)]
         public void Add_SessionNotFound_ReturnsNotFound(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new SessionNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.Add(id, user1));
 
         }
 
 
 
-        //[Theory]
-        //[InlineData(1)]
+        [Theory]
+        [InlineData(1)]
         //[InlineData(2)]
-        //public void Delete_SessionFound_DeletesUserFromSession(int id)
-        //{
-        //    _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
-        //    _sessionController.Add(id, user1);
-        //    Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
-        //    Assert.Contains(user1, session.GetUsers());
-        //    var result = _sessionController.Delete(id, user1) as ViewResult;
-        //    Assert.DoesNotContain(user1, session.GetUsers());
-        //    _mockUserRepository.Verify(m => m.SaveChanges(), Times.Exactly(2));
+        public void Delete_SessionFound_DeletesUserFromSession(int id)
+        {
+            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
+            // user1 is dummyUser uit dummyDBContext en is op einde daar al toegevoegd aan sessie5 (met id 1)
+           _sessionController.Add(id, user1);
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
+            Assert.Contains(user1, session.GetUsers());
+            _sessionController.Delete(id, user1);
+            Assert.DoesNotContain(user1, session.GetUsers());
+            _mockUserRepository.Verify(m => m.SaveChanges(), Times.Exactly(2));
 
-        //}
+        }
 
         [Theory]
         [InlineData(1234)]
         [InlineData(12345)]
         public void Delete_SessionNotFound_ReturnsNotFound(int id)
         {
-            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(id)).Throws(new SessionNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.Delete(id, user1));
 
         }
@@ -144,7 +180,15 @@ namespace ITLab29.Tests.Controllers
         public void AddFeedback_SessionNotFound_ReturnsNotFound()
         {
             var feedback = new FeedBackViewModel() { id = 1234, Score = 4, Description = "testet" };
-            _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Throws(new ArgumentNullException());
+            _mockSessionRepository.Setup(s => s.GetById(feedback.id)).Throws(new SessionNotFoundException(""));
+            Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
+        }
+
+        [Fact]
+        public void AddFeedback_UserNotFound_ReturnsNotFound()
+        {
+            var feedback = new FeedBackViewModel() { id = 1234, Score = 4, Description = "testet" };
+            _mockUserRepository.Setup(u => u.GetById(feedback.UserId)).Throws(new UserNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
         }
 
