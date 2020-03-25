@@ -25,13 +25,13 @@ namespace ITLab29.Data
             if (_dbContext.Database.EnsureCreated())
             {
 
-                User dummyUser = new User("88888", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
+                User dummyUser = new User("866840yv", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
                 { UserName = "yorick.vandewoestyne@student.hogent.be", Email = "yorick.vandewoestyne@student.hogent.be", EmailConfirmed = true };
-                User dummyUser2 = new User("11111", "Jan", "Willem", UserType.ADMIN, UserStatus.INACTIVE)
+                User dummyUser2 = new User("101001jw", "Jan", "Willem", UserType.USER, UserStatus.BLOCKED)
                 { UserName = "jan.willem@student.hogent.be", Email = "jan.willem@student.hogent.be", EmailConfirmed = true };
-                User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.ACTIVE)
+                User dummyUser3 = new User("42069sm", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.ACTIVE)
                 { UserName = "sander.castanheiramachado@student.hogent.be", Email = "sander.castanheiramachado@student.hogent.be", EmailConfirmed = true };
-                User dummyUser4 = new User("00200", "Jordy", "Van Kerkvoorde", UserType.RESPONSIBLE, UserStatus.ACTIVE)
+                User dummyUser4 = new User("00200jv", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE)
                 { UserName = "jordy.vankerkvoorde@student.hogent.be", Email = "jordy.vankerkvoorde@student.hogent.be", EmailConfirmed = true };
                 Media avatar = new Media(MediaType.IMAGE, "/photo/What-Is-Cloud-Computing.jpg");
                 _dbContext.Media.Add(avatar);
@@ -72,18 +72,18 @@ namespace ITLab29.Data
                     new Session("TDD, Where Did It All Go Wrong", "In Ontwerpen 1 leerde je al over het testen van software, en hoe TDD vitaal is voor het afleveren van werkende software. En in de volgende semesters blijft die focus op het schrijven van testen aanwezig. Maar moet die focus op TDD er wel zo sterk zijn? Is wat nuance niet aan de orde? Dat is wat deze talk brengt. Ian Cooper zijn kennis over software testing is al even impressionant als zijn baard dus zeker een talk om niet te missen.",
                         dummyUser2, DateTime.Now.AddDays(14), DateTime.Now.AddDays(14).AddHours(1), 123, schoonmeersen2),
                     new Session("Power Use of UNIX - Dan North", "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.",
-                        dummyUser, DateTime.Now.AddMinutes(29), DateTime.Now.AddHours(2), 30, schoonmeersen)
+                        dummyUser, DateTime.Now.AddMinutes(29), DateTime.Now.AddHours(2), 30, schoonmeersen),
+                    new Session("Modern Continuous Delivery", "Als je je software op elk moment in zo'n staat is dat ze direct door je klanten gebruikt kan worden, dan ben je klaar voor Continuous Delivery. Deze talk bespreekt een moderne aanpak  en tools voor CD. ",
+                        dummyUser, DateTime.Now.AddMinutes(45), DateTime.Now.AddHours(2), 30, schoonmeersen2),
+                    new Session("I just became team-lead, now what?", "Beeld je in: je bent net gepromoveerd tot team-lead van de developers. De details waren niet helemaal duidelijk maar de baas zegt dat je alles gaandeweg wel uitdoktert. Waarschijnlijk komen er extra verantwoordelijkheden, zoals jobinterviews afnemen, met potentiele klanten praten,.. Je wil het goed doen, en de mensen kijken.",
+                        dummyUser, DateTime.Now.AddHours(3), DateTime.Now.AddHours(5), 30, schoonmeersen2),
+
                 };
                 foreach (var item in sessions)
                 {
                     item.AddMedia(new Media(MediaType.IMAGE, "https://i1.wp.com/guide-high-tech.com/wp-content/uploads/2019/04/Cloud-Computing-01.jpg?fit=1000%2C680&ssl=1"));
                 }
 
-
-                //Feedback feedback1 = new Feedback(5, "Goede gastspreker!");
-                //Feedback feedback2 = new Feedback(3, "Jammer dat er op het einde geen tijd meer was voor vragen.");
-
-                //_dbContext.Feedback.AddRange(new List<Feedback> { feedback1, feedback2 });
                 IList<Media> media = new List<Media>() {
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(130).jpg"),
                     new Media(MediaType.IMAGE, "https://mdbootstrap.com/img/Photos/Slides/img%20(129).jpg"),

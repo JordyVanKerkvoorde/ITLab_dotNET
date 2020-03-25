@@ -61,7 +61,6 @@ namespace ITLab29.Controllers
             catch (EmptyListException e)
             {
                 Console.Error.WriteLine(e.StackTrace);
-                // Eventueel nog aanpassen en ViewData gebruiken?
                 return Ok(new List<Session>());
             }
 
@@ -143,7 +142,6 @@ namespace ITLab29.Controllers
         public IActionResult AddFeedback(FeedBackViewModel feedback) {
             Session session;
             User user;
-            Console.WriteLine(feedback.UserId);
             try
             {
                 session = _sessionRepository.GetById(feedback.id);
@@ -164,10 +162,10 @@ namespace ITLab29.Controllers
 
             return RedirectToAction("Details", "Session", new { feedback.id });
         }
+
         [ServiceFilter(typeof(LoggedOnUserFilter))]
         public IActionResult OpenSessions(User user)
         {
-            //IEnumerable<Session> sessions = _sessionRepository.GetByResponsibleId(user.Id);
             IEnumerable<Session> sessions;
             try
             {
@@ -207,16 +205,34 @@ namespace ITLab29.Controllers
             {
                 TempData["error"] = "Er is iets misgegaan bij het openzetten van de sessie";
             }
-            ViewData["message"] = "bajldakl;sdkljfa;sd succesvol opengezet";
+
+            return RedirectToAction("OpenSessions");
+        }
+
+        [HttpPost]
+        public IActionResult CloseSession(int id)
+        {
+            try
+            {
+                Session session = _sessionRepository.GetById(id);
+                session.CloseSession();
+                _sessionRepository.SaveChanges();
+                TempData["message"] = "Sessie succesvol gesloten";
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Er is iets misgegaan bij het sluiten van de sessie";
+            }
 
             return RedirectToAction("OpenSessions");
         }
 
         public IActionResult Aanwezigen(int id)
         {
-            //IEnumerable<User> users = _sessionRepository.GetRegisteredUsersBySessionId(sessionid);
             IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(id);
             ViewData["session"] = id;
+            Session session = _sessionRepository.GetById(id);
+            ViewData["presentusers"] = session == null ? new List<User>() : session.PresentUsers ;
             return View(users);
         }
 
@@ -226,21 +242,42 @@ namespace ITLab29.Controllers
             {
                 Session session = _sessionRepository.GetById(sessionid);
                 User user = _userRepository.GetById(id);
-                if (user == null)
+                if (user == null || session.PresentUsers == null)
                 {
                     return NotFound();
                 }
                 ViewData["presentusers"] = session.PresentUsers;
                 session.RegisterUserPresent(user);
                 _sessionRepository.SaveChanges();
+
             } catch (Exception e)
             {
                 throw e;
             }
-            //return RedirectToAction("Aanwezigen", new { sessionid=sessionid });
-            return RedirectToAction("Aanwezigen", "Session", new { sessionid });
+            return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
         }
 
+        public IActionResult RemoveUserPresent(string id, int sessionid)
+        {
+            try
+            {
+                Session session = _sessionRepository.GetById(sessionid);
+                User user = _userRepository.GetById(id);
+                if (user == null || session.PresentUsers == null)
+                {
+                    return NotFound();
+                }
+                ViewData["presentusers"] = session.PresentUsers;
+                session.RegisterUserPresent(user);
+                session.RemoveUserPresent(user);
+                _sessionRepository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
+        }
 
     }
 }

@@ -10,9 +10,6 @@
 @if (isAuth && user.IsRegistered(session.SessionId) && DateTime.Compare(session.End, DateTime.Now) < 0)
 {
     <h2>Feedback</h2>
-    //nog checken of het event in het verleden ligt
-    //nog checken of user al feedback gegeven heeft op dit event
-    //TODO: needs more markup
     @if (!session.WroteFeedback(user))
     {
         <div class="card mt-md-2 border-0">
@@ -72,7 +69,6 @@
                 rating = rating + 1;
             }
         }
-        console.log(rating)
         return rating;
     }
     function submitForm() {

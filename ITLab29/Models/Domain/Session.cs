@@ -31,25 +31,6 @@ namespace ITLab29.Models.Domain
         public Session(string title, string description,
             User responsible, DateTime start, DateTime end, int capacity,
             Location location) {
-            //if (title == null || description == null || responsible == null ||  location == null) { 
-            //    throw new ArgumentException("Values cannot be NULL");
-            //}
-            //if (capacity > location.Capacity)
-            //{
-            //    throw new ArgumentException("Location has not enough places to host event.");
-            //}
-            //if (capacity <= 0)
-            //{
-            //    throw new ArgumentException("Capacity can't be negative or zero");
-            //}
-            //if (!responsible.IsActive())
-            //{
-            //    throw new ArgumentException("The responsible person is not an active user");
-            //}
-            //if (start > end)
-            //{
-            //    throw new ArgumentException("Endtime can't be before starttime.");
-            //}
             Title = title;
             Description = description;
             Responsible = responsible;
@@ -147,6 +128,14 @@ namespace ITLab29.Models.Domain
                 IsOpened = true;
         }
 
+        public void CloseSession()
+        {
+            if (!IsOpened)
+                throw new AlreadyOpenException("Session already closed");
+            else
+                IsOpened = false;
+        }
+
         public bool WroteFeedback(User user) {
             return Feedback.Where(f => f.User == user).Any();
         }
@@ -163,6 +152,11 @@ namespace ITLab29.Models.Domain
         public void RegisterUsersPresent(IEnumerable<User> users)
         {
             PresentUsers.Concat(users);
+        }
+
+        public void RemoveUserPresent(User user)
+        {
+            PresentUsers.Remove(user);
         }
     }
 }
