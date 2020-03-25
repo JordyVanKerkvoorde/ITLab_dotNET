@@ -1,4 +1,5 @@
-﻿using ITLab29.Models.Domain;
+﻿using ITLab29.Exceptions;
+using ITLab29.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,15 @@ namespace ITLab29.Data.Repositories {
         }
 
         public IEnumerable<Announcement> GetAll() {
-            return _announcements.ToList();
+            List<Announcement> result = _announcements.ToList();
+
+            if (!result.Any())
+            {
+                throw new EmptyListException("Geen aankondigingen gevonden.");
+            } else
+            {
+                return result;
+            }
         }
 
         public Announcement GetById(int id) {
