@@ -180,12 +180,12 @@ namespace ITLab29.Controllers
                     ViewData["opensessions"] = _sessionRepository.GetOpenedSessions(user.Id);
                 }
 
-                sessions.OrderBy(s => s.Start);
+                sessions.OrderByDescending(s => s.Start);
 
             }
-            catch (Exception)
+            catch (EmptyListException)
             {
-                throw;
+                sessions = new List<Session>();
             }
 
             return View(sessions);
@@ -199,11 +199,14 @@ namespace ITLab29.Controllers
                 Session session = _sessionRepository.GetById(id);
                 session.OpenSession();
                 _sessionRepository.SaveChanges();
-                TempData["message"] = "Sessie succesvol opengezet";
             }
-            catch (Exception)
+            catch (AlreadyOpenException e)
             {
-                TempData["error"] = "Er is iets misgegaan bij het openzetten van de sessie";
+                Console.Error.WriteLine(e.StackTrace);
+            }
+            catch (SessionNotFoundException e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
             }
 
             return RedirectToAction("OpenSessions");
@@ -217,11 +220,14 @@ namespace ITLab29.Controllers
                 Session session = _sessionRepository.GetById(id);
                 session.CloseSession();
                 _sessionRepository.SaveChanges();
-                TempData["message"] = "Sessie succesvol gesloten";
             }
-            catch (Exception)
+            catch (AlreadyOpenException e)
             {
-                TempData["error"] = "Er is iets misgegaan bij het sluiten van de sessie";
+                Console.Error.WriteLine(e.StackTrace);
+            }
+            catch (SessionNotFoundException e)
+            {
+                Console.Error.WriteLine(e.StackTrace);
             }
 
             return RedirectToAction("OpenSessions");
@@ -229,10 +235,24 @@ namespace ITLab29.Controllers
 
         public IActionResult Aanwezigen(int id)
         {
-            IEnumerable<User> users = _userRepository.GetRegisteredBySessionId(id);
+            IEnumerable<User> users;
+            Session session;
+            try
+            {
+                session = _sessionRepository.GetById(id);
+                users = session.GetUsers().OrderBy(u => u.LastName).ToList();
+            }
+            catch (SessionNotFoundException e)
+            {
+                return NotFound();
+            }
+            catch (EmptyListException)
+            {
+                users = new List<User>();
+                session = _sessionRepository.GetById(id);
+            }
             ViewData["session"] = id;
-            Session session = _sessionRepository.GetById(id);
-            ViewData["presentusers"] = session == null ? new List<User>() : session.PresentUsers ;
+            ViewData["presentusers"] = session == null ? new List<User>() : session.PresentUsers;
             return View(users);
         }
 
@@ -242,18 +262,18 @@ namespace ITLab29.Controllers
             {
                 Session session = _sessionRepository.GetById(sessionid);
                 User user = _userRepository.GetById(id);
-                if (user == null || session.PresentUsers == null)
-                {
-                    return NotFound();
-                }
                 ViewData["presentusers"] = session.PresentUsers;
                 session.RegisterUserPresent(user);
                 _sessionRepository.SaveChanges();
 
-            } catch (Exception e)
+            } catch (UserNotFoundException)
             {
-                throw e;
+                return NotFound();
+            } catch (SessionNotFoundException)
+            {
+                return NotFound();
             }
+
             return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
         }
 
@@ -263,18 +283,17 @@ namespace ITLab29.Controllers
             {
                 Session session = _sessionRepository.GetById(sessionid);
                 User user = _userRepository.GetById(id);
-                if (user == null || session.PresentUsers == null)
-                {
-                    return NotFound();
-                }
                 ViewData["presentusers"] = session.PresentUsers;
-                session.RegisterUserPresent(user);
                 session.RemoveUserPresent(user);
                 _sessionRepository.SaveChanges();
             }
-            catch (Exception e)
+            catch (UserNotFoundException)
             {
-                throw e;
+                return NotFound();
+            }
+            catch (SessionNotFoundException)
+            {
+                return NotFound();
             }
             return RedirectToAction("Aanwezigen", "Session", new { id = sessionid });
         }

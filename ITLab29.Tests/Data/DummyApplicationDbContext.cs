@@ -16,14 +16,16 @@ namespace ITLab29.Tests.Data
         public IEnumerable<Feedback> Feedback { get; set; }
         public IEnumerable<Guest> Guests { get; set; }
         public IEnumerable<Announcement> Announcements { get; set; }
+        public IEnumerable<Session> AdminSessions { get; set; }
+        public IEnumerable<Session> ResponsibleSessions { get; set; }
 
 
         public DummyApplicationDbContext()
         {
 
-            User dummyUser = new User("88888", "Yorick", "Van de Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
+            User dummyUser = new User("88888", "Yorick", "Van De Woestyne", UserType.ADMIN, UserStatus.ACTIVE)
             { UserName = "yorick.vandewoestyne@student.hogent.be", Email = "yorick.vandewoestyne@student.hogent.be", EmailConfirmed = true };
-            User dummyUser2 = new User("11111", "Jan", "Willem", UserType.USER, UserStatus.INACTIVE)
+            User dummyUser2 = new User("11111", "Jan", "Willem", UserType.RESPONSIBLE, UserStatus.ACTIVE)
             { UserName = "jan.willem@student.hogent.be", Email = "jan.willem@student.hogent.be", EmailConfirmed = true };
             User dummyUser3 = new User("12345", "Sander", "Machado", UserType.RESPONSIBLE, UserStatus.BLOCKED)
             { UserName = "sander.castanheiramachado@student.hogent.be", Email = "sander.castanheiramachado@student.hogent.be", EmailConfirmed = true };
@@ -48,13 +50,13 @@ namespace ITLab29.Tests.Data
 
             Session session1 = new Session("What I Wish I Had Known Before Scaling Uber to 1000 Services",
                     "Matt Ranney, Senior Staff Engineer bij Uber, vertelt over zijn ervaringen met microservices bij Uber: \"To Keep up with Uber's growth, we've embraced microservices in a big way.This has led to an explosion of new services, crossing over 1, 000 production services in early March 2016.Along the way we've learned a lot, and if we had to do it all over again, we'd do some things differently.If you are earlier along on your personal microservices journey than we are, then this talk may save you from having to learn some things learn the hard way. \"",
-                        dummyUser, DateTime.Now.AddDays(-5), DateTime.Now.AddDays(-5).AddHours(2), 1, schoonmeersen);
+                        dummyUser, DateTime.Now.AddDays(-5), DateTime.Now.AddDays(-5).AddHours(2), 50, schoonmeersen);
             Session session2 =
                 new Session("Life is Terrible: Let’s Talk About the Web",
                 "Zij die Webapps 2 gehad hebben kennen JavaScript al, anderen beginnen nu net aan hun \"avontuur\". James Mickens kwam vorig semester al aan bod met een tirade over security en machine learning, nu is hij terug om iedereen te laten weten wat hij vindt van de nummer 1 programmeertaal voor het Web.",
-                    dummyUser, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(3), 69, aalst);
+                    dummyUser, DateTime.Now.AddMinutes(10), DateTime.Now.AddHours(3), 69, aalst);
             Session session3 = new Session("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", "Diederik Wyffels heeft al 20 jaar ervaring in de branche en focust zich vooral op het begeleiden van bedrijven die moeite hebben met het schalen van hun IT-infrastructuur. In deze talk bespreekt hij concreet hoe bedrijven begeleid worden in hun overstap naar de cloud.",
-                        dummyUser2, DateTime.Now.AddDays(7), DateTime.Now.AddDays(7).AddHours(2), 30, mercator);
+                        dummyUser2, DateTime.Now.AddMinutes(20), DateTime.Now.AddHours(2), 30, mercator);
             Session session4 = new Session("TDD, Where Did It All Go Wrong", "In Ontwerpen 1 leerde je al over het testen van software, en hoe TDD vitaal is voor het afleveren van werkende software. En in de volgende semesters blijft die focus op het schrijven van testen aanwezig. Maar moet die focus op TDD er wel zo sterk zijn? Is wat nuance niet aan de orde? Dat is wat deze talk brengt. Ian Cooper zijn kennis over software testing is al even impressionant als zijn baard dus zeker een talk om niet te missen.",
                         dummyUser2, DateTime.Now.AddDays(14), DateTime.Now.AddDays(14).AddHours(1), 123, schoonmeersen2);
             Session session5 = new Session("Power Use of UNIX - Dan North", "Kennis van de commandline gecombineerd met de basis van reguliere expressies laten je toe om een hoger niveau van productiviteit te bereiken. Deze talk introduceert in een halfuur de meest bruikbare UNIX commando's om je workflow te optimaliseren.",
@@ -95,6 +97,8 @@ namespace ITLab29.Tests.Data
             session1.AddUserSession(dummyUser);
             session3.AddUserSession(dummyUser);
             session5.AddUserSession(dummyUser);
+            session3.AddUserSession(dummyUser2);
+            session3.AddUserSession(dummyUser4);
 
 
             Announcement announcement1 = new Announcement(DateTime.Now.AddDays(-2), "Geen fysieke lessen tot 18 mei.");
@@ -102,6 +106,9 @@ namespace ITLab29.Tests.Data
             Announcement announcement3 = new Announcement(DateTime.Now.AddDays(-6), "Lessen gaan online door.");
 
             Announcements = new List<Announcement> { announcement1, announcement2, announcement3 };
+
+            AdminSessions = new List<Session> {session2, session3};
+            ResponsibleSessions = new List<Session> { session3 };
 
 
 

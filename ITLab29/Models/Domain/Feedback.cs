@@ -4,7 +4,6 @@ namespace ITLab29.Models.Domain
 {
     public class Feedback
     {
-        private int _score;
 
         public int FeedbackId { get; set; }
         public int Score { get; set; }

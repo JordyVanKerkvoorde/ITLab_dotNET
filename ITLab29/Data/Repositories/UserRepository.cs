@@ -86,24 +86,6 @@ namespace ITLab29.Data.Repositories
             return sessions;
         }
 
-        public IEnumerable<User> GetRegisteredBySessionId(int sessionid)
-        {
-            List<User> result = _users
-                .Include(u => u.UserSessions)
-                .Include(u => u.Avatar)
-                .Where(u => u.UserSessions.Select(us => us.UserId == u.UserId && us.SessionId == sessionid).Count() != 0)
-                .OrderBy(u => u.LastName).ThenBy(u => u.FirstName)
-                .ToList();
-
-            if (!result.Any())
-            {
-                throw new EmptyListException("List of users is empty");
-            }
-            else
-            {
-                return result;
-            }
-        }
 
         public void SaveChanges()
         {
