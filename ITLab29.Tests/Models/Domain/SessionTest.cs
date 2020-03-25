@@ -35,34 +35,7 @@ namespace ITLab29.Tests.Models.Domain
             _session = new Session(_title, _description, _responsible, _start, _end, _capacity, _location);
         }
 
-        //[Fact]
-        //public void NewEvent_SetProperties()
-        //{
-        //    Assert.Equal(_sessionId, _session.SessionId);
-        //    Assert.Equal(_title, _session.Title);
-        //    Assert.Equal(_description, _session.Description);
-        //    Assert.Equal(_responsible, _session.Responsible);
-        //    Assert.Equal(_start, _session.Start);
-        //    Assert.Equal(_end, _session.End);
-        //    Assert.Equal(_capacity, _session.Capacity);
-        //    Assert.Equal(_location, _session.Location);
-        //    //Assert.Equal(0, _session.Attendees.Count);
-        //    Assert.Equal(0, _session.Guests.Count);
-        //    Assert.Equal(0, _session.Media.Count);
-        //    Assert.Equal(0, _session.Feedback.Count);
-        //}
-
-
-        //[Fact]
-        //public void AddAttendee()
-        //{
-        //    User attendee = _session.AddAttendee("123456cd", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE, "jordy@hogent.be");
-        //    Assert.Equal(1, _session.Attendees.Count);
-        //    Assert.True(_session.Attendees.Contains(attendee));
-        //    Assert.Throws<ArgumentException>(
-        //        () => _session.AddAttendee("123456cd", "Jordy", "Van Kerkvoorde", UserType.USER, UserStatus.ACTIVE, "jordy@hogent.be"));
-        //    Assert.Equal(1, _session.Attendees.Count);
-        //}
+       
 
         [Fact]
         public void AddMedia()

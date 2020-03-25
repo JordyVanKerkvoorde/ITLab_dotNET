@@ -52,26 +52,34 @@ namespace ITLab29.Data.Repositories {
 
         public IEnumerable<Session> GetByResponsibleId(string id)
         {
-            return _sessions
+            List<Session> result = _sessions
                 .Include(s => s.UserSessions)
                 .Include(s => s.Location)
                 .Include(s => s.Responsible)
                 .Include(s => s.Media)
                 .Where(s => s.Responsible.Id == id)
                 .ToList();
+
+            if (result == null) throw new EmptyListException("No sessions found");
+            return result;
         }
 
         public IEnumerable<Session> GetOpenableSessions(string id)
         {
-            return GetByResponsibleId(id)
+
+            List<Session> result = GetByResponsibleId(id)
                 .Where(s => (s.Start - DateTime.Now).TotalHours <= 1 && (s.Start - DateTime.Now).TotalHours > 0)
                 .Where(s => !s.IsOpened)
                 .ToList();
+
+            if (result == null) throw new EmptyListException("No sessions found");
+            return result;
+
         }
 
         public IEnumerable<Session> GetOpenableSessionsAsAdmin()
         {
-            return _sessions
+            List<Session> result = _sessions
                 .Include(s => s.UserSessions)
                 .Include(s => s.Location)
                 .Include(s => s.Responsible)
@@ -79,18 +87,25 @@ namespace ITLab29.Data.Repositories {
                 .ToList()
                 .Where(s => (s.Start - DateTime.Now).TotalHours <= 1 && !s.IsOpened && (s.Start - DateTime.Now).TotalHours > 0)
                 .ToList();
+
+            if (result == null) throw new EmptyListException("No sessions found");
+            return result;
         }
 
         public IEnumerable<Session> GetOpenedSessions(string id)
         {
-            return GetByResponsibleId(id)
+            List<Session> result = GetByResponsibleId(id)
                 .Where(s => s.IsOpened)
                 .ToList();
+
+            if (result == null) throw new EmptyListException("No sessions found");
+            return result;
         }
 
         public IEnumerable<Session> GetOpenedSessionsAsAdmin()
         {
-            return _sessions
+
+            List<Session> result = _sessions
                 .Include(s => s.UserSessions)
                 .Include(s => s.Location)
                 .Include(s => s.Responsible)
@@ -98,6 +113,9 @@ namespace ITLab29.Data.Repositories {
                 .ToList()
                 .Where(s => s.IsOpened)
                 .ToList();
+
+            if (result == null) throw new EmptyListException("No sessions found");
+            return result;
         }
 
         public IEnumerable<User> GetRegisteredUsersBySessionId(int id)

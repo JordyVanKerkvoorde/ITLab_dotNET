@@ -3,14 +3,7 @@
     ViewData["Title"] = "OpenSessionsView";
 }
 
-@if (TempData["message"] != null)
-{
-    <span class="alert alert-success">@TempData["message"]</span>
-}
-@if (TempData["error"] != null)
-{
-    <span class="alert alert-warning">@TempData["error"]</span>
-}
+
 <h1>Sessies</h1>
 <table class="table table-striped table-sm table-bordered">
     <tr>

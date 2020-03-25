@@ -146,7 +146,15 @@ namespace ITLab29.Models.Domain
 
         public void RegisterUserPresent(User user)
         {
-            PresentUsers.Add(user);
+            if (PresentUsers.Contains(user))
+            {
+                throw new ArgumentException();
+            }
+            else
+            {
+                PresentUsers.Add(user);
+            }
+            
         }
 
         public void RegisterUsersPresent(IEnumerable<User> users)
@@ -156,7 +164,14 @@ namespace ITLab29.Models.Domain
 
         public void RemoveUserPresent(User user)
         {
-            PresentUsers.Remove(user);
+            if (!PresentUsers.Contains(user)) {
+                throw new ArgumentException();
+            }
+            else
+            {
+                PresentUsers.Remove(user);
+            }
+            
         }
     }
 }

@@ -23,6 +23,8 @@ namespace ITLab29.Tests.Controllers
         private Mock<ISessionRepository> _mockSessionRepository;
         private Mock<IUserRepository> _mockUserRepository;
         private readonly  User user1;
+        private readonly User user2;
+        private readonly User user3;
 
         public SessionControllerTest()
         {
@@ -30,7 +32,9 @@ namespace ITLab29.Tests.Controllers
             _dummyContext = new DummyApplicationDbContext();
             _mockSessionRepository = new Mock<ISessionRepository>();
             _mockUserRepository = new Mock<IUserRepository>();
-            user1 = _dummyContext.Users.ElementAt(0);
+            user1 = _dummyContext.Users.ElementAt(0); //Admin
+            user2 = _dummyContext.Users.ElementAt(2); //Responsible
+            user3 = _dummyContext.Users.ElementAt(3); //User
 
             _sessionController = new SessionController(_mockSessionRepository.Object, _mockUserRepository.Object);
 
@@ -139,7 +143,7 @@ namespace ITLab29.Tests.Controllers
 
         [Theory]
         [InlineData(1)]
-        //[InlineData(2)]
+        [InlineData(2)]
         public void Delete_SessionFound_DeletesUserFromSession(int id)
         {
             _mockSessionRepository.Setup(s => s.GetById(id)).Returns(_dummyContext.Sessions.First(s => s.SessionId == id));
@@ -191,6 +195,81 @@ namespace ITLab29.Tests.Controllers
             _mockUserRepository.Setup(u => u.GetById(feedback.UserId)).Throws(new UserNotFoundException(""));
             Assert.IsType<NotFoundResult>(_sessionController.AddFeedback(feedback));
         }
+
+
+        [Fact]
+        public void OpenSessionsAsAdmin_ReturnsAllOpenableSessionsInOrder()
+        {
+            _mockSessionRepository.Setup(s => s.GetOpenableSessionsAsAdmin()).Returns(_dummyContext.AdminSessions);
+            var result = Assert.IsType<ViewResult>(_sessionController.OpenSessions(user1));
+            List<Session> adminsessions = Assert.IsType<List<Session>>(result.Model);
+            Assert.Equal(2, adminsessions.Count);
+            Assert.Equal("Life is Terrible: Let’s Talk About the Web", adminsessions.ElementAt(0).Title);
+            Assert.Equal("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", adminsessions.ElementAt(1).Title);
+        }
+
+        [Fact]
+        public void OpenSessionsAsResponsible_ReturnsResponsibleOpenableSessions()
+        {
+            _mockSessionRepository.Setup(s => s.GetOpenableSessions(user2.Id)).Returns(_dummyContext.ResponsibleSessions);
+            var result = Assert.IsType<ViewResult>(_sessionController.OpenSessions(user2));
+            List<Session> responsiblesessions = Assert.IsType<List<Session>>(result.Model);
+            Assert.Equal(1, responsiblesessions.Count);
+            Assert.Equal("De weg naar de Cloud, hoe doen bedrijven dat nu eigenlijk?", responsiblesessions.ElementAt(0).Title);
+        }
+
+        [Fact]
+        public void OpenSessionsAsUser_ReturnsNoOpenableSessions()
+        {
+            _mockSessionRepository.Setup(s => s.GetOpenableSessions(user3.Id)).Throws(new EmptyListException(""));
+            var result = Assert.IsType<ViewResult>(_sessionController.OpenSessions(user3));
+            List<Session> sessions = Assert.IsType<List<Session>>(result.Model);
+            Assert.Empty(sessions);
+        }
+
+
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void OpenSession(int id)
+        {
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
+            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(session);
+            var result = Assert.IsType<RedirectToActionResult>(_sessionController.OpenSession(id));
+            Assert.True(session.IsOpened);
+            _mockSessionRepository.Verify(m => m.SaveChanges(), Times.Once);
+
+        }
+
+        [Theory]
+        [InlineData(3)]
+        [InlineData(4)]
+        public void CloseSession(int id)
+        {
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == id);
+            _mockSessionRepository.Setup(s => s.GetById(id)).Returns(session);
+            _sessionController.OpenSession(id);
+            Assert.True(session.IsOpened);
+            var result = Assert.IsType<RedirectToActionResult>(_sessionController.CloseSession(id));
+            Assert.False(session.IsOpened);
+            _mockSessionRepository.Verify(m => m.SaveChanges(), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void Aanwezigen_ReturnsAllAlphabeticallyOnLastName()
+        {
+            Session session = _dummyContext.Sessions.First(s => s.SessionId == 3);
+            _mockSessionRepository.Setup(s => s.GetById(3)).Returns(session);
+            var result = Assert.IsType<ViewResult>(_sessionController.Aanwezigen(3));
+            List<User> users = Assert.IsType<List<User>>(result.Model);
+            Assert.Equal(3, users.Count);
+            Assert.Equal("Van De Woestyne", users.ElementAt(0).LastName);
+            Assert.Equal("Van Kerkvoorde", users.ElementAt(1).LastName);
+            Assert.Equal("Willem", users.ElementAt(2).LastName);
+
+        }
+
+
 
 
     }

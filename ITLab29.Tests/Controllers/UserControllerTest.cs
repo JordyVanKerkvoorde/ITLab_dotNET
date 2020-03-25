@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace ITLab29.Tests
+namespace ITLab29.Tests.Controllers
 {
     public class UserControllerTest
     {
@@ -18,8 +18,6 @@ namespace ITLab29.Tests
         private Mock<IMediaRepository> _mockMediaRepository;
         private User user1 = new User("1234", "Peter", "Jansens", UserType.USER, UserStatus.ACTIVE)
         { UserName = "peter.jansens@student.hogent.be", Email = "peter.jansens@student.hogent.be", EmailConfirmed = true };
-        private User user2 = new User("5678", "Michael", "Vandamme", UserType.ADMIN, UserStatus.ACTIVE)
-        { UserName = "michael.vandammme@student.hogent.be", Email = "michael.vandamme@student.hogent.be", EmailConfirmed = true };
 
         public UserControllerTest()
         {
@@ -31,11 +29,11 @@ namespace ITLab29.Tests
         }
 
 
-        [Fact]
-        public void Index_ShowsCorrectAvatarandSessions()
-        {
-            
-        }
+        //[Fact]
+        //public void Index()
+        //{
+        //    var result = Assert.IsType<ViewResult>(_userController.Index(user1));
+        //}
 
     }
 
