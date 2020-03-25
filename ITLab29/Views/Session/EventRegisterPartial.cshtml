@@ -2,7 +2,7 @@
 @{
     bool isAuth = User.Identity.IsAuthenticated;
 }
-@{ if (isAuth)
+@{ if (isAuth && DateTime.Compare(@Model.Session.Start, DateTime.Now) > 0)
     {
         if (Model.User.IsRegistered(Model.Session.SessionId))
         {
