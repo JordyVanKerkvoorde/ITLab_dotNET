@@ -27,7 +27,7 @@ namespace ITLab29 {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(@"Server=.;Database=ITLab;Integrated Security=True;"));
+                options.UseSqlServer(@"Server=178.62.206.127;Database=ITLab;Persist Security Info=False;User ID=SA;Password=ITLab9129;"));
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<DataInitializer>();
