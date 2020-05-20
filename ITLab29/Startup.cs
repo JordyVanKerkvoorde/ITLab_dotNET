@@ -68,7 +68,7 @@ namespace ITLab29 {
                 endpoints.MapRazorPages();
             });
 
-            initializer.InitializeData().Wait();
+            //initializer.InitializeData().Wait();
         }
     }
 }
